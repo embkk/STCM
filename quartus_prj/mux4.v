@@ -14,7 +14,7 @@
 
 // PROGRAM		"Quartus Prime"
 // VERSION		"Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition"
-// CREATED		"Thu Oct 23 13:33:55 2025"
+// CREATED		"Thu Oct 23 14:35:58 2025"
 
 module mux4(
 	data0_i,
@@ -58,7 +58,7 @@ wire	SYNTHESIZED_WIRE_21;
 
 assign	SYNTHESIZED_WIRE_11 = data0_i[0] & SYNTHESIZED_WIRE_22;
 
-assign	SYNTHESIZED_WIRE_13 = data0_i[1] & SYNTHESIZED_WIRE_22;
+assign	SYNTHESIZED_WIRE_15 = data0_i[1] & SYNTHESIZED_WIRE_22;
 
 assign	SYNTHESIZED_WIRE_21 = SYNTHESIZED_WIRE_2 & dir_i[1];
 
@@ -66,13 +66,13 @@ assign	SYNTHESIZED_WIRE_20 = SYNTHESIZED_WIRE_3 & dir_i[1];
 
 assign	SYNTHESIZED_WIRE_10 = data1_i[0] & dir_i[0];
 
-assign	SYNTHESIZED_WIRE_12 = data1_i[1] & dir_i[0];
+assign	SYNTHESIZED_WIRE_14 = data1_i[1] & dir_i[0];
 
-assign	SYNTHESIZED_WIRE_15 = data2_i[0] & SYNTHESIZED_WIRE_22;
+assign	SYNTHESIZED_WIRE_13 = data2_i[0] & SYNTHESIZED_WIRE_22;
 
 assign	SYNTHESIZED_WIRE_17 = data2_i[1] & SYNTHESIZED_WIRE_22;
 
-assign	SYNTHESIZED_WIRE_14 = data3_i[0] & dir_i[0];
+assign	SYNTHESIZED_WIRE_12 = data3_i[0] & dir_i[0];
 
 assign	SYNTHESIZED_WIRE_16 = data3_i[1] & dir_i[0];
 

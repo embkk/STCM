@@ -87,7 +87,7 @@ refer to the applicable agreement for further details.
 	(input)
 	(rect 144 632 320 648)
 	(text "INPUT" (rect 133 0 177 14)(font "Arial" (font_size 6)))
-	(text "dir_i[1..0]" (rect 5 0 76 18)(font "Intel Clear" ))
+	(text "dir_i[1..0]" (rect 5 0 75 18)(font "Intel Clear" ))
 	(pt 176 8)
 	(drawing
 		(line (pt 92 12)(pt 117 12))
@@ -405,7 +405,7 @@ refer to the applicable agreement for further details.
 	)
 )
 (symbol
-	(rect 848 208 912 256)
+	(rect 848 88 912 136)
 	(text "OR2" (rect 1 0 31 14)(font "Arial" (font_size 6)))
 	(text "or_inst1" (rect 3 37 64 55)(font "Intel Clear" ))
 	(port
@@ -438,7 +438,7 @@ refer to the applicable agreement for further details.
 	)
 )
 (symbol
-	(rect 848 480 912 528)
+	(rect 864 384 928 432)
 	(text "OR2" (rect 1 0 31 14)(font "Arial" (font_size 6)))
 	(text "or_inst3" (rect 3 37 65 55)(font "Intel Clear" ))
 	(port
@@ -471,7 +471,7 @@ refer to the applicable agreement for further details.
 	)
 )
 (symbol
-	(rect 848 296 912 344)
+	(rect 864 320 928 368)
 	(text "OR2" (rect 1 0 31 14)(font "Arial" (font_size 6)))
 	(text "or_inst2" (rect 3 37 63 53)(font "Arial" ))
 	(port
@@ -568,7 +568,7 @@ refer to the applicable agreement for further details.
 	)
 )
 (symbol
-	(rect 1152 304 1216 352)
+	(rect 1168 328 1232 376)
 	(text "AND2" (rect 1 0 39 14)(font "Arial" (font_size 6)))
 	(text "and_inst10" (rect 3 37 87 55)(font "Intel Clear" ))
 	(port
@@ -600,7 +600,7 @@ refer to the applicable agreement for further details.
 	)
 )
 (symbol
-	(rect 1152 368 1216 416)
+	(rect 1168 392 1232 440)
 	(text "AND2" (rect 1 0 39 14)(font "Arial" (font_size 6)))
 	(text "and_inst11" (rect 3 37 86 55)(font "Intel Clear" ))
 	(port
@@ -665,7 +665,7 @@ refer to the applicable agreement for further details.
 	)
 )
 (symbol
-	(rect 1368 312 1432 360)
+	(rect 1384 336 1448 384)
 	(text "OR2" (rect 1 0 31 14)(font "Arial" (font_size 6)))
 	(text "or_inst5" (rect 3 37 65 55)(font "Intel Clear" ))
 	(port
@@ -857,22 +857,6 @@ refer to the applicable agreement for further details.
 	(pt 448 520)
 )
 (connector
-	(pt 672 104)
-	(pt 784 104)
-)
-(connector
-	(pt 672 376)
-	(pt 784 376)
-)
-(connector
-	(pt 672 184)
-	(pt 832 184)
-)
-(connector
-	(pt 672 456)
-	(pt 840 456)
-)
-(connector
 	(text "dir_i[0]" (rect 394 608 448 626)(font "Intel Clear" ))
 	(pt 368 624)
 	(pt 448 624)
@@ -941,58 +925,6 @@ refer to the applicable agreement for further details.
 	(pt 848 40)
 )
 (connector
-	(pt 832 184)
-	(pt 832 56)
-)
-(connector
-	(pt 832 56)
-	(pt 848 56)
-)
-(connector
-	(pt 672 240)
-	(pt 848 240)
-)
-(connector
-	(pt 784 224)
-	(pt 848 224)
-)
-(connector
-	(pt 784 104)
-	(pt 784 224)
-)
-(connector
-	(pt 672 312)
-	(pt 848 312)
-)
-(connector
-	(pt 840 328)
-	(pt 848 328)
-)
-(connector
-	(pt 840 456)
-	(pt 840 328)
-)
-(connector
-	(pt 784 376)
-	(pt 784 496)
-)
-(connector
-	(pt 784 496)
-	(pt 848 496)
-)
-(connector
-	(pt 672 512)
-	(pt 848 512)
-)
-(connector
-	(pt 912 232)
-	(pt 952 232)
-)
-(connector
-	(pt 912 504)
-	(pt 944 504)
-)
-(connector
 	(pt 1096 600)
 	(pt 1056 600)
 )
@@ -1026,36 +958,8 @@ refer to the applicable agreement for further details.
 	(pt 1144 128)
 )
 (connector
-	(pt 984 336)
-	(pt 1152 336)
-)
-(connector
-	(pt 984 400)
-	(pt 1152 400)
-)
-(connector
-	(pt 952 232)
-	(pt 952 112)
-)
-(connector
-	(pt 952 112)
-	(pt 1144 112)
-)
-(connector
-	(pt 944 384)
-	(pt 1152 384)
-)
-(connector
-	(pt 944 504)
-	(pt 944 384)
-)
-(connector
 	(pt 912 48)
 	(pt 1144 48)
-)
-(connector
-	(pt 912 320)
-	(pt 1152 320)
 )
 (connector
 	(pt 1096 64)
@@ -1066,28 +970,12 @@ refer to the applicable agreement for further details.
 	(pt 1096 600)
 )
 (connector
-	(pt 984 336)
-	(pt 984 400)
-)
-(connector
-	(pt 984 400)
-	(pt 984 600)
-)
-(connector
 	(pt 1320 72)
 	(pt 1360 72)
 )
 (connector
-	(pt 1328 344)
-	(pt 1368 344)
-)
-(connector
 	(pt 1320 72)
 	(pt 1320 120)
-)
-(connector
-	(pt 1328 344)
-	(pt 1328 392)
 )
 (connector
 	(pt 1208 56)
@@ -1096,14 +984,6 @@ refer to the applicable agreement for further details.
 (connector
 	(pt 1208 120)
 	(pt 1320 120)
-)
-(connector
-	(pt 1216 328)
-	(pt 1368 328)
-)
-(connector
-	(pt 1216 392)
-	(pt 1328 392)
 )
 (connector
 	(text "data3_i[1..0]" (rect 296 472 389 490)(font "Intel Clear" ))
@@ -1118,22 +998,151 @@ refer to the applicable agreement for further details.
 	(bus)
 )
 (connector
-	(pt 1432 336)
-	(pt 1464 336)
+	(pt 912 112)
+	(pt 1144 112)
 )
 (connector
+	(pt 672 104)
+	(pt 712 104)
+)
+(connector
+	(pt 712 104)
+	(pt 712 336)
+)
+(connector
+	(pt 984 360)
+	(pt 1168 360)
+)
+(connector
+	(pt 984 424)
+	(pt 1168 424)
+)
+(connector
+	(pt 1328 368)
+	(pt 1384 368)
+)
+(connector
+	(pt 1328 368)
+	(pt 1328 416)
+)
+(connector
+	(pt 1328 416)
+	(pt 1232 416)
+)
+(connector
+	(pt 928 344)
+	(pt 1168 344)
+)
+(connector
+	(pt 1232 352)
+	(pt 1384 352)
+)
+(connector
+	(pt 984 424)
+	(pt 984 600)
+)
+(connector
+	(pt 1464 64)
+	(pt 1464 176)
+)
+(connector
+	(pt 712 336)
+	(pt 864 336)
+)
+(connector
+	(pt 696 240)
+	(pt 696 352)
+)
+(connector
+	(pt 696 352)
+	(pt 864 352)
+)
+(connector
+	(pt 672 240)
+	(pt 696 240)
+)
+(connector
+	(pt 672 376)
+	(pt 824 376)
+)
+(connector
+	(pt 672 512)
+	(pt 824 512)
+)
+(connector
+	(pt 848 56)
+	(pt 752 56)
+)
+(connector
+	(pt 672 184)
+	(pt 752 184)
+)
+(connector
+	(pt 752 56)
+	(pt 752 184)
+)
+(connector
+	(pt 672 312)
+	(pt 768 312)
+)
+(connector
+	(pt 672 456)
+	(pt 784 456)
+)
+(connector
+	(pt 768 312)
+	(pt 768 104)
+)
+(connector
+	(pt 784 456)
+	(pt 784 120)
+)
+(connector
+	(pt 848 120)
+	(pt 784 120)
+)
+(connector
+	(pt 848 104)
+	(pt 768 104)
+)
+(connector
+	(pt 984 360)
+	(pt 984 424)
+)
+(connector
+	(pt 824 376)
+	(pt 824 400)
+)
+(connector
+	(pt 824 400)
+	(pt 864 400)
+)
+(connector
+	(pt 824 512)
+	(pt 824 416)
+)
+(connector
+	(pt 824 416)
+	(pt 864 416)
+)
+(connector
+	(pt 928 408)
+	(pt 1168 408)
+)
+(connector
+	(text "<<__$DEF_ALIAS1716>>" (rect 1448 184 1466 372)(font "Intel Clear" )(vertical)(invisible))
+	(pt 1464 176)
+	(pt 1464 360)
+)
+(connector
+	(text "data_o[0]" (rect 1424 48 1495 66)(font "Intel Clear" ))
 	(pt 1424 64)
 	(pt 1464 64)
 )
 (connector
-	(text "data_o[1]" (rect 1440 265 1458 336)(font "Intel Clear" )(vertical))
-	(pt 1464 176)
-	(pt 1464 336)
-)
-(connector
-	(text "data_o[0]" (rect 1440 57 1458 128)(font "Intel Clear" )(vertical))
-	(pt 1464 64)
-	(pt 1464 176)
+	(text "data_o[1]" (rect 1448 344 1519 362)(font "Intel Clear" ))
+	(pt 1464 360)
+	(pt 1448 360)
 )
 (junction (pt 368 72))
 (junction (pt 368 344))
@@ -1147,7 +1156,7 @@ refer to the applicable agreement for further details.
 (junction (pt 448 520))
 (junction (pt 448 600))
 (junction (pt 368 640))
-(junction (pt 984 400))
 (junction (pt 1096 128))
 (junction (pt 984 600))
 (junction (pt 1464 176))
+(junction (pt 984 424))
