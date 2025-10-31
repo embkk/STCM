@@ -23,26 +23,29 @@ initial
     data = 0;
     test_passed = 1;
     data_val = 1;
-    test_left = 0;
-    test_right = 0;
 
     do
       begin
 
-        $display("\n%b => %b | %b", data, result_left, result_right);
+        test_left = 0;
+        test_right = 0;
 
-/*        for(int i = 0; i<4; i++ )
+        for(int i = 0; i<4; i++ )
           begin
 
-             if( !test_right )
-               test_right = data[i] << i;
+            if( !test_right )
+               test_right = 4'b0001 << i;
 
-             if( !test_left )
-               test_left = data[3-i] >> i;
+            if( !test_left && data[3-i] )
+               test_left = 4'b1000 >> i;
 
-             $display("#%d = %b ", i, data[i] );
           end
-             $display("Test %b | %b ", test_left, test_right );*/
+          
+        if( test_left != result_left || test_right != result_right )
+          begin
+            $display("Error, %b == %b && %b == %b expected", test_left, result_left, test_right, result_right );
+            test_passed = 0;
+          end
 
         data+=4'b0001;
 
