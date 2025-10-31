@@ -33,7 +33,7 @@ initial
         for(int i = 0; i<4; i++ )
           begin
 
-            if( !test_right )
+            if( !test_right && data[i] )
                test_right = 4'b0001 << i;
 
             if( !test_left && data[3-i] )
@@ -43,7 +43,7 @@ initial
           
         if( test_left != result_left || test_right != result_right )
           begin
-            $display("Error, %b == %b && %b == %b expected", test_left, result_left, test_right, result_right );
+            $display("Error %b. %b == %b && %b == %b expected", data, test_left, result_left, test_right, result_right );
             test_passed = 0;
           end
 
@@ -53,6 +53,11 @@ initial
 
       end
     while (data != 4'b0000);
+
+    if (test_passed)
+      $display("Test completed. No errors detected");
+    else
+      $display("Test failed. Errors above");
 
   end
 
