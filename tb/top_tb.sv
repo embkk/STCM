@@ -1,34 +1,55 @@
 module top_tb;
 
-logic [3:0] test_data;
-logic         test_data_val;
-logic         test_result_val;
-logic [3:0] test_result_left;
-logic [3:0] test_result_right;
+logic [3:0] data;
+logic         data_val;
+logic         result_val;
+logic [3:0] result_left;
+logic [3:0] result_right;
 
-bit test_passed = 1;
+logic [3:0] test_left;
+logic [3:0] test_right;
+bit            test_passed;
 
 outer1bits outer1bits_inst (
-  .data_val_i                ( test_data_val      ),
-  .data_i                      ( test_data            ),
-  .data_val_o               ( test_result_val    ),
-  .data_left_o               ( test_result_left   ),
-  .data_right_o             ( test_result_right )
+  .data_val_i                ( data_val      ),
+  .data_i                      ( data            ),
+  .data_val_o               ( result_val    ),
+  .data_left_o               ( result_left   ),
+  .data_right_o             ( result_right )
 );
 
 initial
   begin
-    test_data = 0;
-    test_data_val = 1;
+    data = 0;
+    test_passed = 1;
+    data_val = 1;
+    test_left = 0;
+    test_right = 0;
 
     do
       begin
+
+        $display("\n%b => %b | %b", data, result_left, result_right);
+
+/*        for(int i = 0; i<4; i++ )
+          begin
+
+             if( !test_right )
+               test_right = data[i] << i;
+
+             if( !test_left )
+               test_left = data[3-i] >> i;
+
+             $display("#%d = %b ", i, data[i] );
+          end
+             $display("Test %b | %b ", test_left, test_right );*/
+
+        data+=4'b0001;
+
         #10;
-        $display("%b => %b | %b", test_data, test_result_left, test_result_right);
-//        $display("%b  %b %b %b", debug_pin0, debug_pin1, debug_pin2, debug_pin3);
-	test_data+=4'b0001;
+
       end
-    while (test_data != 4'b0000);
+    while (data != 4'b0000);
 
   end
 
