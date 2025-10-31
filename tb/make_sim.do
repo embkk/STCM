@@ -1,6 +1,6 @@
 vlib work
 
-vlog -sv ../quartus_prj/mux4.v
+vlog -sv ../quartus_prj/outer1bits.v
 vlog -sv top_tb.sv
 
 vsim -novopt top_tb
