@@ -14,7 +14,7 @@
 
 // PROGRAM		"Quartus Prime"
 // VERSION		"Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition"
-// CREATED		"Fri Oct 31 02:34:25 2025"
+// CREATED		"Thu Nov  6 09:48:29 2025"
 
 module outer1bits(
 	data_val_i,
@@ -33,8 +33,8 @@ output wire	[3:0] data_right_o;
 
 wire	[3:0] data_left_o_ALTERA_SYNTHESIZED;
 wire	[3:0] data_right_o_ALTERA_SYNTHESIZED;
+wire	SYNTHESIZED_WIRE_0;
 wire	SYNTHESIZED_WIRE_16;
-wire	SYNTHESIZED_WIRE_1;
 wire	SYNTHESIZED_WIRE_2;
 wire	SYNTHESIZED_WIRE_3;
 wire	SYNTHESIZED_WIRE_4;
@@ -52,49 +52,45 @@ assign	data_val_o = data_val_i;
 
 
 
-assign	data_right_o_ALTERA_SYNTHESIZED[0] = data_i[0] & data_val_i;
+assign	data_right_o_ALTERA_SYNTHESIZED[1] = SYNTHESIZED_WIRE_0 & data_i[1];
 
-assign	SYNTHESIZED_WIRE_3 =  ~SYNTHESIZED_WIRE_16;
+assign	SYNTHESIZED_WIRE_2 =  ~SYNTHESIZED_WIRE_16;
 
-assign	SYNTHESIZED_WIRE_7 = SYNTHESIZED_WIRE_1 & data_val_i & data_i[3];
+assign	SYNTHESIZED_WIRE_11 = SYNTHESIZED_WIRE_2 & data_i[0];
 
-assign	SYNTHESIZED_WIRE_16 = SYNTHESIZED_WIRE_2 & data_val_i & data_i[1];
+assign	SYNTHESIZED_WIRE_15 =  ~data_left_o_ALTERA_SYNTHESIZED[2];
 
-assign	SYNTHESIZED_WIRE_2 =  ~data_left_o_ALTERA_SYNTHESIZED[2];
+assign	SYNTHESIZED_WIRE_17 = SYNTHESIZED_WIRE_3 & data_i[2];
 
-assign	SYNTHESIZED_WIRE_11 = SYNTHESIZED_WIRE_3 & data_val_i & data_i[0];
-
-assign	SYNTHESIZED_WIRE_4 = ~(data_right_o_ALTERA_SYNTHESIZED[0] | data_right_o_ALTERA_SYNTHESIZED[1]);
+assign	SYNTHESIZED_WIRE_4 = ~(data_i[0] | data_right_o_ALTERA_SYNTHESIZED[1]);
 
 assign	data_right_o_ALTERA_SYNTHESIZED[2] = SYNTHESIZED_WIRE_4 & SYNTHESIZED_WIRE_17;
 
-assign	SYNTHESIZED_WIRE_6 = ~(data_right_o_ALTERA_SYNTHESIZED[2] | data_right_o_ALTERA_SYNTHESIZED[1] | data_right_o_ALTERA_SYNTHESIZED[0]);
+assign	SYNTHESIZED_WIRE_6 = ~(data_right_o_ALTERA_SYNTHESIZED[2] | data_right_o_ALTERA_SYNTHESIZED[1] | data_i[0]);
 
 assign	data_right_o_ALTERA_SYNTHESIZED[3] = SYNTHESIZED_WIRE_6 & SYNTHESIZED_WIRE_7;
 
-assign	SYNTHESIZED_WIRE_8 = ~(data_left_o_ALTERA_SYNTHESIZED[3] | data_left_o_ALTERA_SYNTHESIZED[2]);
+assign	SYNTHESIZED_WIRE_8 = ~(data_i[3] | data_left_o_ALTERA_SYNTHESIZED[2]);
 
-assign	SYNTHESIZED_WIRE_12 =  ~data_right_o_ALTERA_SYNTHESIZED[0];
-
-assign	data_left_o_ALTERA_SYNTHESIZED[3] = data_i[3] & data_val_i;
+assign	SYNTHESIZED_WIRE_0 =  ~data_i[0];
 
 assign	data_left_o_ALTERA_SYNTHESIZED[1] = SYNTHESIZED_WIRE_8 & SYNTHESIZED_WIRE_16;
 
-assign	SYNTHESIZED_WIRE_10 = ~(data_left_o_ALTERA_SYNTHESIZED[1] | data_left_o_ALTERA_SYNTHESIZED[2] | data_left_o_ALTERA_SYNTHESIZED[3]);
+assign	SYNTHESIZED_WIRE_10 = ~(data_left_o_ALTERA_SYNTHESIZED[1] | data_left_o_ALTERA_SYNTHESIZED[2] | data_i[3]);
 
 assign	data_left_o_ALTERA_SYNTHESIZED[0] = SYNTHESIZED_WIRE_10 & SYNTHESIZED_WIRE_11;
 
-assign	SYNTHESIZED_WIRE_15 =  ~data_left_o_ALTERA_SYNTHESIZED[3];
+assign	SYNTHESIZED_WIRE_13 =  ~data_i[3];
 
-assign	data_right_o_ALTERA_SYNTHESIZED[1] = SYNTHESIZED_WIRE_12 & data_i[1] & data_val_i;
+assign	SYNTHESIZED_WIRE_7 = SYNTHESIZED_WIRE_12 & data_i[3];
 
-assign	SYNTHESIZED_WIRE_17 = SYNTHESIZED_WIRE_13 & data_val_i & data_i[2];
+assign	data_left_o_ALTERA_SYNTHESIZED[2] = SYNTHESIZED_WIRE_13 & data_i[2];
 
-assign	SYNTHESIZED_WIRE_13 =  ~data_right_o_ALTERA_SYNTHESIZED[1];
+assign	SYNTHESIZED_WIRE_3 =  ~data_right_o_ALTERA_SYNTHESIZED[1];
 
-assign	SYNTHESIZED_WIRE_1 =  ~SYNTHESIZED_WIRE_17;
+assign	SYNTHESIZED_WIRE_12 =  ~SYNTHESIZED_WIRE_17;
 
-assign	data_left_o_ALTERA_SYNTHESIZED[2] = SYNTHESIZED_WIRE_15 & data_i[2] & data_val_i;
+assign	SYNTHESIZED_WIRE_16 = SYNTHESIZED_WIRE_15 & data_i[1];
 
 assign	data_left_o = data_left_o_ALTERA_SYNTHESIZED;
 assign	data_right_o = data_right_o_ALTERA_SYNTHESIZED;
