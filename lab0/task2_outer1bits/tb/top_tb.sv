@@ -9,6 +9,7 @@ logic [3:0] result_right;
 logic [3:0] test_left;
 logic [3:0] test_right;
 bit         test_passed;
+int         test_count;
 
 outer1bits outer1bits_inst (
   .data_val_i     ( data_val     ),
@@ -21,19 +22,23 @@ outer1bits outer1bits_inst (
 initial
   begin
 
-    data = 0;
+    test_count = 0;
     test_passed = 1;
+
+    data = 0;
     data_val = 0;
     
+
     do
       begin
 
         test_left = 0;
         test_right = 0;
+        test_count++;
 
         #10;
 
-        for(int i = 0; i<4; i++ )
+        for( int i = 0; i<4; i++ )
           begin
 
             if( !test_right && data[i] )
@@ -53,21 +58,20 @@ initial
             test_passed = 0;
           end
 
-	if(data_val == 0)
+	      if(data_val == 0)
           data_val = 1;
         else
           begin
             data_val = 0;
             data+=4'b0001;
           end
-
       end
-    while (data != 4'b0000);
+    while ( !( data == 4'b0000 && data_val == 0 ) ); // Returned to initial test condition after overflow
 
-    if (test_passed)
-      $display("Test completed. No errors detected");
+    if ( test_passed )
+      $display( "Tests: %d. Passed.", test_count );
     else
-      $display("Test failed. Errors above");
+      $display( "Tests: %d. Fail: errors above", test_count );
 
   end
 
