@@ -14,12 +14,13 @@
 
 // PROGRAM		"Quartus Prime"
 // VERSION		"Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition"
-// CREATED		"Mon Nov 10 13:29:11 2025"
+// CREATED		"Mon Nov 10 18:06:10 2025"
 
 module delay_line(
 	clk_i,
 	rst_i,
 	data_i,
+	data_delay_i,
 	data_o
 );
 
@@ -27,24 +28,11 @@ module delay_line(
 input wire	clk_i;
 input wire	rst_i;
 input wire	data_i;
-output reg	data_o;
+input wire	[3:0] data_delay_i;
+output wire	data_o;
 
+reg	[15:0] data;
 wire	SYNTHESIZED_WIRE_16;
-reg	DFF_inst01;
-reg	DFF_inst02;
-reg	DFF_inst03;
-reg	DFF_inst04;
-reg	DFF_inst05;
-reg	DFF_inst06;
-reg	DFF_inst07;
-reg	DFF_inst08;
-reg	DFF_inst09;
-reg	DFF_inst10;
-reg	DFF_inst11;
-reg	DFF_inst12;
-reg	DFF_inst13;
-reg	DFF_inst14;
-reg	DFF_inst15;
 
 
 
@@ -56,11 +44,11 @@ always@(posedge clk_i or negedge SYNTHESIZED_WIRE_16)
 begin
 if (!SYNTHESIZED_WIRE_16)
 	begin
-	DFF_inst01 <= 0;
+	data[0] <= 0;
 	end
 else
 	begin
-	DFF_inst01 <= data_i;
+	data[0] <= data_i;
 	end
 end
 
@@ -69,11 +57,11 @@ always@(posedge clk_i or negedge SYNTHESIZED_WIRE_16)
 begin
 if (!SYNTHESIZED_WIRE_16)
 	begin
-	DFF_inst02 <= 0;
+	data[1] <= 0;
 	end
 else
 	begin
-	DFF_inst02 <= DFF_inst01;
+	data[1] <= data[0];
 	end
 end
 
@@ -82,11 +70,11 @@ always@(posedge clk_i or negedge SYNTHESIZED_WIRE_16)
 begin
 if (!SYNTHESIZED_WIRE_16)
 	begin
-	DFF_inst03 <= 0;
+	data[2] <= 0;
 	end
 else
 	begin
-	DFF_inst03 <= DFF_inst02;
+	data[2] <= data[1];
 	end
 end
 
@@ -95,11 +83,11 @@ always@(posedge clk_i or negedge SYNTHESIZED_WIRE_16)
 begin
 if (!SYNTHESIZED_WIRE_16)
 	begin
-	DFF_inst04 <= 0;
+	data[3] <= 0;
 	end
 else
 	begin
-	DFF_inst04 <= DFF_inst03;
+	data[3] <= data[2];
 	end
 end
 
@@ -108,11 +96,11 @@ always@(posedge clk_i or negedge SYNTHESIZED_WIRE_16)
 begin
 if (!SYNTHESIZED_WIRE_16)
 	begin
-	DFF_inst05 <= 0;
+	data[4] <= 0;
 	end
 else
 	begin
-	DFF_inst05 <= DFF_inst04;
+	data[4] <= data[3];
 	end
 end
 
@@ -121,11 +109,11 @@ always@(posedge clk_i or negedge SYNTHESIZED_WIRE_16)
 begin
 if (!SYNTHESIZED_WIRE_16)
 	begin
-	DFF_inst06 <= 0;
+	data[5] <= 0;
 	end
 else
 	begin
-	DFF_inst06 <= DFF_inst05;
+	data[5] <= data[4];
 	end
 end
 
@@ -134,11 +122,11 @@ always@(posedge clk_i or negedge SYNTHESIZED_WIRE_16)
 begin
 if (!SYNTHESIZED_WIRE_16)
 	begin
-	DFF_inst07 <= 0;
+	data[6] <= 0;
 	end
 else
 	begin
-	DFF_inst07 <= DFF_inst06;
+	data[6] <= data[5];
 	end
 end
 
@@ -147,11 +135,11 @@ always@(posedge clk_i or negedge SYNTHESIZED_WIRE_16)
 begin
 if (!SYNTHESIZED_WIRE_16)
 	begin
-	DFF_inst08 <= 0;
+	data[7] <= 0;
 	end
 else
 	begin
-	DFF_inst08 <= DFF_inst07;
+	data[7] <= data[6];
 	end
 end
 
@@ -160,11 +148,11 @@ always@(posedge clk_i or negedge SYNTHESIZED_WIRE_16)
 begin
 if (!SYNTHESIZED_WIRE_16)
 	begin
-	DFF_inst09 <= 0;
+	data[8] <= 0;
 	end
 else
 	begin
-	DFF_inst09 <= DFF_inst08;
+	data[8] <= data[7];
 	end
 end
 
@@ -173,11 +161,11 @@ always@(posedge clk_i or negedge SYNTHESIZED_WIRE_16)
 begin
 if (!SYNTHESIZED_WIRE_16)
 	begin
-	DFF_inst10 <= 0;
+	data[9] <= 0;
 	end
 else
 	begin
-	DFF_inst10 <= DFF_inst09;
+	data[9] <= data[8];
 	end
 end
 
@@ -186,11 +174,11 @@ always@(posedge clk_i or negedge SYNTHESIZED_WIRE_16)
 begin
 if (!SYNTHESIZED_WIRE_16)
 	begin
-	DFF_inst11 <= 0;
+	data[10] <= 0;
 	end
 else
 	begin
-	DFF_inst11 <= DFF_inst10;
+	data[10] <= data[9];
 	end
 end
 
@@ -199,11 +187,11 @@ always@(posedge clk_i or negedge SYNTHESIZED_WIRE_16)
 begin
 if (!SYNTHESIZED_WIRE_16)
 	begin
-	DFF_inst12 <= 0;
+	data[11] <= 0;
 	end
 else
 	begin
-	DFF_inst12 <= DFF_inst11;
+	data[11] <= data[10];
 	end
 end
 
@@ -212,11 +200,11 @@ always@(posedge clk_i or negedge SYNTHESIZED_WIRE_16)
 begin
 if (!SYNTHESIZED_WIRE_16)
 	begin
-	DFF_inst13 <= 0;
+	data[12] <= 0;
 	end
 else
 	begin
-	DFF_inst13 <= DFF_inst12;
+	data[12] <= data[11];
 	end
 end
 
@@ -225,11 +213,11 @@ always@(posedge clk_i or negedge SYNTHESIZED_WIRE_16)
 begin
 if (!SYNTHESIZED_WIRE_16)
 	begin
-	DFF_inst14 <= 0;
+	data[13] <= 0;
 	end
 else
 	begin
-	DFF_inst14 <= DFF_inst13;
+	data[13] <= data[12];
 	end
 end
 
@@ -238,11 +226,11 @@ always@(posedge clk_i or negedge SYNTHESIZED_WIRE_16)
 begin
 if (!SYNTHESIZED_WIRE_16)
 	begin
-	DFF_inst15 <= 0;
+	data[14] <= 0;
 	end
 else
 	begin
-	DFF_inst15 <= DFF_inst14;
+	data[14] <= data[13];
 	end
 end
 
@@ -251,13 +239,28 @@ always@(posedge clk_i or negedge SYNTHESIZED_WIRE_16)
 begin
 if (!SYNTHESIZED_WIRE_16)
 	begin
-	data_o <= 0;
+	data[15] <= 0;
 	end
 else
 	begin
-	data_o <= DFF_inst15;
+	data[15] <= data[14];
 	end
 end
 
+
+mux_0	b2v_mux16(
+	.data(data),
+	.sel(data_delay_i),
+	.result(data_o));
+
+
+endmodule
+
+module mux_0(data,sel,result);
+/* synthesis black_box */
+
+input [15:0] data;
+input [3:0] sel;
+output result;
 
 endmodule
