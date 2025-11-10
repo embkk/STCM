@@ -14,7 +14,7 @@
 
 // PROGRAM		"Quartus Prime"
 // VERSION		"Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition"
-// CREATED		"Mon Nov 10 12:11:38 2025"
+// CREATED		"Mon Nov 10 13:29:11 2025"
 
 module delay_line(
 	clk_i,
@@ -29,68 +29,162 @@ input wire	rst_i;
 input wire	data_i;
 output reg	data_o;
 
-reg	DFF_inst0;
-reg	DFF_inst9;
+wire	SYNTHESIZED_WIRE_16;
+reg	DFF_inst01;
+reg	DFF_inst02;
+reg	DFF_inst03;
+reg	DFF_inst04;
+reg	DFF_inst05;
+reg	DFF_inst06;
+reg	DFF_inst07;
+reg	DFF_inst08;
+reg	DFF_inst09;
 reg	DFF_inst10;
 reg	DFF_inst11;
 reg	DFF_inst12;
 reg	DFF_inst13;
 reg	DFF_inst14;
-reg	DFF_inst1;
-reg	DFF_inst2;
-reg	DFF_inst3;
-reg	DFF_inst4;
-reg	DFF_inst5;
-reg	DFF_inst6;
-reg	DFF_inst7;
-reg	DFF_inst8;
+reg	DFF_inst15;
 
 
 
 
+assign	SYNTHESIZED_WIRE_16 =  ~rst_i;
 
-always@(posedge clk_i or negedge rst_i)
+
+always@(posedge clk_i or negedge SYNTHESIZED_WIRE_16)
 begin
-if (!rst_i)
+if (!SYNTHESIZED_WIRE_16)
 	begin
-	DFF_inst0 <= 0;
+	DFF_inst01 <= 0;
 	end
 else
 	begin
-	DFF_inst0 <= data_i;
+	DFF_inst01 <= data_i;
 	end
 end
 
 
-always@(posedge clk_i or negedge rst_i)
+always@(posedge clk_i or negedge SYNTHESIZED_WIRE_16)
 begin
-if (!rst_i)
+if (!SYNTHESIZED_WIRE_16)
 	begin
-	DFF_inst1 <= 0;
+	DFF_inst02 <= 0;
 	end
 else
 	begin
-	DFF_inst1 <= DFF_inst0;
+	DFF_inst02 <= DFF_inst01;
 	end
 end
 
 
-always@(posedge clk_i or negedge rst_i)
+always@(posedge clk_i or negedge SYNTHESIZED_WIRE_16)
 begin
-if (!rst_i)
+if (!SYNTHESIZED_WIRE_16)
+	begin
+	DFF_inst03 <= 0;
+	end
+else
+	begin
+	DFF_inst03 <= DFF_inst02;
+	end
+end
+
+
+always@(posedge clk_i or negedge SYNTHESIZED_WIRE_16)
+begin
+if (!SYNTHESIZED_WIRE_16)
+	begin
+	DFF_inst04 <= 0;
+	end
+else
+	begin
+	DFF_inst04 <= DFF_inst03;
+	end
+end
+
+
+always@(posedge clk_i or negedge SYNTHESIZED_WIRE_16)
+begin
+if (!SYNTHESIZED_WIRE_16)
+	begin
+	DFF_inst05 <= 0;
+	end
+else
+	begin
+	DFF_inst05 <= DFF_inst04;
+	end
+end
+
+
+always@(posedge clk_i or negedge SYNTHESIZED_WIRE_16)
+begin
+if (!SYNTHESIZED_WIRE_16)
+	begin
+	DFF_inst06 <= 0;
+	end
+else
+	begin
+	DFF_inst06 <= DFF_inst05;
+	end
+end
+
+
+always@(posedge clk_i or negedge SYNTHESIZED_WIRE_16)
+begin
+if (!SYNTHESIZED_WIRE_16)
+	begin
+	DFF_inst07 <= 0;
+	end
+else
+	begin
+	DFF_inst07 <= DFF_inst06;
+	end
+end
+
+
+always@(posedge clk_i or negedge SYNTHESIZED_WIRE_16)
+begin
+if (!SYNTHESIZED_WIRE_16)
+	begin
+	DFF_inst08 <= 0;
+	end
+else
+	begin
+	DFF_inst08 <= DFF_inst07;
+	end
+end
+
+
+always@(posedge clk_i or negedge SYNTHESIZED_WIRE_16)
+begin
+if (!SYNTHESIZED_WIRE_16)
+	begin
+	DFF_inst09 <= 0;
+	end
+else
+	begin
+	DFF_inst09 <= DFF_inst08;
+	end
+end
+
+
+always@(posedge clk_i or negedge SYNTHESIZED_WIRE_16)
+begin
+if (!SYNTHESIZED_WIRE_16)
 	begin
 	DFF_inst10 <= 0;
 	end
 else
 	begin
-	DFF_inst10 <= DFF_inst9;
+	DFF_inst10 <= DFF_inst09;
 	end
 end
 
 
-always@(posedge clk_i or negedge rst_i)
+always@(posedge clk_i or negedge SYNTHESIZED_WIRE_16)
 begin
-if (!rst_i)
+if (!SYNTHESIZED_WIRE_16)
 	begin
 	DFF_inst11 <= 0;
 	end
@@ -101,9 +195,9 @@ else
 end
 
 
-always@(posedge clk_i or negedge rst_i)
+always@(posedge clk_i or negedge SYNTHESIZED_WIRE_16)
 begin
-if (!rst_i)
+if (!SYNTHESIZED_WIRE_16)
 	begin
 	DFF_inst12 <= 0;
 	end
@@ -114,9 +208,9 @@ else
 end
 
 
-always@(posedge clk_i or negedge rst_i)
+always@(posedge clk_i or negedge SYNTHESIZED_WIRE_16)
 begin
-if (!rst_i)
+if (!SYNTHESIZED_WIRE_16)
 	begin
 	DFF_inst13 <= 0;
 	end
@@ -127,9 +221,9 @@ else
 end
 
 
-always@(posedge clk_i or negedge rst_i)
+always@(posedge clk_i or negedge SYNTHESIZED_WIRE_16)
 begin
-if (!rst_i)
+if (!SYNTHESIZED_WIRE_16)
 	begin
 	DFF_inst14 <= 0;
 	end
@@ -140,119 +234,28 @@ else
 end
 
 
-always@(posedge clk_i or negedge rst_i)
+always@(posedge clk_i or negedge SYNTHESIZED_WIRE_16)
 begin
-if (!rst_i)
+if (!SYNTHESIZED_WIRE_16)
+	begin
+	DFF_inst15 <= 0;
+	end
+else
+	begin
+	DFF_inst15 <= DFF_inst14;
+	end
+end
+
+
+always@(posedge clk_i or negedge SYNTHESIZED_WIRE_16)
+begin
+if (!SYNTHESIZED_WIRE_16)
 	begin
 	data_o <= 0;
 	end
 else
 	begin
-	data_o <= DFF_inst14;
-	end
-end
-
-
-always@(posedge clk_i or negedge rst_i)
-begin
-if (!rst_i)
-	begin
-	DFF_inst2 <= 0;
-	end
-else
-	begin
-	DFF_inst2 <= DFF_inst1;
-	end
-end
-
-
-always@(posedge clk_i or negedge rst_i)
-begin
-if (!rst_i)
-	begin
-	DFF_inst3 <= 0;
-	end
-else
-	begin
-	DFF_inst3 <= DFF_inst2;
-	end
-end
-
-
-always@(posedge clk_i or negedge rst_i)
-begin
-if (!rst_i)
-	begin
-	DFF_inst4 <= 0;
-	end
-else
-	begin
-	DFF_inst4 <= DFF_inst3;
-	end
-end
-
-
-always@(posedge clk_i or negedge rst_i)
-begin
-if (!rst_i)
-	begin
-	DFF_inst5 <= 0;
-	end
-else
-	begin
-	DFF_inst5 <= DFF_inst4;
-	end
-end
-
-
-always@(posedge clk_i or negedge rst_i)
-begin
-if (!rst_i)
-	begin
-	DFF_inst6 <= 0;
-	end
-else
-	begin
-	DFF_inst6 <= DFF_inst5;
-	end
-end
-
-
-always@(posedge clk_i or negedge rst_i)
-begin
-if (!rst_i)
-	begin
-	DFF_inst7 <= 0;
-	end
-else
-	begin
-	DFF_inst7 <= DFF_inst6;
-	end
-end
-
-
-always@(posedge clk_i or negedge rst_i)
-begin
-if (!rst_i)
-	begin
-	DFF_inst8 <= 0;
-	end
-else
-	begin
-	DFF_inst8 <= DFF_inst7;
-	end
-end
-
-
-always@(posedge clk_i or negedge rst_i)
-begin
-if (!rst_i)
-	begin
-	DFF_inst9 <= 0;
-	end
-else
-	begin
-	DFF_inst9 <= DFF_inst8;
+	data_o <= DFF_inst15;
 	end
 end
 

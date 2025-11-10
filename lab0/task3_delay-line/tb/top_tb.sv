@@ -13,7 +13,7 @@ delay_line delay_line_inst (
   .data_i         ( data         ),
   .clk_i          ( clk          ),
   .rst_i          ( rst          ),
-  .data_o         ( result_right )
+  .data_o         ( result )
 );
 
 initial
@@ -24,11 +24,15 @@ initial
 
     data = 0;
 
+    #10;
+    rst = 0;
+
     for( int i = 0; i < 16; i++ )
       begin
         test_count++;
         #10;
         clk = !clk;
+        data = !data;
       end
 
     if ( test_passed )
