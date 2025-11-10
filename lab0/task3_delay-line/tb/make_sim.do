@@ -1,6 +1,7 @@
 vlib work
 
-vlog -sv ../rtl/outer1bits.v
+vlog -sv ../rtl/delay_line.v
+vlog -sv ../rtl/mux4.v
 vlog -sv top_tb.sv
 
 vsim -novopt top_tb
