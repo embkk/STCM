@@ -925,48 +925,33 @@ refer to the applicable agreement for further details.
 	)
 )
 (symbol
-	(rect 1960 152 2072 240)
-	(text "MUX" (rect 42 0 96 22)(font "Arial" (font_size 10)))
-	(text "mux16" (rect 3 77 60 94)(font "Arial" (font_size 8)))
+	(rect 1960 168 2104 248)
+	(text "mux16to1" (rect 5 0 79 16)(font "Arial" ))
+	(text "mux16to1_inst" (rect 8 64 122 82)(font "Intel Clear" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "in[15..0]" (rect 0 0 59 16)(font "Arial" ))
+		(text "in[15..0]" (rect 21 27 80 43)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32)(line_width 3))
+	)
 	(port
 		(pt 0 48)
 		(input)
-		(text "data[WIDTH-1..0]" (rect 6 35 154 52)(font "Arial" (font_size 8)))
-		(text "data[]" (rect 6 35 54 52)(font "Arial" (font_size 8)))
-		(line (pt 0 48)(pt 44 48)(line_width 3))
+		(text "sel[3..0]" (rect 0 0 57 16)(font "Arial" ))
+		(text "sel[3..0]" (rect 21 43 78 59)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48)(line_width 3))
 	)
 	(port
-		(pt 56 88)
-		(input)
-		(text "sel[WIDTHS-1..0]" (rect 59 73 207 90)(font "Arial" (font_size 8)))
-		(text "sel[]" (rect 59 73 95 90)(font "Arial" (font_size 8)))
-		(line (pt 56 88)(pt 56 72)(line_width 3))
-	)
-	(port
-		(pt 112 48)
+		(pt 144 32)
 		(output)
-		(text "result" (rect 74 33 123 50)(font "Arial" (font_size 8)))
-		(text "result" (rect 74 33 123 50)(font "Arial" (font_size 8)))
-		(line (pt 68 48)(pt 112 48))
-	)
-	(parameter
-		"WIDTH"
-		"16"
-		"Width of I/O, any integer > 0"
-		" 1" " 2" " 3" " 4" " 5" " 6" " 7" " 8" " 9" "10" "11" "12" "13" "14" "15" "16" "20" "24" "28" "32" "40" "48" "56" "64" 
-		(type "PARAMETER_UNKNOWN")	)
-	(parameter
-		"WIDTHS"
-		"4"
-		"Width of sel[] port, default is CEIL(LOG2(WIDTH))"
+		(text "out" (rect 0 0 24 16)(font "Arial" ))
+		(text "out" (rect 103 27 127 43)(font "Arial" ))
+		(line (pt 144 32)(pt 128 32))
 	)
 	(drawing
-		(line (pt 68 64)(pt 68 32))
-		(line (pt 44 80)(pt 44 16))
-		(line (pt 44 16)(pt 68 32))
-		(line (pt 44 80)(pt 68 64))
+		(rectangle (rect 16 16 128 64))
 	)
-	(annotation_block (parameter)(rect 2072 88 2247 151))
 )
 (connector
 	(pt 288 296)
@@ -1562,21 +1547,6 @@ refer to the applicable agreement for further details.
 	(pt 1760 408)
 )
 (connector
-	(pt 2016 456)
-	(pt 2016 240)
-	(bus)
-)
-(connector
-	(text "data_delay_i[3..0]" (rect 242 440 374 458)(font "Intel Clear" ))
-	(pt 232 456)
-	(pt 2016 456)
-	(bus)
-)
-(connector
-	(pt 2072 200)
-	(pt 2120 200)
-)
-(connector
 	(pt 232 280)
 	(pt 288 280)
 )
@@ -1594,6 +1564,26 @@ refer to the applicable agreement for further details.
 	(text "data[15..0]" (rect 1898 184 1979 202)(font "Intel Clear" ))
 	(pt 1800 200)
 	(pt 1960 200)
+	(bus)
+)
+(connector
+	(pt 2104 200)
+	(pt 2120 200)
+)
+(connector
+	(text "data_delay_i[3..0]" (rect 242 440 374 458)(font "Intel Clear" ))
+	(pt 232 456)
+	(pt 1936 456)
+	(bus)
+)
+(connector
+	(pt 1936 216)
+	(pt 1960 216)
+	(bus)
+)
+(connector
+	(pt 1936 216)
+	(pt 1936 456)
 	(bus)
 )
 (junction (pt 264 376))

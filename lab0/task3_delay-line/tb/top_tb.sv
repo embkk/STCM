@@ -1,25 +1,27 @@
-module top_tb;
+module top_tb #(int NUM_SIGNALS = 32);
 
-logic       data;
-logic [3:0] data_delay;
-bit         clk;
-bit         rst;
-logic       result;
+logic                   data;
+logic [3:0]             data_delay;
+bit                     clk;
+bit                     rst;
+logic                   result;
 
-bit         test_passed;
-int         test_count;
+bit                     test_passed;
+int                     test_num;
+logic [15:0]            test_reg;
+bit   [NUM_SIGNALS-1:0] test_signals;
 
 initial
   begin
-
-    test_count = 0;
-    test_passed = 1;
-
-    data = 0;
-    data_delay = 2;
-
     forever
       #5 clk = !clk;
+  end
+
+initial
+  begin
+    test_num = 0;
+    test_passed = 1;
+    test_reg = 0;
   end
 
 delay_line delay_line_inst (
@@ -33,19 +35,58 @@ delay_line delay_line_inst (
 initial
   begin
     rst <= 1'b1;
-    #19;
+    #9;
     rst = 1'b0;
     
-    for( test_count = 0; test_count < 100; test_count++ )
+    for( test_num = 0; test_num <16; test_num++ )
       begin
-        @( posedge clk );
-        data <= test_count % 2;
+        test_reg = 0;
+        for( int i = 0; i < NUM_SIGNALS; i++ )
+          test_signals[i] = $random % 2;
+
+        data_delay <= test_num;
+
+        test_delay(test_signals);
       end
 
     if ( test_passed )
-      $display( "Tests: %d. Passed.", test_count );
+      $display( "Tests: %d/16. Passed.", test_num );
     else
-      $display( "Tests: %d. Fail: errors above", test_count );
+      $display( "Tests: %d/16. Fail: errors above", test_num );
+
+    $stop;
   end
+
+task automatic test_delay(bit [NUM_SIGNALS-1:0] signals);
+  
+  int i;
+  bit expected;
+  
+  $display("Delay %0d test started %0d. Bits %b %b", 
+         data_delay,
+         $bits(signals),
+         signals[$high(signals):16],
+         signals[15:0]);
+
+  for( i = 0; i < NUM_SIGNALS; i++ )
+    begin
+      data <= signals[i];
+
+      @( posedge clk );
+
+      test_reg <= (test_reg << 1) | data;
+      expected = test_reg[data_delay];      
+
+      $display( "%d expected %d == %d result", i, expected, result );
+
+      if( result !== expected )
+        begin
+          test_passed = 0;
+          $display( "ERROR at iteration %0d: expected %b, got %b (delay=%0d)", i, expected, result, data_delay );
+        end
+    end
+
+    $display( "Delay %d tested %d times", data_delay, i );
+endtask
   
 endmodule
