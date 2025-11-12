@@ -1,4 +1,4 @@
-module top_tb #(int NUM_SIGNALS = 32);
+module top_tb #(int NUM_SIGNALS = 256);
 
 logic                   data;
 logic [3:0]             data_delay;
@@ -61,12 +61,6 @@ task automatic test_delay(bit [NUM_SIGNALS-1:0] signals);
   
   int i;
   bit expected;
-  
-  $display("Delay %0d test started %0d. Bits %b %b", 
-         data_delay,
-         $bits(signals),
-         signals[$high(signals):16],
-         signals[15:0]);
 
   for( i = 0; i < NUM_SIGNALS; i++ )
     begin
@@ -76,8 +70,6 @@ task automatic test_delay(bit [NUM_SIGNALS-1:0] signals);
 
       test_reg <= (test_reg << 1) | data;
       expected = test_reg[data_delay];      
-
-      $display( "%d expected %d == %d result", i, expected, result );
 
       if( result !== expected )
         begin

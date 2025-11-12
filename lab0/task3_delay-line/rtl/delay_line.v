@@ -14,7 +14,7 @@
 
 // PROGRAM		"Quartus Prime"
 // VERSION		"Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition"
-// CREATED		"Mon Nov 10 18:06:10 2025"
+// CREATED		"Wed Nov 12 11:53:48 2025"
 
 module delay_line(
 	clk_i,
@@ -248,19 +248,10 @@ else
 end
 
 
-mux_0	b2v_mux16(
-	.data(data),
+mux16to1	b2v_mux16to1_inst(
+	.in(data),
 	.sel(data_delay_i),
-	.result(data_o));
+	.out(data_o));
 
-
-endmodule
-
-module mux_0(data,sel,result);
-/* synthesis black_box */
-
-input [15:0] data;
-input [3:0] sel;
-output result;
 
 endmodule
