@@ -1,15 +1,16 @@
-module top_tb #(int NUM_SIGNALS = 256);
+module top_tb #(int NUM_TESTS = 3, int TEST_LENGTH = 9);
 
-logic                   data;
-logic [3:0]             data_delay;
-bit                     clk;
-bit                     rst;
-logic                   result;
+logic           data;
+bit             clk;
+bit             rst;
+logic  [15:0]   crc;
 
-bit                     test_passed;
-int                     test_num;
-logic [15:0]            test_reg;
-bit   [NUM_SIGNALS-1:0] test_signals;
+bit             test_passed;
+int             test_num;
+logic   [15:0]  test_crc_ref;
+logic   [15:0]  test_crc_next;
+logic   [15:0]  crc_ref_reversed;
+bit             test_data[NUM_TESTS][TEST_LENGTH];
 
 initial
   begin
@@ -19,34 +20,59 @@ initial
 
 initial
   begin
-    test_num = 0;
     test_passed = 1;
-    test_reg = 0;
+    test_num = 0;
+    for (int t = 0; t < NUM_TESTS; t++) begin
+      for (int i = 0; i < TEST_LENGTH; i++) begin
+        test_data[t][i] = $urandom() % 2;
+      end
+    end
   end
 
-delay_line delay_line_inst (
-  .data_i         ( data       ),
-  .data_delay_i   ( data_delay ),
-  .clk_i          ( clk        ),
-  .rst_i          ( rst        ),
-  .data_o         ( result     )
+crc16 crc16_inst (
+  .clk_i            ( clk        ),
+  .rst_i            ( rst        ),
+  .data_i           ( data       ),
+  .crc_0            ( crc        )
 );
 
 initial
   begin
     rst <= 1'b1;
     #9;
-    rst = 1'b0;
-    
-    for( test_num = 0; test_num <16; test_num++ )
+    data <= 0;
+    rst <= 1'b0;
+
+    foreach (test_data[i])
       begin
-        test_reg = 0;
-        for( int i = 0; i < NUM_SIGNALS; i++ )
-          test_signals[i] = $random % 2;
+        test_num++;
+        $display("\n=== ТЕСТ %0d: %0d бит ===", test_num, test_data[i]);
 
-        data_delay <= test_num;
+        //тут тест
+        // Сброс CRC перед тестом
+        @(posedge clk);
+        rst <= 1'b1;
+        @(posedge clk);
+        rst <= 1'b0;
 
-        test_delay(test_signals);
+        // Подача битов данных
+        for (int j = 0; j < TEST_LENGTH; j++) begin
+          @(posedge clk);
+          data <= test_data[i][j];
+        end
+
+        // Ожидание финального результата
+        @(posedge clk);
+
+        crc_ref_reversed = {<<{test_crc_ref}};
+        if (crc === crc_ref_reversed)
+          $display("УСПЕХ: DUT = 0x%04h | REF = 0x%04h — совпадает", crc, crc_ref_reversed);
+        else
+          begin
+            $display("ПРОВАЛ: DUT = 0x%04h | REF = 0x%04h — НЕ СОВПАДАЕТ, ПЕРЕПИСЫВАЙ МОДУЛЬ", crc, crc_ref_reversed);
+            test_passed = 0;
+          end
+
       end
 
     if ( test_passed )
@@ -57,28 +83,23 @@ initial
     $stop;
   end
 
-task automatic test_delay(bit [NUM_SIGNALS-1:0] signals);
-  
-  int i;
-  bit expected;
+always @(posedge clk or posedge rst)
+begin
+  if (rst)
+    test_crc_ref <= 16'hFFFF;
+  else
+    test_crc_ref <= test_crc_next;
+end
 
-  for( i = 0; i < NUM_SIGNALS; i++ )
-    begin
-      data <= signals[i];
+always_comb begin
+  logic feedback;
 
-      @( posedge clk );
+  feedback = test_crc_ref[15] ^ data;
+  test_crc_next = {test_crc_ref[14:0], 1'b0};
 
-      test_reg <= (test_reg << 1) | data;
-      expected = test_reg[data_delay];      
-
-      if( result !== expected )
-        begin
-          test_passed = 0;
-          $display( "ERROR at iteration %0d: expected %b, got %b (delay=%0d)", i, expected, result, data_delay );
-        end
-    end
-
-    $display( "Delay %d tested %d times", data_delay, i );
-endtask
+  test_crc_next[0] ^= feedback;
+  test_crc_next[2] ^= feedback;
+  test_crc_next[15] ^= feedback;
+end
   
 endmodule
