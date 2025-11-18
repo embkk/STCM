@@ -14,7 +14,7 @@
 
 // PROGRAM		"Quartus Prime"
 // VERSION		"Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition"
-// CREATED		"Tue Nov 18 12:31:08 2025"
+// CREATED		"Tue Nov 18 15:42:25 2025"
 
 module crc16(
 	clk_i,
@@ -30,59 +30,59 @@ input wire	data_i;
 output wire	[15:0] crc_o;
 
 reg	[15:0] crc;
-wire	SYNTHESIZED_WIRE_20;
 wire	SYNTHESIZED_WIRE_21;
-wire	SYNTHESIZED_WIRE_17;
-reg	DFF_inst_01;
+wire	SYNTHESIZED_WIRE_22;
+wire	SYNTHESIZED_WIRE_4;
+wire	SYNTHESIZED_WIRE_18;
 
 
 
 
-assign	SYNTHESIZED_WIRE_20 =  ~rst_i;
+assign	SYNTHESIZED_WIRE_21 =  ~rst_i;
 
 
-always@(posedge clk_i or negedge SYNTHESIZED_WIRE_20)
+always@(posedge clk_i or negedge SYNTHESIZED_WIRE_21)
 begin
-if (!SYNTHESIZED_WIRE_20)
+if (!SYNTHESIZED_WIRE_21)
 	begin
 	crc[0] <= 0;
 	end
 else
 	begin
-	crc[0] <= SYNTHESIZED_WIRE_21;
+	crc[0] <= SYNTHESIZED_WIRE_22;
 	end
 end
 
 
-always@(posedge clk_i or negedge SYNTHESIZED_WIRE_20)
+always@(posedge clk_i or negedge SYNTHESIZED_WIRE_21)
 begin
-if (!SYNTHESIZED_WIRE_20)
+if (!SYNTHESIZED_WIRE_21)
 	begin
-	DFF_inst_01 <= 0;
+	crc[1] <= 0;
 	end
 else
 	begin
-	DFF_inst_01 <= crc[0];
+	crc[1] <= crc[0];
 	end
 end
 
 
-always@(posedge clk_i or negedge SYNTHESIZED_WIRE_20)
+always@(posedge clk_i or negedge SYNTHESIZED_WIRE_21)
 begin
-if (!SYNTHESIZED_WIRE_20)
+if (!SYNTHESIZED_WIRE_21)
 	begin
 	crc[2] <= 0;
 	end
 else
 	begin
-	crc[2] <= crc[1];
+	crc[2] <= SYNTHESIZED_WIRE_4;
 	end
 end
 
 
-always@(posedge clk_i or negedge SYNTHESIZED_WIRE_20)
+always@(posedge clk_i or negedge SYNTHESIZED_WIRE_21)
 begin
-if (!SYNTHESIZED_WIRE_20)
+if (!SYNTHESIZED_WIRE_21)
 	begin
 	crc[3] <= 0;
 	end
@@ -93,9 +93,9 @@ else
 end
 
 
-always@(posedge clk_i or negedge SYNTHESIZED_WIRE_20)
+always@(posedge clk_i or negedge SYNTHESIZED_WIRE_21)
 begin
-if (!SYNTHESIZED_WIRE_20)
+if (!SYNTHESIZED_WIRE_21)
 	begin
 	crc[4] <= 0;
 	end
@@ -106,9 +106,9 @@ else
 end
 
 
-always@(posedge clk_i or negedge SYNTHESIZED_WIRE_20)
+always@(posedge clk_i or negedge SYNTHESIZED_WIRE_21)
 begin
-if (!SYNTHESIZED_WIRE_20)
+if (!SYNTHESIZED_WIRE_21)
 	begin
 	crc[5] <= 0;
 	end
@@ -119,9 +119,9 @@ else
 end
 
 
-always@(posedge clk_i or negedge SYNTHESIZED_WIRE_20)
+always@(posedge clk_i or negedge SYNTHESIZED_WIRE_21)
 begin
-if (!SYNTHESIZED_WIRE_20)
+if (!SYNTHESIZED_WIRE_21)
 	begin
 	crc[6] <= 0;
 	end
@@ -132,9 +132,9 @@ else
 end
 
 
-always@(posedge clk_i or negedge SYNTHESIZED_WIRE_20)
+always@(posedge clk_i or negedge SYNTHESIZED_WIRE_21)
 begin
-if (!SYNTHESIZED_WIRE_20)
+if (!SYNTHESIZED_WIRE_21)
 	begin
 	crc[7] <= 0;
 	end
@@ -145,9 +145,9 @@ else
 end
 
 
-always@(posedge clk_i or negedge SYNTHESIZED_WIRE_20)
+always@(posedge clk_i or negedge SYNTHESIZED_WIRE_21)
 begin
-if (!SYNTHESIZED_WIRE_20)
+if (!SYNTHESIZED_WIRE_21)
 	begin
 	crc[8] <= 0;
 	end
@@ -158,9 +158,9 @@ else
 end
 
 
-always@(posedge clk_i or negedge SYNTHESIZED_WIRE_20)
+always@(posedge clk_i or negedge SYNTHESIZED_WIRE_21)
 begin
-if (!SYNTHESIZED_WIRE_20)
+if (!SYNTHESIZED_WIRE_21)
 	begin
 	crc[9] <= 0;
 	end
@@ -171,9 +171,9 @@ else
 end
 
 
-always@(posedge clk_i or negedge SYNTHESIZED_WIRE_20)
+always@(posedge clk_i or negedge SYNTHESIZED_WIRE_21)
 begin
-if (!SYNTHESIZED_WIRE_20)
+if (!SYNTHESIZED_WIRE_21)
 	begin
 	crc[10] <= 0;
 	end
@@ -184,9 +184,9 @@ else
 end
 
 
-always@(posedge clk_i or negedge SYNTHESIZED_WIRE_20)
+always@(posedge clk_i or negedge SYNTHESIZED_WIRE_21)
 begin
-if (!SYNTHESIZED_WIRE_20)
+if (!SYNTHESIZED_WIRE_21)
 	begin
 	crc[11] <= 0;
 	end
@@ -197,9 +197,9 @@ else
 end
 
 
-always@(posedge clk_i or negedge SYNTHESIZED_WIRE_20)
+always@(posedge clk_i or negedge SYNTHESIZED_WIRE_21)
 begin
-if (!SYNTHESIZED_WIRE_20)
+if (!SYNTHESIZED_WIRE_21)
 	begin
 	crc[12] <= 0;
 	end
@@ -210,9 +210,9 @@ else
 end
 
 
-always@(posedge clk_i or negedge SYNTHESIZED_WIRE_20)
+always@(posedge clk_i or negedge SYNTHESIZED_WIRE_21)
 begin
-if (!SYNTHESIZED_WIRE_20)
+if (!SYNTHESIZED_WIRE_21)
 	begin
 	crc[13] <= 0;
 	end
@@ -223,9 +223,9 @@ else
 end
 
 
-always@(posedge clk_i or negedge SYNTHESIZED_WIRE_20)
+always@(posedge clk_i or negedge SYNTHESIZED_WIRE_21)
 begin
-if (!SYNTHESIZED_WIRE_20)
+if (!SYNTHESIZED_WIRE_21)
 	begin
 	crc[14] <= 0;
 	end
@@ -236,23 +236,23 @@ else
 end
 
 
-always@(posedge clk_i or negedge SYNTHESIZED_WIRE_20)
+always@(posedge clk_i or negedge SYNTHESIZED_WIRE_21)
 begin
-if (!SYNTHESIZED_WIRE_20)
+if (!SYNTHESIZED_WIRE_21)
 	begin
 	crc[15] <= 0;
 	end
 else
 	begin
-	crc[15] <= SYNTHESIZED_WIRE_17;
+	crc[15] <= SYNTHESIZED_WIRE_18;
 	end
 end
 
-assign	SYNTHESIZED_WIRE_21 = crc[15] ^ data_i;
+assign	SYNTHESIZED_WIRE_22 = crc[15] ^ data_i;
 
-assign	SYNTHESIZED_WIRE_17 = SYNTHESIZED_WIRE_21 ^ crc[14];
+assign	SYNTHESIZED_WIRE_18 = SYNTHESIZED_WIRE_22 ^ crc[14];
 
-assign	crc[1] = SYNTHESIZED_WIRE_21 ^ DFF_inst_01;
+assign	SYNTHESIZED_WIRE_4 = SYNTHESIZED_WIRE_22 ^ crc[1];
 
 assign	crc_o = crc;
 

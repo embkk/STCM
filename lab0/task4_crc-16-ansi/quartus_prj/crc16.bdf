@@ -859,7 +859,7 @@ refer to the applicable agreement for further details.
 	)
 )
 (symbol
-	(rect 2168 80 2232 160)
+	(rect 2184 80 2248 160)
 	(text "DFF" (rect 1 0 30 14)(font "Arial" (font_size 6)))
 	(text "inst_15" (rect 3 68 59 86)(font "Intel Clear" ))
 	(port
@@ -977,7 +977,7 @@ refer to the applicable agreement for further details.
 	)
 )
 (symbol
-	(rect 744 80 808 128)
+	(rect 736 80 800 128)
 	(text "XOR" (rect 1 0 32 14)(font "Arial" (font_size 6)))
 	(text "x2" (rect 3 37 23 55)(font "Intel Clear" ))
 	(port
@@ -1119,20 +1119,8 @@ refer to the applicable agreement for further details.
 	(pt 2064 104)
 )
 (connector
-	(pt 2160 200)
-	(pt 2160 120)
-)
-(connector
-	(pt 2168 120)
-	(pt 2160 120)
-)
-(connector
 	(pt 2088 112)
 	(pt 2064 112)
-)
-(connector
-	(pt 2152 104)
-	(pt 2168 104)
 )
 (connector
 	(pt 2088 96)
@@ -1155,10 +1143,6 @@ refer to the applicable agreement for further details.
 	(pt 432 112)
 )
 (connector
-	(pt 688 104)
-	(pt 696 104)
-)
-(connector
 	(pt 376 232)
 	(pt 488 232)
 )
@@ -1170,11 +1154,6 @@ refer to the applicable agreement for further details.
 	(text "crc[0]" (rect 592 48 610 91)(font "Intel Clear" )(vertical))
 	(pt 608 -16)
 	(pt 608 104)
-)
-(connector
-	(text "crc[1]" (rect 800 48 818 91)(font "Intel Clear" )(vertical))
-	(pt 816 -16)
-	(pt 816 104)
 )
 (connector
 	(text "crc[2]" (rect 896 48 914 91)(font "Intel Clear" )(vertical))
@@ -1237,37 +1216,12 @@ refer to the applicable agreement for further details.
 	(pt 1968 104)
 )
 (connector
-	(text "crc[15]" (rect 2224 40 2242 93)(font "Intel Clear" )(vertical))
-	(pt 2240 -16)
-	(pt 2240 104)
-)
-(connector
-	(pt 696 104)
-	(pt 696 112)
-)
-(connector
-	(pt 696 112)
-	(pt 744 112)
-)
-(connector
-	(pt 744 96)
-	(pt 720 96)
-)
-(connector
 	(pt 2080 96)
 	(pt 2080 40)
 )
 (connector
 	(pt 512 104)
 	(pt 512 40)
-)
-(connector
-	(pt 720 40)
-	(pt 720 96)
-)
-(connector
-	(pt 2256 104)
-	(pt 2256 24)
 )
 (connector
 	(pt 1008 200)
@@ -1338,24 +1292,8 @@ refer to the applicable agreement for further details.
 	(pt 1920 232)
 )
 (connector
-	(pt 1920 232)
-	(pt 2016 232)
-)
-(connector
-	(pt 2016 232)
-	(pt 2200 232)
-)
-(connector
 	(pt 1776 200)
 	(pt 1872 200)
-)
-(connector
-	(pt 1872 200)
-	(pt 1968 200)
-)
-(connector
-	(pt 1968 200)
-	(pt 2160 200)
 )
 (connector
 	(pt 376 200)
@@ -1404,16 +1342,6 @@ refer to the applicable agreement for further details.
 (connector
 	(pt 608 104)
 	(pt 624 104)
-)
-(connector
-	(pt 608 -16)
-	(pt 816 -16)
-	(bus)
-)
-(connector
-	(pt 816 -16)
-	(pt 912 -16)
-	(bus)
 )
 (connector
 	(pt 896 104)
@@ -1581,47 +1509,12 @@ refer to the applicable agreement for further details.
 	(pt 2064 112)
 )
 (connector
-	(text "crc[15..0]" (rect 2082 -40 2152 -22)(font "Intel Clear" ))
-	(pt 2064 -16)
-	(pt 2240 -16)
-	(bus)
-)
-(connector
-	(pt 2240 -16)
-	(pt 2312 -16)
-	(bus)
-)
-(connector
-	(pt 2232 104)
-	(pt 2240 104)
-)
-(connector
-	(pt 2240 104)
-	(pt 2256 104)
-)
-(connector
-	(pt 808 104)
-	(pt 816 104)
-)
-(connector
-	(pt 816 104)
-	(pt 832 104)
-)
-(connector
 	(pt 496 104)
 	(pt 512 104)
 )
 (connector
 	(pt 512 104)
 	(pt 528 104)
-)
-(connector
-	(pt 512 40)
-	(pt 720 40)
-)
-(connector
-	(pt 720 40)
-	(pt 2080 40)
 )
 (connector
 	(pt 560 160)
@@ -1684,22 +1577,124 @@ refer to the applicable agreement for further details.
 	(pt 2016 232)
 )
 (connector
-	(pt 2200 160)
-	(pt 2200 232)
-)
-(connector
 	(pt 432 96)
 	(pt 400 96)
 )
 (connector
-	(pt 2256 24)
-	(pt 400 24)
+	(pt 688 104)
+	(pt 704 104)
+)
+(connector
+	(pt 720 96)
+	(pt 736 96)
+)
+(connector
+	(pt 720 40)
+	(pt 720 96)
+)
+(connector
+	(pt 704 112)
+	(pt 736 112)
+)
+(connector
+	(pt 512 40)
+	(pt 720 40)
+)
+(connector
+	(pt 720 40)
+	(pt 2080 40)
 )
 (connector
 	(pt 400 96)
-	(pt 400 24)
+	(pt 400 16)
 )
-(junction (pt 816 -16))
+(connector
+	(pt 2288 104)
+	(pt 2288 16)
+)
+(connector
+	(pt 400 16)
+	(pt 2288 16)
+)
+(connector
+	(text "crc[15]" (rect 2248 40 2266 93)(font "Intel Clear" )(vertical))
+	(pt 2264 -16)
+	(pt 2264 104)
+)
+(connector
+	(text "crc[15..0]" (rect 2082 -40 2152 -22)(font "Intel Clear" ))
+	(pt 2064 -16)
+	(pt 2264 -16)
+	(bus)
+)
+(connector
+	(pt 2264 -16)
+	(pt 2312 -16)
+	(bus)
+)
+(connector
+	(pt 2216 232)
+	(pt 2216 160)
+)
+(connector
+	(pt 1920 232)
+	(pt 2016 232)
+)
+(connector
+	(pt 2016 232)
+	(pt 2216 232)
+)
+(connector
+	(pt 2248 104)
+	(pt 2264 104)
+)
+(connector
+	(pt 2264 104)
+	(pt 2288 104)
+)
+(connector
+	(pt 2152 104)
+	(pt 2184 104)
+)
+(connector
+	(pt 2168 200)
+	(pt 2168 120)
+)
+(connector
+	(pt 2184 120)
+	(pt 2168 120)
+)
+(connector
+	(pt 1872 200)
+	(pt 1968 200)
+)
+(connector
+	(pt 1968 200)
+	(pt 2168 200)
+)
+(connector
+	(pt 800 104)
+	(pt 832 104)
+)
+(connector
+	(pt 608 -16)
+	(pt 704 -16)
+	(bus)
+)
+(connector
+	(pt 704 -16)
+	(pt 912 -16)
+	(bus)
+)
+(connector
+	(text "crc[1]" (rect 688 48 706 91)(font "Intel Clear" )(vertical))
+	(pt 704 -16)
+	(pt 704 104)
+)
+(connector
+	(pt 704 104)
+	(pt 704 112)
+)
 (junction (pt 912 -16))
 (junction (pt 1008 -16))
 (junction (pt 1104 -16))
@@ -1713,7 +1708,6 @@ refer to the applicable agreement for further details.
 (junction (pt 1872 -16))
 (junction (pt 1968 -16))
 (junction (pt 2064 -16))
-(junction (pt 2240 -16))
 (junction (pt 912 200))
 (junction (pt 1008 200))
 (junction (pt 1104 200))
@@ -1758,7 +1752,9 @@ refer to the applicable agreement for further details.
 (junction (pt 1776 104))
 (junction (pt 1872 104))
 (junction (pt 1968 104))
-(junction (pt 2240 104))
-(junction (pt 816 104))
 (junction (pt 512 104))
 (junction (pt 720 40))
+(junction (pt 2264 -16))
+(junction (pt 2264 104))
+(junction (pt 704 -16))
+(junction (pt 704 104))
