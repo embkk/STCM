@@ -33,7 +33,7 @@ crc16 crc16_inst (
   .clk_i            ( clk        ),
   .rst_i            ( rst        ),
   .data_i           ( data       ),
-  .crc_0            ( crc        )
+  .crc_o            ( crc        )
 );
 
 initial
@@ -46,7 +46,7 @@ initial
     foreach (test_data[i])
       begin
         test_num++;
-        $display("\n=== ТЕСТ %0d: %0d бит ===", test_num, test_data[i]);
+        $display("\n=== Test %0d ===", test_num);
 
         //тут тест
         // Сброс CRC перед тестом
@@ -66,19 +66,19 @@ initial
 
         crc_ref_reversed = {<<{test_crc_ref}};
         if (crc === crc_ref_reversed)
-          $display("УСПЕХ: DUT = 0x%04h | REF = 0x%04h — совпадает", crc, crc_ref_reversed);
+          $display("Success: DUT = 0x%04h | REF = 0x%04h", crc, crc_ref_reversed);
         else
           begin
-            $display("ПРОВАЛ: DUT = 0x%04h | REF = 0x%04h — НЕ СОВПАДАЕТ, ПЕРЕПИСЫВАЙ МОДУЛЬ", crc, crc_ref_reversed);
+            $display("Fail: DUT = 0x%04h | REF = 0x%04h", crc, crc_ref_reversed);
             test_passed = 0;
           end
 
       end
 
     if ( test_passed )
-      $display( "Tests: %d/16. Passed.", test_num );
+      $display( "Tests: %d/%d. Passed.", test_num, NUM_TESTS );
     else
-      $display( "Tests: %d/16. Fail: errors above", test_num );
+      $display( "Tests: %d/%d. Fail: errors above", test_num, NUM_TESTS );
 
     $stop;
   end
