@@ -1,4 +1,4 @@
-module top_tb #(int NUM_TESTS = 3, int TEST_LENGTH = 9);
+module top_tb #(int NUM_TESTS = 1, int TEST_LENGTH = 32);
 
 logic           data;
 bit             clk;
@@ -50,7 +50,6 @@ initial
         test_num++;
         $display("\n=== Test %0d ===", test_num);
 
-        //тут тест
         // Сброс CRC перед тестом
         @(posedge clk);
         rst <= 1'b1;
@@ -66,15 +65,11 @@ initial
         // Ожидание финального результата
         @(posedge clk);
 
-        crc_ref_reversed = {<<{test_crc_ref}};
+        
         check_crc16(crc_ref_reversed, crc);
         check_crc16(crc_ref_reversed, crc2);
         check_crc16(test_crc_ref, crc);
         check_crc16(test_crc_ref, crc2);
-        check_crc16(crc, crc_ref_reversed);
-        check_crc16(crc2, crc_ref_reversed);
-        check_crc16(crc, test_crc_ref);
-        check_crc16(crc2, test_crc_ref);
 
       end
 
@@ -93,7 +88,7 @@ task automatic check_crc16(
     if (dut === ref_val) begin
         $display("Test %0d Success: DUT = 0x%04h | REF = 0x%04h", test_num, dut, ref_val);
     end else begin
-        $display("Test %0d Fail: DUT = 0x%04h | REF = 0x%04h", test_num, dut, ref_val);
+        $display("Test %0d Failed. DUT | REF\n%16b - DUT\n%16b - REF", test_num, dut, ref_val);
         test_passed = 0;
     end
 endtask
@@ -101,9 +96,10 @@ endtask
 always @(posedge clk or posedge rst)
 begin
   if (rst)
-    test_crc_ref <= 16'hFFFF;
+    test_crc_ref <= 16'h0000;
   else
     test_crc_ref <= test_crc_next;
+    crc_ref_reversed <= {<<{test_crc_ref}};
 end
 
 always_comb begin

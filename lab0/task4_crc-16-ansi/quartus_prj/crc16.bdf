@@ -100,7 +100,7 @@ refer to the applicable agreement for further details.
 	)
 )
 (symbol
-	(rect 488 216 536 248)
+	(rect 392 216 440 248)
 	(text "NOT" (rect 1 0 34 14)(font "Arial" (font_size 6)))
 	(text "inst" (rect 3 21 30 37)(font "Arial" ))
 	(port
@@ -1169,10 +1169,6 @@ refer to the applicable agreement for further details.
 	(pt 432 112)
 )
 (connector
-	(pt 376 232)
-	(pt 488 232)
-)
-(connector
 	(pt 504 120)
 	(pt 528 120)
 )
@@ -1271,14 +1267,6 @@ refer to the applicable agreement for further details.
 (connector
 	(pt 912 200)
 	(pt 1008 200)
-)
-(connector
-	(pt 536 232)
-	(pt 560 232)
-)
-(connector
-	(pt 560 232)
-	(pt 656 232)
 )
 (connector
 	(pt 656 232)
@@ -1753,6 +1741,18 @@ refer to the applicable agreement for further details.
 	(pt 2328 -32)
 	(pt 2672 -32)
 	(bus)
+)
+(connector
+	(pt 376 232)
+	(pt 392 232)
+)
+(connector
+	(pt 560 232)
+	(pt 656 232)
+)
+(connector
+	(pt 440 232)
+	(pt 560 232)
 )
 (junction (pt 912 200))
 (junction (pt 1008 200))

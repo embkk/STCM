@@ -14,7 +14,7 @@
 
 // PROGRAM		"Quartus Prime"
 // VERSION		"Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition"
-// CREATED		"Tue Nov 18 16:48:25 2025"
+// CREATED		"Wed Nov 19 08:22:17 2025"
 
 module crc16(
 	clk_i,
