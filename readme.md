@@ -7,4 +7,4 @@ Task #2 - [Outer 1-bits](https://github.com/embkk/STCM/tree/main/lab0/task2_oute
 
 Task #3 - [Delay Line](https://github.com/embkk/STCM/tree/main/lab0/task3_delay-line)
 
-Task #4 - 17.11
+Task #4 - [CRC16 ANSI 0x8005](https://github.com/embkk/STCM/tree/main/lab0/task4_crc-16-ansi)
