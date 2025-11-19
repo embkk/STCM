@@ -4,6 +4,7 @@ logic           data;
 bit             clk;
 bit             rst;
 logic  [15:0]   crc;
+logic  [15:0]   crc2;
 
 bit             test_passed;
 int             test_num;
@@ -33,7 +34,8 @@ crc16 crc16_inst (
   .clk_i            ( clk        ),
   .rst_i            ( rst        ),
   .data_i           ( data       ),
-  .crc_o            ( crc        )
+  .crc_o            ( crc        ),
+  .crc2_o           ( crc2       )
 );
 
 initial
@@ -65,13 +67,14 @@ initial
         @(posedge clk);
 
         crc_ref_reversed = {<<{test_crc_ref}};
-        if (crc === crc_ref_reversed)
-          $display("Success: DUT = 0x%04h | REF = 0x%04h", crc, crc_ref_reversed);
-        else
-          begin
-            $display("Fail: DUT = 0x%04h | REF = 0x%04h", crc, crc_ref_reversed);
-            test_passed = 0;
-          end
+        check_crc16(crc_ref_reversed, crc);
+        check_crc16(crc_ref_reversed, crc2);
+        check_crc16(test_crc_ref, crc);
+        check_crc16(test_crc_ref, crc2);
+        check_crc16(crc, crc_ref_reversed);
+        check_crc16(crc2, crc_ref_reversed);
+        check_crc16(crc, test_crc_ref);
+        check_crc16(crc2, test_crc_ref);
 
       end
 
@@ -82,6 +85,18 @@ initial
 
     $stop;
   end
+
+task automatic check_crc16(
+    input logic [15:0] dut,
+    input logic [15:0] ref_val
+);
+    if (dut === ref_val) begin
+        $display("Test %0d Success: DUT = 0x%04h | REF = 0x%04h", test_num, dut, ref_val);
+    end else begin
+        $display("Test %0d Fail: DUT = 0x%04h | REF = 0x%04h", test_num, dut, ref_val);
+        test_passed = 0;
+    end
+endtask
 
 always @(posedge clk or posedge rst)
 begin

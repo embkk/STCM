@@ -14,12 +14,13 @@
 
 // PROGRAM		"Quartus Prime"
 // VERSION		"Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition"
-// CREATED		"Tue Nov 18 15:42:25 2025"
+// CREATED		"Tue Nov 18 16:48:25 2025"
 
 module crc16(
 	clk_i,
 	rst_i,
 	data_i,
+	crc2_o,
 	crc_o
 );
 
@@ -27,29 +28,86 @@ module crc16(
 input wire	clk_i;
 input wire	rst_i;
 input wire	data_i;
+output wire	[15:0] crc2_o;
 output wire	[15:0] crc_o;
 
-reg	[15:0] crc;
+reg	crc0;
+reg	crc1;
+reg	crc10;
+reg	crc11;
+reg	crc12;
+reg	crc13;
+reg	crc14;
+reg	crc15;
+reg	crc2;
+wire	crc20;
+wire	crc21;
+wire	crc210;
+wire	crc211;
+wire	crc212;
+wire	crc213;
+wire	crc214;
+wire	crc215;
+wire	crc22;
+wire	crc23;
+wire	crc24;
+wire	crc25;
+wire	crc26;
+wire	crc27;
+wire	crc28;
+wire	crc29;
+reg	crc3;
+reg	crc4;
+reg	crc5;
+reg	crc6;
+reg	crc7;
+reg	crc8;
+reg	crc9;
 wire	SYNTHESIZED_WIRE_21;
 wire	SYNTHESIZED_WIRE_22;
 wire	SYNTHESIZED_WIRE_4;
 wire	SYNTHESIZED_WIRE_18;
 
+wire	[15:0] GDFX_TEMP_SIGNAL_1;
+wire	[15:0] GDFX_TEMP_SIGNAL_0;
 
 
+assign	crc215 = GDFX_TEMP_SIGNAL_1[15];
+assign	crc214 = GDFX_TEMP_SIGNAL_1[14];
+assign	crc213 = GDFX_TEMP_SIGNAL_1[13];
+assign	crc212 = GDFX_TEMP_SIGNAL_1[12];
+assign	crc211 = GDFX_TEMP_SIGNAL_1[11];
+assign	crc210 = GDFX_TEMP_SIGNAL_1[10];
+assign	crc29 = GDFX_TEMP_SIGNAL_1[9];
+assign	crc28 = GDFX_TEMP_SIGNAL_1[8];
+assign	crc27 = GDFX_TEMP_SIGNAL_1[7];
+assign	crc26 = GDFX_TEMP_SIGNAL_1[6];
+assign	crc25 = GDFX_TEMP_SIGNAL_1[5];
+assign	crc24 = GDFX_TEMP_SIGNAL_1[4];
+assign	crc23 = GDFX_TEMP_SIGNAL_1[3];
+assign	crc22 = GDFX_TEMP_SIGNAL_1[2];
+assign	crc21 = GDFX_TEMP_SIGNAL_1[1];
+assign	crc20 = GDFX_TEMP_SIGNAL_1[0];
+
+assign	GDFX_TEMP_SIGNAL_0 = {crc15,crc14,crc13,crc12,crc11,crc10,crc9,crc8,crc7,crc6,crc5,crc4,crc3,crc2,crc1,crc0};
 
 assign	SYNTHESIZED_WIRE_21 =  ~rst_i;
 
 
+bit_reverse_16	b2v_inst1(
+	.data_in(GDFX_TEMP_SIGNAL_0),
+	.data_out(GDFX_TEMP_SIGNAL_1));
+
+
 always@(posedge clk_i or negedge SYNTHESIZED_WIRE_21)
 begin
 if (!SYNTHESIZED_WIRE_21)
 	begin
-	crc[0] <= 0;
+	crc15 <= 0;
 	end
 else
 	begin
-	crc[0] <= SYNTHESIZED_WIRE_22;
+	crc15 <= SYNTHESIZED_WIRE_22;
 	end
 end
 
@@ -58,11 +116,11 @@ always@(posedge clk_i or negedge SYNTHESIZED_WIRE_21)
 begin
 if (!SYNTHESIZED_WIRE_21)
 	begin
-	crc[1] <= 0;
+	crc14 <= 0;
 	end
 else
 	begin
-	crc[1] <= crc[0];
+	crc14 <= crc15;
 	end
 end
 
@@ -71,11 +129,11 @@ always@(posedge clk_i or negedge SYNTHESIZED_WIRE_21)
 begin
 if (!SYNTHESIZED_WIRE_21)
 	begin
-	crc[2] <= 0;
+	crc13 <= 0;
 	end
 else
 	begin
-	crc[2] <= SYNTHESIZED_WIRE_4;
+	crc13 <= SYNTHESIZED_WIRE_4;
 	end
 end
 
@@ -84,11 +142,11 @@ always@(posedge clk_i or negedge SYNTHESIZED_WIRE_21)
 begin
 if (!SYNTHESIZED_WIRE_21)
 	begin
-	crc[3] <= 0;
+	crc12 <= 0;
 	end
 else
 	begin
-	crc[3] <= crc[2];
+	crc12 <= crc13;
 	end
 end
 
@@ -97,11 +155,11 @@ always@(posedge clk_i or negedge SYNTHESIZED_WIRE_21)
 begin
 if (!SYNTHESIZED_WIRE_21)
 	begin
-	crc[4] <= 0;
+	crc11 <= 0;
 	end
 else
 	begin
-	crc[4] <= crc[3];
+	crc11 <= crc12;
 	end
 end
 
@@ -110,11 +168,11 @@ always@(posedge clk_i or negedge SYNTHESIZED_WIRE_21)
 begin
 if (!SYNTHESIZED_WIRE_21)
 	begin
-	crc[5] <= 0;
+	crc10 <= 0;
 	end
 else
 	begin
-	crc[5] <= crc[4];
+	crc10 <= crc11;
 	end
 end
 
@@ -123,11 +181,11 @@ always@(posedge clk_i or negedge SYNTHESIZED_WIRE_21)
 begin
 if (!SYNTHESIZED_WIRE_21)
 	begin
-	crc[6] <= 0;
+	crc9 <= 0;
 	end
 else
 	begin
-	crc[6] <= crc[5];
+	crc9 <= crc10;
 	end
 end
 
@@ -136,11 +194,11 @@ always@(posedge clk_i or negedge SYNTHESIZED_WIRE_21)
 begin
 if (!SYNTHESIZED_WIRE_21)
 	begin
-	crc[7] <= 0;
+	crc8 <= 0;
 	end
 else
 	begin
-	crc[7] <= crc[6];
+	crc8 <= crc9;
 	end
 end
 
@@ -149,11 +207,11 @@ always@(posedge clk_i or negedge SYNTHESIZED_WIRE_21)
 begin
 if (!SYNTHESIZED_WIRE_21)
 	begin
-	crc[8] <= 0;
+	crc7 <= 0;
 	end
 else
 	begin
-	crc[8] <= crc[7];
+	crc7 <= crc8;
 	end
 end
 
@@ -162,11 +220,11 @@ always@(posedge clk_i or negedge SYNTHESIZED_WIRE_21)
 begin
 if (!SYNTHESIZED_WIRE_21)
 	begin
-	crc[9] <= 0;
+	crc6 <= 0;
 	end
 else
 	begin
-	crc[9] <= crc[8];
+	crc6 <= crc7;
 	end
 end
 
@@ -175,11 +233,11 @@ always@(posedge clk_i or negedge SYNTHESIZED_WIRE_21)
 begin
 if (!SYNTHESIZED_WIRE_21)
 	begin
-	crc[10] <= 0;
+	crc5 <= 0;
 	end
 else
 	begin
-	crc[10] <= crc[9];
+	crc5 <= crc6;
 	end
 end
 
@@ -188,11 +246,11 @@ always@(posedge clk_i or negedge SYNTHESIZED_WIRE_21)
 begin
 if (!SYNTHESIZED_WIRE_21)
 	begin
-	crc[11] <= 0;
+	crc4 <= 0;
 	end
 else
 	begin
-	crc[11] <= crc[10];
+	crc4 <= crc5;
 	end
 end
 
@@ -201,11 +259,11 @@ always@(posedge clk_i or negedge SYNTHESIZED_WIRE_21)
 begin
 if (!SYNTHESIZED_WIRE_21)
 	begin
-	crc[12] <= 0;
+	crc3 <= 0;
 	end
 else
 	begin
-	crc[12] <= crc[11];
+	crc3 <= crc4;
 	end
 end
 
@@ -214,11 +272,11 @@ always@(posedge clk_i or negedge SYNTHESIZED_WIRE_21)
 begin
 if (!SYNTHESIZED_WIRE_21)
 	begin
-	crc[13] <= 0;
+	crc2 <= 0;
 	end
 else
 	begin
-	crc[13] <= crc[12];
+	crc2 <= crc3;
 	end
 end
 
@@ -227,11 +285,11 @@ always@(posedge clk_i or negedge SYNTHESIZED_WIRE_21)
 begin
 if (!SYNTHESIZED_WIRE_21)
 	begin
-	crc[14] <= 0;
+	crc1 <= 0;
 	end
 else
 	begin
-	crc[14] <= crc[13];
+	crc1 <= crc2;
 	end
 end
 
@@ -240,20 +298,51 @@ always@(posedge clk_i or negedge SYNTHESIZED_WIRE_21)
 begin
 if (!SYNTHESIZED_WIRE_21)
 	begin
-	crc[15] <= 0;
+	crc0 <= 0;
 	end
 else
 	begin
-	crc[15] <= SYNTHESIZED_WIRE_18;
+	crc0 <= SYNTHESIZED_WIRE_18;
 	end
 end
 
-assign	SYNTHESIZED_WIRE_22 = crc[15] ^ data_i;
+assign	SYNTHESIZED_WIRE_22 = crc0 ^ data_i;
 
-assign	SYNTHESIZED_WIRE_18 = SYNTHESIZED_WIRE_22 ^ crc[14];
+assign	SYNTHESIZED_WIRE_18 = SYNTHESIZED_WIRE_22 ^ crc1;
 
-assign	SYNTHESIZED_WIRE_4 = SYNTHESIZED_WIRE_22 ^ crc[1];
+assign	SYNTHESIZED_WIRE_4 = SYNTHESIZED_WIRE_22 ^ crc14;
 
-assign	crc_o = crc;
+assign	crc2_o[15] = crc215;
+assign	crc2_o[14] = crc214;
+assign	crc2_o[13] = crc213;
+assign	crc2_o[12] = crc212;
+assign	crc2_o[11] = crc211;
+assign	crc2_o[10] = crc210;
+assign	crc2_o[9] = crc29;
+assign	crc2_o[8] = crc28;
+assign	crc2_o[7] = crc27;
+assign	crc2_o[6] = crc26;
+assign	crc2_o[5] = crc25;
+assign	crc2_o[4] = crc24;
+assign	crc2_o[3] = crc23;
+assign	crc2_o[2] = crc22;
+assign	crc2_o[1] = crc21;
+assign	crc2_o[0] = crc20;
+assign	crc_o[15] = crc15;
+assign	crc_o[14] = crc14;
+assign	crc_o[13] = crc13;
+assign	crc_o[12] = crc12;
+assign	crc_o[11] = crc11;
+assign	crc_o[10] = crc10;
+assign	crc_o[9] = crc9;
+assign	crc_o[8] = crc8;
+assign	crc_o[7] = crc7;
+assign	crc_o[6] = crc6;
+assign	crc_o[5] = crc5;
+assign	crc_o[4] = crc4;
+assign	crc_o[3] = crc3;
+assign	crc_o[2] = crc2;
+assign	crc_o[1] = crc1;
+assign	crc_o[0] = crc0;
 
 endmodule
