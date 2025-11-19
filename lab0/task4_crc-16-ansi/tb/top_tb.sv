@@ -7,7 +7,6 @@ logic           data;
 bit             clk;
 bit             rst;
 logic  [15:0]   crc;
-logic  [15:0]   crc2;
 
 bit             test_passed;
 int             test_num;
