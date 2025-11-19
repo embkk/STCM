@@ -69,7 +69,7 @@ refer to the applicable agreement for further details.
 )
 (pin
 	(output)
-	(rect 1160 304 1336 320)
+	(rect 1000 320 1176 336)
 	(text "OUTPUT" (rect 1 0 62 14)(font "Arial" (font_size 6)))
 	(text "crc[15..0]" (rect 90 0 158 16)(font "Arial" ))
 	(pt 0 8)
@@ -83,24 +83,8 @@ refer to the applicable agreement for further details.
 		(line (pt 78 12)(pt 82 8))
 	)
 )
-(pin
-	(output)
-	(rect 1160 352 1336 368)
-	(text "OUTPUT" (rect 1 0 62 14)(font "Arial" (font_size 6)))
-	(text "crc2[15..0]" (rect 90 0 170 18)(font "Intel Clear" ))
-	(pt 0 8)
-	(drawing
-		(line (pt 0 8)(pt 52 8))
-		(line (pt 52 4)(pt 78 4))
-		(line (pt 52 12)(pt 78 12))
-		(line (pt 52 12)(pt 52 4))
-		(line (pt 78 4)(pt 82 8))
-		(line (pt 82 8)(pt 78 12))
-		(line (pt 78 12)(pt 82 8))
-	)
-)
 (symbol
-	(rect 760 296 976 392)
+	(rect 760 296 968 392)
 	(text "crc16" (rect 5 0 53 21)(font "Intel Clear" (font_size 8)))
 	(text "inst" (rect 8 74 37 92)(font "Intel Clear" ))
 	(port
@@ -125,21 +109,14 @@ refer to the applicable agreement for further details.
 		(line (pt 0 64)(pt 16 64))
 	)
 	(port
-		(pt 216 32)
+		(pt 208 32)
 		(output)
 		(text "crc_o[15..0]" (rect 0 0 102 21)(font "Intel Clear" (font_size 8)))
-		(text "crc_o[15..0]" (rect 93 27 195 48)(font "Intel Clear" (font_size 8)))
-		(line (pt 216 32)(pt 200 32)(line_width 3))
-	)
-	(port
-		(pt 216 48)
-		(output)
-		(text "crc2_o[15..0]" (rect 0 0 113 21)(font "Intel Clear" (font_size 8)))
-		(text "crc2_o[15..0]" (rect 82 43 195 64)(font "Intel Clear" (font_size 8)))
-		(line (pt 216 48)(pt 200 48)(line_width 3))
+		(text "crc_o[15..0]" (rect 85 27 187 48)(font "Intel Clear" (font_size 8)))
+		(line (pt 208 32)(pt 192 32)(line_width 3))
 	)
 	(drawing
-		(rectangle (rect 16 16 200 80))
+		(rectangle (rect 16 16 192 80))
 	)
 )
 (connector
@@ -171,32 +148,7 @@ refer to the applicable agreement for further details.
 	(pt 760 360)
 )
 (connector
-	(pt 1152 344)
-	(pt 976 344)
-	(bus)
-)
-(connector
-	(pt 1152 328)
-	(pt 1152 312)
-	(bus)
-)
-(connector
-	(pt 976 328)
-	(pt 1152 328)
-	(bus)
-)
-(connector
-	(pt 1160 312)
-	(pt 1152 312)
-	(bus)
-)
-(connector
-	(pt 1152 360)
-	(pt 1160 360)
-	(bus)
-)
-(connector
-	(pt 1152 344)
-	(pt 1152 360)
+	(pt 968 328)
+	(pt 1000 328)
 	(bus)
 )
