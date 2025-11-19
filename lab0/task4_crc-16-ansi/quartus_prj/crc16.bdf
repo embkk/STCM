@@ -69,25 +69,9 @@ refer to the applicable agreement for further details.
 )
 (pin
 	(output)
-	(rect 2672 -40 2855 -24)
+	(rect 2320 -40 2503 -24)
 	(text "OUTPUT" (rect 1 0 62 14)(font "Arial" (font_size 6)))
 	(text "crc_o[15..0]" (rect 90 0 177 16)(font "Arial" ))
-	(pt 0 8)
-	(drawing
-		(line (pt 0 8)(pt 52 8))
-		(line (pt 52 4)(pt 78 4))
-		(line (pt 52 12)(pt 78 12))
-		(line (pt 52 12)(pt 52 4))
-		(line (pt 78 4)(pt 82 8))
-		(line (pt 82 8)(pt 78 12))
-		(line (pt 78 12)(pt 82 8))
-	)
-)
-(pin
-	(output)
-	(rect 2672 88 2865 104)
-	(text "OUTPUT" (rect 1 0 62 14)(font "Arial" (font_size 6)))
-	(text "crc2_o[15..0]" (rect 90 0 187 18)(font "Intel Clear" ))
 	(pt 0 8)
 	(drawing
 		(line (pt 0 8)(pt 52 8))
@@ -1026,28 +1010,6 @@ refer to the applicable agreement for further details.
 		(arc (pt 8 36)(pt 8 12)(rect -21 7 14 42))
 	)
 )
-(symbol
-	(rect 2360 64 2568 144)
-	(text "bit_reverse_16" (rect 5 0 115 16)(font "Arial" ))
-	(text "inst1" (rect 8 64 45 82)(font "Intel Clear" ))
-	(port
-		(pt 0 32)
-		(input)
-		(text "data_in[15..0]" (rect 0 0 100 16)(font "Arial" ))
-		(text "data_in[15..0]" (rect 21 27 121 43)(font "Arial" ))
-		(line (pt 0 32)(pt 16 32)(line_width 3))
-	)
-	(port
-		(pt 208 32)
-		(output)
-		(text "data_out[15..0]" (rect 0 0 110 16)(font "Arial" ))
-		(text "data_out[15..0]" (rect 94 27 204 43)(font "Arial" ))
-		(line (pt 208 32)(pt 192 32)(line_width 3))
-	)
-	(drawing
-		(rectangle (rect 16 16 192 64))
-	)
-)
 (connector
 	(pt 816 200)
 	(pt 816 120)
@@ -1631,118 +1593,6 @@ refer to the applicable agreement for further details.
 	(pt 432 96)
 )
 (connector
-	(text "crc[15]" (rect 600 32 618 85)(font "Intel Clear" )(vertical))
-	(pt 616 -32)
-	(pt 616 104)
-)
-(connector
-	(text "crc[14]" (rect 680 32 698 85)(font "Intel Clear" )(vertical))
-	(pt 696 -32)
-	(pt 696 104)
-)
-(connector
-	(text "crc[13]" (rect 904 32 922 85)(font "Intel Clear" )(vertical))
-	(pt 920 -32)
-	(pt 920 104)
-)
-(connector
-	(text "crc[12]" (rect 1000 32 1018 85)(font "Intel Clear" )(vertical))
-	(pt 1016 -32)
-	(pt 1016 104)
-)
-(connector
-	(text "crc[11]" (rect 1096 32 1114 85)(font "Intel Clear" )(vertical))
-	(pt 1112 -32)
-	(pt 1112 104)
-)
-(connector
-	(text "crc[10]" (rect 1192 32 1210 85)(font "Intel Clear" )(vertical))
-	(pt 1208 -32)
-	(pt 1208 104)
-)
-(connector
-	(text "crc[9]" (rect 1288 32 1306 75)(font "Intel Clear" )(vertical))
-	(pt 1304 -32)
-	(pt 1304 104)
-)
-(connector
-	(text "crc[8]" (rect 1384 32 1402 75)(font "Intel Clear" )(vertical))
-	(pt 1400 -32)
-	(pt 1400 104)
-)
-(connector
-	(text "crc[7]" (rect 1480 32 1498 75)(font "Intel Clear" )(vertical))
-	(pt 1496 -32)
-	(pt 1496 104)
-)
-(connector
-	(text "crc[6]" (rect 1575 31 1593 74)(font "Intel Clear" )(vertical))
-	(pt 1592 -32)
-	(pt 1592 104)
-)
-(connector
-	(text "crc[5]" (rect 1671 23 1689 66)(font "Intel Clear" )(vertical))
-	(pt 1688 -32)
-	(pt 1688 104)
-)
-(connector
-	(text "crc[4]" (rect 1775 31 1793 74)(font "Intel Clear" )(vertical))
-	(pt 1784 -32)
-	(pt 1784 104)
-)
-(connector
-	(text "crc[3]" (rect 1863 23 1881 66)(font "Intel Clear" )(vertical))
-	(pt 1880 -32)
-	(pt 1880 104)
-)
-(connector
-	(text "crc[2]" (rect 1959 23 1977 66)(font "Intel Clear" )(vertical))
-	(pt 1976 -32)
-	(pt 1976 104)
-)
-(connector
-	(text "crc[1]" (rect 2048 24 2066 67)(font "Intel Clear" )(vertical))
-	(pt 2064 -32)
-	(pt 2064 104)
-)
-(connector
-	(text "crc[0]" (rect 2256 24 2274 67)(font "Intel Clear" )(vertical))
-	(pt 2272 -32)
-	(pt 2272 104)
-)
-(connector
-	(text "crc[15..0]" (rect 2090 -56 2160 -38)(font "Intel Clear" ))
-	(pt 2064 -32)
-	(pt 2272 -32)
-	(bus)
-)
-(connector
-	(pt 2360 96)
-	(pt 2328 96)
-	(bus)
-)
-(connector
-	(pt 2328 96)
-	(pt 2328 -32)
-	(bus)
-)
-(connector
-	(text "crc2[15..0]" (rect 2584 80 2664 98)(font "Intel Clear" ))
-	(pt 2568 96)
-	(pt 2672 96)
-	(bus)
-)
-(connector
-	(pt 2272 -32)
-	(pt 2328 -32)
-	(bus)
-)
-(connector
-	(pt 2328 -32)
-	(pt 2672 -32)
-	(bus)
-)
-(connector
 	(pt 376 232)
 	(pt 392 232)
 )
@@ -1753,6 +1603,97 @@ refer to the applicable agreement for further details.
 (connector
 	(pt 440 232)
 	(pt 560 232)
+)
+(connector
+	(text "crc[15]" (rect 2256 24 2274 77)(font "Intel Clear" )(vertical))
+	(pt 2272 -32)
+	(pt 2272 104)
+)
+(connector
+	(text "crc[14]" (rect 2048 24 2066 77)(font "Intel Clear" )(vertical))
+	(pt 2064 -32)
+	(pt 2064 104)
+)
+(connector
+	(text "crc[13]" (rect 1959 23 1977 76)(font "Intel Clear" )(vertical))
+	(pt 1976 -32)
+	(pt 1976 104)
+)
+(connector
+	(text "crc[12]" (rect 1863 23 1881 76)(font "Intel Clear" )(vertical))
+	(pt 1880 -32)
+	(pt 1880 104)
+)
+(connector
+	(text "crc[11]" (rect 1775 31 1793 84)(font "Intel Clear" )(vertical))
+	(pt 1784 -32)
+	(pt 1784 104)
+)
+(connector
+	(text "crc[10]" (rect 1671 23 1689 76)(font "Intel Clear" )(vertical))
+	(pt 1688 -32)
+	(pt 1688 104)
+)
+(connector
+	(text "crc[9]" (rect 1575 31 1593 74)(font "Intel Clear" )(vertical))
+	(pt 1592 -32)
+	(pt 1592 104)
+)
+(connector
+	(text "crc[8]" (rect 1480 32 1498 75)(font "Intel Clear" )(vertical))
+	(pt 1496 -32)
+	(pt 1496 104)
+)
+(connector
+	(text "crc[7]" (rect 1384 32 1402 75)(font "Intel Clear" )(vertical))
+	(pt 1400 -32)
+	(pt 1400 104)
+)
+(connector
+	(text "crc[6]" (rect 1288 32 1306 75)(font "Intel Clear" )(vertical))
+	(pt 1304 -32)
+	(pt 1304 104)
+)
+(connector
+	(text "crc[5]" (rect 1192 32 1210 75)(font "Intel Clear" )(vertical))
+	(pt 1208 -32)
+	(pt 1208 104)
+)
+(connector
+	(text "crc[4]" (rect 1096 32 1114 75)(font "Intel Clear" )(vertical))
+	(pt 1112 -32)
+	(pt 1112 104)
+)
+(connector
+	(text "crc[3]" (rect 1000 32 1018 75)(font "Intel Clear" )(vertical))
+	(pt 1016 -32)
+	(pt 1016 104)
+)
+(connector
+	(text "crc[2]" (rect 904 32 922 75)(font "Intel Clear" )(vertical))
+	(pt 920 -32)
+	(pt 920 104)
+)
+(connector
+	(text "crc[1]" (rect 680 32 698 75)(font "Intel Clear" )(vertical))
+	(pt 696 -32)
+	(pt 696 104)
+)
+(connector
+	(text "crc[0]" (rect 600 32 618 75)(font "Intel Clear" )(vertical))
+	(pt 616 -32)
+	(pt 616 104)
+)
+(connector
+	(text "crc[15..0]" (rect 2090 -56 2160 -38)(font "Intel Clear" ))
+	(pt 2064 -32)
+	(pt 2272 -32)
+	(bus)
+)
+(connector
+	(pt 2272 -32)
+	(pt 2320 -32)
+	(bus)
 )
 (junction (pt 912 200))
 (junction (pt 1008 200))
@@ -1817,4 +1758,3 @@ refer to the applicable agreement for further details.
 (junction (pt 1880 104))
 (junction (pt 1976 104))
 (junction (pt 2272 104))
-(junction (pt 2328 -32))
