@@ -73,7 +73,7 @@ initial
           end
         else
           begin
-            $display( "Test %0d Failed. DUT | REF\n%16b - DUT\n%16b - REF", i, crc, test_crc_ref );
+            $display( "Test %0d Failed.\n%16b - DUT\n%16b - REF", i, crc, test_crc_ref );
             test_passed = 0;
           end
       end
@@ -81,7 +81,7 @@ initial
     if ( test_passed )
       $display( "All Tests - Passed. %d/%d", test_num, NUM_TESTS*TEST_LENGTH );
     else
-      $display( "All Tests - Fail. %d/%d", test_num, NUM_TESTS* NUM_TESTS*TEST_LENGTH );
+      $display( "All Tests - Fail. %d/%d", test_num, NUM_TESTS*TEST_LENGTH );
 
     $stop;
   end
