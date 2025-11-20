@@ -1,6 +1,6 @@
 module top_tb #(
-  int NUM_TESTS = 3,
-  int TEST_LENGTH = 32
+  int NUM_TESTS = 4,
+  int TEST_LENGTH = 64
 );
 
 logic           data;
@@ -14,7 +14,6 @@ bit             test_data[NUM_TESTS][TEST_LENGTH];
 
 logic           test_feedback;
 logic   [15:0]  test_crc_ref;
-logic   [15:0]  test_crc_next;
 
 initial
   begin
@@ -44,16 +43,13 @@ crc16 crc16_inst (
 
 initial
   begin
-    rst <= 1'b1;
-    #9;
-    data <= 0;
-    rst <= 1'b0;
-
     foreach ( test_data[i] )
       begin
         $display( "\n=== Test %0d ===", i );
 
         @( posedge clk );
+        test_crc_ref = 0;
+        data=0;
         rst <= 1'b1;
         @( posedge clk );
         rst <= 1'b0;
@@ -62,20 +58,20 @@ initial
         begin
           @( posedge clk );
           data <= test_data[i][j];
+          test_crc_ref <= crc16_ref(data, test_crc_ref);
+
           test_num++;
+          if ( test_crc_ref !== crc )
+            begin
+              $display( "Failed test %0d, step %0d .\n%16b - DUT\n%16b - REF", i, test_num, crc, test_crc_ref );
+              test_passed = 0;
+            end
         end
 
         @( posedge clk);
 
-        if ( test_crc_ref === crc )
-          begin
-            $display( "Test %0d Success: DUT = 0x%04h | REF = 0x%04h", i, crc, test_crc_ref );
-          end
-        else
-          begin
-            $display( "Test %0d Failed.\n%16b - DUT\n%16b - REF", i, crc, test_crc_ref );
-            test_passed = 0;
-          end
+        if(test_passed)
+          $display( "Passed test %0d", i );
       end
 
     if ( test_passed )
@@ -86,22 +82,17 @@ initial
     $stop;
   end
 
-always @( posedge clk or posedge rst )
-  begin
-    if ( rst )
-      test_crc_ref <= 16'h0000;
-    else
-      test_crc_ref <= test_crc_next;
-  end
+function automatic logic [15:0] crc16_ref(input logic data_input, input logic [15:0] crc_prev);
+    logic feedback;
+    logic [15:0] crc_next;
 
-always_comb
-  begin 
-    test_feedback = test_crc_ref[15] ^ data;
-    test_crc_next = {test_crc_ref[14:0], 1'b0};
+    feedback = crc_prev[15] ^ data_input;
+    crc_next = {crc_prev[14:0], 1'b0};
+    crc_next[0] ^= feedback;
+    crc_next[2] ^= feedback;
+    crc_next[15] ^= feedback;
 
-    test_crc_next[0] ^= test_feedback;
-    test_crc_next[2] ^= test_feedback;
-    test_crc_next[15] ^= test_feedback;
-  end
-  
+    return crc_next;
+endfunction
+
 endmodule

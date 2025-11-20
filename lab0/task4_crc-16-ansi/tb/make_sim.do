@@ -1,7 +1,7 @@
 vlib work
 
-vlog -sv ../rtl/crc16.v
-vlog -sv top_tb.sv
+vlog ../rtl/crc16.v
+vlog top_tb.sv
 
 vsim -novopt top_tb
 
