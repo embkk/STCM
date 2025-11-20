@@ -3,6 +3,9 @@ module top_tb #(
   int TEST_LENGTH = 64
 );
 
+import "DPI-C" function shortint unsigned crc16_ref_c(input byte data_input, input shortint unsigned crc_prev);
+
+
 logic           data;
 bit             clk;
 bit             rst;
@@ -14,6 +17,7 @@ bit             test_data[NUM_TESTS][TEST_LENGTH];
 
 logic           test_feedback;
 logic   [15:0]  test_crc_ref;
+logic   [15:0]  test_crc_ref_external;
 
 initial
   begin
@@ -49,6 +53,7 @@ initial
 
         @( posedge clk );
         test_crc_ref = 0;
+        test_crc_ref_external = 0;
         data=0;
         rst <= 1'b1;
         @( posedge clk );
@@ -58,12 +63,14 @@ initial
         begin
           @( posedge clk );
           data <= test_data[i][j];
-          test_crc_ref <= crc16_ref(data, test_crc_ref);
 
           test_num++;
-          if ( test_crc_ref !== crc )
+          test_crc_ref <= crc16_ref(data, test_crc_ref);
+          test_crc_ref_external <= crc16_ref_c(data, test_crc_ref_external);
+          
+          if ( test_crc_ref !== crc || test_crc_ref_external !== crc )
             begin
-              $display( "Failed test %0d, step %0d .\n%16b - DUT\n%16b - REF", i, test_num, crc, test_crc_ref );
+              $display( "Failed test %0d, step %0d .\n%16b - DUT\n%16b - Verilog REF\n%16b - External C REF", i, test_num, crc, test_crc_ref, test_crc_ref_external );
               test_passed = 0;
             end
         end
