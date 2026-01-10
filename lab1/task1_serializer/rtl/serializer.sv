@@ -6,7 +6,6 @@ module serializer #()(
   input   logic[15:0]   data_i,
   input   logic[4:0]    data_mod_i,
   input   logic         data_val_i,
-
   output  logic         ser_data_o,
   output  logic         ser_data_val_o,
   output  logic         busy_o
@@ -29,8 +28,7 @@ always_ff @(posedge clk_i or posedge srst_i)
           begin
             // input data invalid
             // but we can still send bits
-            
-            //ser_data_val_o <= 0;
+            ser_data_val_o <= 0;
           end
 
         if( data_val_i && itr < data_mod_i )

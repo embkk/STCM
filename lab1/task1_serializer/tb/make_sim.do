@@ -1,7 +1,8 @@
 vlib work
 
-vlog -sv ../rtl/delay_line.v
-vlog -sv ../rtl/mux16to1.v
+vlog -sv testbench_pkg.sv
+vlog -sv ../rtl/serializer.sv
+vlog -sv serializer_tb.sv
 vlog -sv top_tb.sv
 
 vsim -novopt top_tb

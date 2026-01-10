@@ -3,7 +3,7 @@ package testbench_pkg;
   int errors = 0;
   bit finished = 0;
 
-  function void testbench_completed(bit failed = 0);
+  function void single_test_completed(bit failed = 0);
     test_num++;
     if (failed) errors++;
   endfunction

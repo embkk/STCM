@@ -6,7 +6,7 @@ module serializer_tb #() (
 );
 
 logic[15:0]  data;
-logic        data_mod;
+logic[3:0]   data_mod; 
 logic        data_val;
 logic        ser_data;
 logic        ser_data_val;
@@ -23,53 +23,71 @@ serializer serializer_inst(
   .busy_o           (busy)
 );
 
+// --- Исправленная задача проверки ---
+task check_step(input logic exp_data, input logic exp_val, input string msg = "");
+  // Проверяем результат ПЕРЕД выводом, чтобы видеть актуальное состояние
+  if (ser_data !== exp_data || ser_data_val !== exp_val) begin
+    $display("ERROR: %s | Time: %0t", msg, $time);
+    $display("  EXP: data=%b, vld=%b | GOT: data=%b, vld=%b", exp_data, exp_val, ser_data, ser_data_val);
+    $display("  STATE: data_in=%h, busy=%b, vld_in=%b", data, busy, data_val);
+    single_test_completed(1);
+  end else begin
+    $display("[%0t] OK: %s | Out: %b", $time, msg, ser_data);
+  end
+endtask : check_step
+
 initial
   begin
-    // Изначально ничего не шлем
-    data     = '0;
-    data_mod = '0;
+    logic [15:0] expected_sr;
+    int bits;
+
+    // Сброс входов
+    data = '0; data_mod = '0; data_val = 1'b0;
+
+    // Ждем окончания сброса
+    wait(rst_i == 1'b0);
+    repeat(2) @(posedge clk_i); 
+
+    // --- ТЕСТ 1: 5 БИТ ---
+    wait(!busy);
+    data     = 16'hAAAA; // Используем блокирующее для надежности в TB
+    data_mod = 4'd5;
+    data_val = 1'b1;
+    expected_sr = 16'hAAAA;
+    bits = 5;
+
+    @(posedge clk_i); // Модуль должен увидеть data_val здесь
+    #1;               // Маленькая задержка, чтобы busy успел обновиться для лога
     data_val = 1'b0;
 
-    // Ждем, когда закончится сброс (ждем 0 на rst_i)
-    wait(rst_i == 1'b0);
-    // Ждем один такт для стабилизации
-    @(posedge clk_i);
-
-    // --- Посылка 1: 5 бит ---
-    wait(!busy);                     // Ждем, если вдруг занято
-    data     <= 16'hAAAA;            // 10101010...
-    data_mod <= 4'd5;                // Валидны старшие 5 бит
-    data_val <= 1'b1;                // Выставляем валидность
-    
-    @(posedge clk_i);                // Ждем такт захвата
-    data_val <= 1'b0;                // Убираем валидность (по ТЗ держится 1 такт)
-
-    // --- Посылка 2: Игнорируемая (mod = 2) ---
-    wait(!busy);                     // Ждем окончания предыдущей передачи
-    data     <= 16'hFFFF;
-    data_mod <= 4'd2;                // Должно игнорироваться по ТЗ
-    data_val <= 1'b1;
-    
-    @(posedge clk_i);
-    data_val <= 1'b0;
-
-    // --- Посылка 3: Все 16 бит (mod = 0) ---
-    // Ждем пару тактов, чтобы убедиться, что mod=2 проигнорирован (busy остался 0)
-    repeat(2) @(posedge clk_i);
-    
-    if (!busy) begin
-        data     <= 16'h1234;
-        data_mod <= 4'd0;            // Все 16 бит
-        data_val <= 1'b1;
-        @(posedge clk_i);
-        data_val <= 1'b0;
+    repeat(bits) begin
+      @(posedge clk_i);
+      check_step(expected_sr[15], 1'b1, "Bit test");
+      expected_sr = expected_sr << 1;
     end
+    single_test_completed(0);
 
-    // Ждем финала
+    // --- ТЕСТ 2: 16 БИТ ---
     wait(!busy);
+    data     = 16'h1234;
+    data_mod = 4'd0;
+    data_val = 1'b1;
+    expected_sr = 16'h1234;
+    bits = 16;
+
+    @(posedge clk_i);
+    #1;
+    data_val = 1'b0;
+
+    repeat(bits) begin
+      @(posedge clk_i);
+      check_step(expected_sr[15], 1'b1, "16-bit test");
+      expected_sr = expected_sr << 1;
+    end
+    single_test_completed(0);
+
     repeat(10) @(posedge clk_i);
-    testbench_pkg::finished = 1;
-    $display("Simple test done.");
+    finished = 1;
   end
 
 endmodule
