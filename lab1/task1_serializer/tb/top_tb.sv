@@ -1,6 +1,6 @@
-module top_tb;
-
 import testbench_pkg::*;
+
+module top_tb;
 
 parameter CLK_PERIOD = 5;
 
@@ -27,6 +27,5 @@ serializer_tb serializer_tb_inst (
   .clk_i          ( clk ),
   .rst_i          ( rst )
 );
-
   
 endmodule

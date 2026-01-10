@@ -1,4 +1,4 @@
-package testbench_pkg
+package testbench_pkg;
   int test_num = 0;
   int errors = 0;
   bit finished = 0;
