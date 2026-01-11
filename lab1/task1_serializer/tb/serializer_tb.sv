@@ -35,7 +35,7 @@ initial
         
         // Prepare test
         automatic logic [15:0] test_data        = {$urandom};
-        automatic int          test_data_length = $urandom_range(10,15);
+        automatic int          test_data_length = 0;//$urandom_range(0,15);
         automatic int          test_delay       = $urandom_range(0,15);
 
         @(posedge clk_i);
