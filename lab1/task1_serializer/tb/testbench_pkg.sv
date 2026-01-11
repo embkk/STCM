@@ -11,7 +11,7 @@ package testbench_pkg;
 
   function void testbench_print_stats();
     $display("\n=======================================");
-    $display(testbench_all_finished ? "All tests finished" : "In progress...");
+    $display((testbench_all_finished ? "All tests finished" : "In progress..."));
     if (test_error_num == 0 && test_completed_num > 0) begin
       $display("  [PASSED]");
       $display("  Tests run: %0d", test_completed_num);

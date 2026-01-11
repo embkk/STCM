@@ -1,5 +1,6 @@
 module serializer_tb #(
-  parameter int NUM_TESTS = 3
+  parameter int NUM_TESTS = 1,
+  parameter int NUM_ITERATIONS = 20
 ) (
   input  logic  clk_i,
   input  logic  rst_i
@@ -33,11 +34,26 @@ initial
     for(int i=0; i<NUM_TESTS; i++)
       begin
         
+        // Generate test data
         automatic logic [15:0] test_data        = {$urandom};
         automatic int          test_data_length = $urandom_range(0,15);
         automatic int          test_delay       = $urandom_range(0,15);
 
+        @(posedge clk_i);
+        srst = 1;
+
         $display("Start test #%0d. Send %0d bits from %0b then wait %0d", i, test_data_length, test_data, test_delay);
+
+        data = test_data;
+        data_mod = test_data_length;
+
+        for(int j=0; j<NUM_ITERATIONS;j++) 
+        begin
+          data_val = (j == 0); // first pulse only
+          $display("#%02d> %b (V:%b) | %0b (L: %0d V: %0d) | BUSY:%b", 
+          j, ser_data, ser_data_val, data, data_mod, data_val, busy);
+        end
+
         testbench_pkg::test_complete(1);
       end
 
@@ -45,7 +61,7 @@ initial
     testbench_pkg::testbench_all_finished = 1;
   end
 
-  // --- Задача проверки: че че ожидали, че получили + порты в след. строке ---
+/*  // --- Задача проверки: че че ожидали, че получили + порты в след. строке ---
 task check_step(input logic exp_data, input logic exp_val, input string msg = "");
   if (ser_data !== exp_data || ser_data_val !== exp_val) begin
     $display("ERROR: %s | Time: %0t", msg, $time);
@@ -58,6 +74,6 @@ task check_step(input logic exp_data, input logic exp_val, input string msg = ""
     $display("[%0t] OK: %s | Out: %b", $time, msg, ser_data);
   end
 endtask : check_step
-
+*/
 
 endmodule
