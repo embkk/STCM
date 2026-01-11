@@ -1,21 +1,25 @@
-import testbench_pkg::*;
-
 module top_tb;
 
 parameter CLK_PERIOD = 5;
 
 // init before simulation without any sim event
 logic clk = 1'b0;
-logic rst = 1'b1;
+logic rst = 1'b0;
 
 initial
   begin
+    // reset
+    repeat(2) @(posedge clk);
+    rst <= 1'b1;
+
+    // idle
     repeat(2) @(posedge clk);
     rst <= 1'b0;
     
-    wait(testbench_pkg::finished);
+    // wait for test end
+    wait(testbench_pkg::testbench_all_finished);
 
-    testbench_pkg::print_result();
+    testbench_pkg::testbench_print_stats();
     
     $stop;
   end
