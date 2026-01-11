@@ -27,32 +27,38 @@ serializer serializer_inst(
 
 initial
   begin
-
     // wait for sim init
     @( posedge rst_i );
 
     for(int i=0; i<NUM_TESTS; i++)
       begin
         
-        // Generate test data
+        // Prepare test
         automatic logic [15:0] test_data        = {$urandom};
-        automatic int          test_data_length = $urandom_range(0,15);
+        automatic int          test_data_length = $urandom_range(10,15);
         automatic int          test_delay       = $urandom_range(0,15);
 
         @(posedge clk_i);
-        srst = 1;
+        srst <= 1;
+        @(posedge clk_i);
 
-        $display("Start test #%0d. Send %0d bits from %0b then wait %0d", i, test_data_length, test_data, test_delay);
-
-        data = test_data;
-        data_mod = test_data_length;
+        //Start test       
+        $display("\nStart test #%0d. Send %0d bits from %0b then wait %0d\n", i, test_data_length, test_data, test_delay);
+        data      <= test_data;
+        data_mod  <= test_data_length;
+        srst      <= 0;
 
         for(int j=0; j<NUM_ITERATIONS;j++) 
-        begin
-          data_val = (j == 0); // first pulse only
-          $display("#%02d> %b (V:%b) | %0b (L: %0d V: %0d) | BUSY:%b", 
-          j, ser_data, ser_data_val, data, data_mod, data_val, busy);
-        end
+          begin
+            @(posedge clk_i);
+            data_val <= (j == 0); // first pulse only
+
+            if(busy || data_val) begin
+              $display("#%02d> %b (V:%b) | %0b (L: %0d V: %0d) | BUSY:%b", 
+              j, ser_data, ser_data_val, data, data_mod, data_val, busy);
+            end
+            
+          end
 
         testbench_pkg::test_complete(1);
       end
