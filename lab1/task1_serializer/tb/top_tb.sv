@@ -8,6 +8,8 @@ logic rst = 1'b0;
 
 initial
   begin
+    void'($urandom($system("date +%s")));
+
     // reset
     repeat(2) @(posedge clk);
     rst <= 1'b1;

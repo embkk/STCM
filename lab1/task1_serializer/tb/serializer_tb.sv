@@ -34,16 +34,16 @@ initial
       begin
         
         // Prepare test
-        automatic logic [15:0] test_data        = {$urandom};
-        automatic int          test_data_length = 0;//$urandom_range(0,15);
+        automatic int          test_data_length = $urandom_range(0,15);
         automatic int          test_delay       = $urandom_range(0,15);
-
+        automatic logic [15:0] test_data        = {$urandom};
+        
         @(posedge clk_i);
         srst <= 1;
         @(posedge clk_i);
 
         //Start test       
-        $display("\nStart test #%0d. Send %0d bits from %0b then wait %0d\n", i, test_data_length, test_data, test_delay);
+        $display("\n%0d Start test #%0d. Send %0d bits from %0b then wait %0d\n", $time, i, test_data_length, test_data, test_delay);
         data      <= test_data;
         data_mod  <= test_data_length;
         srst      <= 0;
@@ -53,9 +53,8 @@ initial
             @(posedge clk_i);
             data_val <= (j == 0); // first pulse only
 
-            if(busy || data_val) begin
-              $display("#%02d> %b (V:%b) | %0b (L: %0d V: %0d) | BUSY:%b", 
-              j, ser_data, ser_data_val, data, data_mod, data_val, busy);
+            if(ser_data_val) begin
+              $display("%0d valid #%0d (V:%b) | %0b (L: %0d V: %0d) | BUSY:%b", ser_data, j, ser_data_val, data, data_mod, data_val, busy);
             end
             
           end
