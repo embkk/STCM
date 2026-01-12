@@ -1,4 +1,6 @@
 # Metrotek FPGA internship
+## Lab #1
+Task #1 - [Serializer](https://github.com/embkk/STCM/tree/main/lab1/task1_serializer)
 
 ## Lab #0
 Task #1 - [Multiplexer](https://github.com/embkk/STCM/tree/main/lab0/task1_multiplexer)
