@@ -1,5 +1,5 @@
 module serializer_tb #(
-  parameter int NUM_TESTS = 1,
+  parameter int NUM_TESTS = 32,
   parameter int NUM_ITERATIONS = 20
 ) (
   input  logic  clk_i,
@@ -25,60 +25,68 @@ serializer serializer_inst(
   .busy_o           (busy)
 );
 
+task sync_reset();
+  @(posedge clk_i);
+  srst <= 1;
+  @(posedge clk_i);
+  srst      <= 1'b0;
+endtask
+
 initial
   begin
     // wait for sim init
     @( posedge rst_i );
 
-    for(int i=0; i<NUM_TESTS; i++)
-      begin
-        
-        // Prepare test
-        automatic int          test_data_length = $urandom_range(0,15);
-        automatic int          test_delay       = $urandom_range(0,15);
-        automatic logic [15:0] test_data        = {$urandom};
-        
-        @(posedge clk_i);
-        srst <= 1;
-        @(posedge clk_i);
+    sync_reset();
 
-        //Start test       
-        $display("\n%0d Start test #%0d. Send %0d bits from %0b then wait %0d\n", $time, i, test_data_length, test_data, test_delay);
+    for(int t=0; t<NUM_TESTS; t++)
+      begin
+        automatic int                         test_data_length = t % 16;        // test all possible length
+        automatic int                         test_delay       = t % 5;         // test different intervals
+        automatic logic[15:0]                 test_data        = {$urandom};
+
+        automatic int valid_pulse_cnt = 0;
+        automatic bit expected_bit = 0;
+        automatic bit test_unit_passed = 1;
+
+        // Sync reset between transactions
+        if( t % 2 == 0)
+          sync_reset(); 
+
+        //Start test 
         data      <= test_data;
         data_mod  <= test_data_length;
-        srst      <= 0;
+        data_val  <= 1'b1;
+        @(posedge clk_i );
+        data_val  <= 1'b0;
 
         for(int j=0; j<NUM_ITERATIONS;j++) 
           begin
-            @(posedge clk_i);
-            data_val <= (j == 0); // first pulse only
+            testbench_pkg::test_itr_num++;
+            if(ser_data_val)
+              begin
+                // check expected length
+                if(valid_pulse_cnt>test_data_length && test_data_length>0 || valid_pulse_cnt >15 || test_data_length inside {1,2})
+                begin
+                  test_unit_passed = 0;
+                  $error("Wrong length");
+                end
 
-            if(ser_data_val) begin
-              $display("%0d valid #%0d (V:%b) | %0b (L: %0d V: %0d) | BUSY:%b", ser_data, j, ser_data_val, data, data_mod, data_val, busy);
-            end
-            
+                // check expected data
+                expected_bit = test_data[15 - valid_pulse_cnt];
+                if(expected_bit!=ser_data)
+                  test_unit_passed = 0;
+
+                valid_pulse_cnt++;
+              end
+            @(posedge clk_i);
           end
 
-        testbench_pkg::test_complete(1);
+        testbench_pkg::test_complete(test_unit_passed);
       end
 
     repeat(10) @(posedge clk_i);
     testbench_pkg::testbench_all_finished = 1;
   end
-
-/*  // --- Задача проверки: че че ожидали, че получили + порты в след. строке ---
-task check_step(input logic exp_data, input logic exp_val, input string msg = "");
-  if (ser_data !== exp_data || ser_data_val !== exp_val) begin
-    $display("ERROR: %s | Time: %0t", msg, $time);
-    $display("  EXP: data=%b, vld=%b | GOT: data=%b, vld=%b", exp_data, exp_val, ser_data, ser_data_val);
-    // Состояние всех портов в следующую строку
-    $display("  STATE: data_in=%h, mod=%0d, busy=%b, vld_in=%b, rst=%b, ser_vld=%b, ser_d=%b", 
-              data, data_mod, busy, data_val, rst_i, ser_data_val, ser_data);
-    single_test_completed(1);
-  end else begin
-    $display("[%0t] OK: %s | Out: %b", $time, msg, ser_data);
-  end
-endtask : check_step
-*/
 
 endmodule

@@ -1,5 +1,6 @@
 package testbench_pkg;
   int test_completed_num = 0;
+  int test_itr_num = 0;
   int test_error_num = 0;
   bit testbench_all_finished = 0;
 
@@ -11,15 +12,17 @@ package testbench_pkg;
 
   function void testbench_print_stats();
     $display("\n=======================================");
-    $display((testbench_all_finished ? "All tests finished" : "In progress..."));
-    if (test_error_num == 0 && test_completed_num > 0) begin
+
+    if(testbench_all_finished)
+      $display("All tests finished");
+    
+    if (test_error_num == 0 && test_completed_num > 0)
       $display("  [PASSED]");
-      $display("  Tests run: %0d", test_completed_num);
-    end else begin
-      $display("  [FAILED]");
-      $display("  Tests run:  %0d", test_completed_num);
-      $display("  Errors:     %0d", test_error_num);
-    end
+    else
+      $display("  [FAILED]\n  Errors:     %0d", test_error_num);
+    
+    $display("  Tests: %0d", test_completed_num);
+    $display("  Test iterations: %0d", test_itr_num);
     $display("=======================================\n");
   endfunction
 

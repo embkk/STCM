@@ -5,7 +5,7 @@ vlog -sv ../rtl/serializer.sv
 vlog -sv serializer_tb.sv
 vlog -sv top_tb.sv
 
-vsim -novopt top_tb
+vsim -novopt -sv_seed random top_tb
 
 add log -r /*
 add wave -r *
