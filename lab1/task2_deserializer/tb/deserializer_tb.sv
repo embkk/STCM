@@ -1,5 +1,5 @@
 module deserializer_tb #(
-  parameter int NUM_TESTS = 32,
+  parameter int NUM_TESTS = 20,
   parameter int NUM_ITERATIONS = 20
 ) (
   input  logic  clk_i,
@@ -9,26 +9,22 @@ module deserializer_tb #(
 // testing data
 logic        srst;
 
-logic[15:0]  data;
-logic[3:0]   data_mod; 
+logic        data;
 logic        data_val;
 
-logic        ser_data;
+logic[15:0]        ser_data;
 logic        ser_data_val;
-logic        busy;
 
 // testing module
 deserializer serializer_inst(
-  .clk_i            (clk_i),
-  .srst_i           (srst),
+  .clk_i              (clk_i),
+  .srst_i             (srst),
 
-  .data_i           (data),
-  .data_mod_i       (data_mod),
-  .data_val_i       (data_val),
+  .data_i             (data),
+  .data_val_i         (data_val),
 
-  .ser_data_o       (ser_data),
-  .ser_data_val_o   (ser_data_val),
-  .busy_o           (busy)
+  .deser_data_o       (ser_data),
+  .deser_data_val_o   (ser_data_val)
 );
 
 // sync reset function
@@ -55,46 +51,28 @@ initial
         automatic int valid_pulse_cnt   = 0;
         automatic bit expected_bit      = 0;
         automatic bit test_unit_passed  = 1;
-
+        $display("Start test %b", test_data);
+        
         // 50% chance to sync reset between transactions
         if( t % 2 == 0 )
           sync_reset(); 
 
         // Start test 
         data      <= test_data;
-        data_mod  <= test_data_length;
-        data_val  <= 1'b1;
-        @(posedge clk_i );
-        data_val  <= 1'b0;
+        //data_mod  <= test_data_length;
+        
+        //@(posedge clk_i );
+        //data_val  <= 1'b0;
 
-        for(int j=0; j<NUM_ITERATIONS;j++) 
+        for(int j=0; j<20;j++) 
           begin
+            //$display("Send %0d", test_data[j]);
+            data = test_data[j];
+            data_val  <= j<16;
             if(ser_data_val)
               begin
-                // SPECIAL TEST - sync reset in a half of first transaction
-                if(t==0)
-                  begin
-                    if( j == 3 )
-                      srst <= 1;
-                    else if( j == 4 )
-                      srst <= 0;
-                  end
-
-                // check expected length
-                if( ( valid_pulse_cnt > test_data_length ) && ( test_data_length > 0          ) ||
-                    ( valid_pulse_cnt > 15               ) || ( test_data_length == 1         ) || 
-                    ( test_data_length == 2              ) )
-                  begin
-                    test_unit_passed = 0;
-                    $error("Wrong length");
-                  end
-
-                // check expected data
-                expected_bit = test_data[15 - valid_pulse_cnt];
-                if( expected_bit != ser_data )
-                  test_unit_passed = 0;
-
-                valid_pulse_cnt++;
+                $display("Valid output %b", ser_data);
+                $display("Expected %b", ser_data==test_data);
               end
 
             testbench_pkg::test_itr_num++;
