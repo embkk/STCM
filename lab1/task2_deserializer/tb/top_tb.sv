@@ -28,7 +28,7 @@ initial
 always #CLK_PERIOD clk = ~clk;
 
 // -- Testbench modules --
-serializer_tb serializer_tb_inst (
+deserializer_tb serializer_tb_inst (
   .clk_i          ( clk ),
   .rst_i          ( rst )
 );

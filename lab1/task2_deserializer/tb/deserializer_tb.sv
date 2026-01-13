@@ -1,4 +1,4 @@
-module serializer_tb #(
+module deserializer_tb #(
   parameter int NUM_TESTS = 32,
   parameter int NUM_ITERATIONS = 20
 ) (
@@ -18,7 +18,7 @@ logic        ser_data_val;
 logic        busy;
 
 // testing module
-serializer serializer_inst(
+deserializer serializer_inst(
   .clk_i            (clk_i),
   .srst_i           (srst),
 
