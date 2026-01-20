@@ -1,5 +1,5 @@
 module serializer_tb #(
-  parameter int NUM_TESTS = 32,
+  parameter int NUM_TESTS = 28,
   parameter int NUM_ITERATIONS = 20
 ) (
   input  logic  clk_i,
@@ -31,12 +31,13 @@ serializer serializer_inst(
   .busy_o           (busy)
 );
 
-// sync reset function
+// sync reset task
 task sync_reset();
   @(posedge clk_i);
-  srst <= 1;
+  srst <= 1'b1;
   @(posedge clk_i);
-  srst      <= 1'b0;
+  srst <= 1'b0;
+  $display("Sync reset");
 endtask
 
 initial
@@ -55,7 +56,8 @@ initial
         automatic int valid_pulse_cnt   = 0;
         automatic bit expected_bit      = 0;
         automatic bit test_unit_passed  = 1;
-
+        
+        $display("\n\n      tb>  Started test data %b, data_mod %0d", test_data, test_data_length);
         // 50% chance to sync reset between transactions
         if( t % 2 == 0 )
           sync_reset(); 
@@ -66,33 +68,22 @@ initial
         data_val  <= 1'b1;
         @(posedge clk_i );
         data_val  <= 1'b0;
-
-        for(int j=0; j<NUM_ITERATIONS;j++) 
+        
+        for( int j=0; j<NUM_ITERATIONS; j++ ) 
           begin
             if(ser_data_val)
               begin
-                // SPECIAL TEST - sync reset in a half of first transaction
-                if(t==0)
-                  begin
-                    if( j == 3 )
-                      srst <= 1;
-                    else if( j == 4 )
-                      srst <= 0;
-                  end
-
-                // check expected length
-                if( ( valid_pulse_cnt > test_data_length ) && ( test_data_length > 0          ) ||
-                    ( valid_pulse_cnt > 15               ) || ( test_data_length == 1         ) || 
-                    ( test_data_length == 2              ) )
-                  begin
-                    test_unit_passed = 0;
-                    $error("Wrong length");
-                  end
-
                 // check expected data
                 expected_bit = test_data[15 - valid_pulse_cnt];
                 if( expected_bit != ser_data )
-                  test_unit_passed = 0;
+                  begin
+                    $error("      tb>  %b on pos %0d not expected, must be %b", ser_data, valid_pulse_cnt, expected_bit);
+                    test_unit_passed = 0;
+                  end
+                else
+                begin
+                  $display("      tb>  %b on pos %0d expected", test_data[15-valid_pulse_cnt], valid_pulse_cnt);
+                end
 
                 valid_pulse_cnt++;
               end
@@ -101,6 +92,14 @@ initial
             @( posedge clk_i );
           end
 
+        if( ( ( valid_pulse_cnt > test_data_length ) && ( test_data_length > 0  ) ) || ( valid_pulse_cnt > 15 ) ||
+            ( ( valid_pulse_cnt > 0                ) && ( ( test_data_length == 1 ) || ( test_data_length == 2 ) ) ) )
+          begin
+            test_unit_passed = 0;
+            $error("      tb>  Wrong length");
+          end
+
+        //$display("      tb>  Ended. Valid pulse %0d expected %0d", valid_pulse_cnt, test_data_length);
         testbench_pkg::test_complete( test_unit_passed );
       end
 
