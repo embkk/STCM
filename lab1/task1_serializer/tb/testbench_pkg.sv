@@ -1,4 +1,9 @@
 package testbench_pkg;
+  `include "driver_tb.sv"
+  `include "monitor_tb.sv"
+  `include "scoreboard_tb.sv"
+  `include "environment_tb.sv"
+
   int test_completed_num = 0;
   int test_itr_num = 0;
   int test_error_num = 0;
