@@ -5,6 +5,7 @@ vlog -sv ../rtl/serializer.sv
 
 vlog -sv testbench_pkg.sv
 
+vlog -sv test.sv
 vlog -sv top_tb.sv
 
 vsim -novopt -sv_seed random top_tb

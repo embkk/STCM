@@ -9,24 +9,24 @@ interface serializer_if(input logic clk);
 
   default clocking cb @(posedge clk);
     default input #1ns output #1ns;
-    output data, data_mod, data_val, srst; // Добавил srst сюда
+    output data, data_mod, data_val, srst;
     input  ser_data, ser_data_val, busy;
   endclocking
 
+  modport DUT (
+    input  data, data_mod, data_val, srst, clk,
+    output ser_data, ser_data_val, busy
+  );
+
   modport DRIVER (
     clocking cb,
-    import task reset_t(), // Task тоже надо импортить, если юзаешь через интерфейс
+    import task reset(),
     import task send(input logic [15:0] d, input logic [3:0] m)
   );
 
   modport MONITOR (
     clocking cb,
     import task receive(output logic d_ser, output logic v_ser)
-  );
-
-  modport DUT (
-    input  data, data_mod, data_val, srst, clk,
-    output ser_data, ser_data_val, busy
   );
 
   task reset();
@@ -36,10 +36,10 @@ interface serializer_if(input logic clk);
     ##1;
   endtask
 
-  task send(input logic [15:0] d, input logic [3:0] m);
-    while(cb.busy === 1'b1) @(cb); // Ждем по клокблоку
-    cb.data     <= d;
-    cb.data_mod <= m;
+  task send(input logic [15:0] data, input logic [3:0] len);
+    while(cb.busy === 1'b1) @(cb);
+    cb.data     <= data;
+    cb.data_mod <= len;
     cb.data_val <= 1'b1;
     @(cb);
     cb.data_val <= 1'b0;

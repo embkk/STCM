@@ -1,5 +1,4 @@
 module top_tb;
-import testbench_pkg::*;
 
 parameter CLK_PERIOD = 5;
 
@@ -18,15 +17,8 @@ serializer dut_inst (
     .busy_o          (serializer_bus.busy)
   );
 
-typedef virtual serializer_if v_ser_if;
 
-Environment #(.IF_T(v_ser_if)) env;
-
-initial
-  begin
-    env = new(serializer_bus);
-    env.run();
-  end
+test test_inst (serializer_bus);
 
 always
   #CLK_PERIOD clk = ~clk;

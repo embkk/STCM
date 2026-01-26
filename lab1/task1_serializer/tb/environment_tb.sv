@@ -1,38 +1,45 @@
-//`include "driver_tb.sv"
-//`include "monitor_tb.sv"
-//`include "scoreboard_tb.sv"
-
 class Environment #(type IF_T);
-
   IF_T vif;
-  
-  Driver drv; 
-  Monitor mon;
-  Scoreboard scb;
+
+  Generator   gen;
+  Driver      drv;
+  Monitor     mon;
+  Scoreboard  scb;
+
+  mailbox #(Transaction) gen2drv, drv2scb;
+  mailbox #(logic) mon2scb;
 
   function new(IF_T vif_i);
-    this.vif = vif_i;
+      this.vif = vif_i;
+  endfunction
 
-    drv = new(vif); 
-    mon = new(vif);
-    scb = new();
+  function void build();
+    gen = new(gen2drv);
+    drv = new(vif, gen2drv, drv2scb);
+    mon = new(vif, mon2scb);
+    scb = new(drv2scb, mon2scb);
   endfunction
 
   task run();
     assert (vif != null) else $fatal(1, "[ENV] Virtual interface (vif) is NULL!");
-    
+
     $display("[ENV] Run..");
-    
+
     vif.reset();
 
     fork
-        drv.start();
-        mon.start();
-        scb.main();
-    join_any
-  endtask
+      gen.run();
+      drv.run();
+      mon.run();
+      scb.run();
+    join
 
+    //$stop;
+  endtask
+  //extern task wrap_up();
 endclass
+
+
 
 /*The Generator, Agent, Driver, Monitor, Checker, and Scoreboard are
 all classes, modeled as transactors (described below). They are instantiated inside
