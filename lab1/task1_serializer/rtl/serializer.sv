@@ -26,7 +26,6 @@ always_ff @( posedge clk_i )
       end
     else
       begin
-        //$display("%0d < %0d", transaction_itr, data_mod_buffered);
         if(transaction_itr < data_mod_buffered)
           begin
             transaction_itr   <= transaction_itr + 4'd1;
@@ -38,8 +37,7 @@ always_ff @( posedge clk_i )
             data_buffered           <=  {<<{data_i}};
             data_mod_buffered       <=  data_mod_i == 4'd0 ? 4'd15 : data_mod_i ;
             transaction_itr         <=  4'd0;
-            $display("[DUT] Start transaction %b with length", data_i, (data_mod_i == 4'd0 ? 4'd15 : data_mod_i));
-            $display("[DUT] Bit flow reversed, expect %b", {<<{data_i}});
+            $display("[DUT] Start %b with length", data_i, (data_mod_i == 4'd0 ? 4'd15 : data_mod_i));
           end
         else
           begin
@@ -56,8 +54,13 @@ always_comb
     busy_o         = transaction_itr < data_mod_buffered;
     ser_data_val_o = transaction_itr < data_mod_buffered;
     ser_data_o     = data_buffered[ transaction_itr ];
+
+    //if(busy_o)
+    //$display("busy...");
     //if(ser_data_val_o)
     //$display("[DUT] Valid output data[%0d]=%b length %0d", transaction_itr, ser_data_o, data_mod_buffered);
+    /*else
+    $display("[DUT] Invalid ouput");*/
   end
 
 endmodule

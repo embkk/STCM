@@ -1,6 +1,9 @@
 class Environment #(
     type IF_T
 );
+
+  const int num_transactions = 3;
+
   IF_T                   vif;
 
   Generator              gen;
@@ -8,7 +11,8 @@ class Environment #(
   Monitor                mon;
   Scoreboard             scb;
 
-  mailbox #(Transaction) gen2drv, drv2scb, mon2scb;
+  mailbox #(Transaction) gen2drv, drv2scb;
+  mailbox #(Sample) mon2scb;
 
   function new(IF_T vif_i);
     this.vif = vif_i;
@@ -41,10 +45,10 @@ class Environment #(
     vif.reset();
 
     fork
-      gen.run();
-      drv.run();
-      mon.run();
-      scb.run();
+      gen.run(num_transactions);
+      drv.run(num_transactions);
+      mon.run(num_transactions);
+      scb.run(num_transactions);
     join_none
 
   endtask

@@ -8,20 +8,29 @@ class Driver;
     this.drv2scb = drv2scb;
   endfunction
 
-  task run();
+  task run(input int num_transactions);
     Transaction tr;
 
-    forever begin
-      gen2drv.get(tr);
-      drv2scb.put(tr);
-      $display("[Driver] get from gen %s", tr.to_string());
-      $display("[Driver] put to scb %s", tr.to_string());
-      while (vif.cb.busy === 1'b1) @(vif.cb);
-      vif.cb.data     <= tr.data;
-      vif.cb.data_mod <= tr.data_mod;
-      vif.cb.data_val <= 1'b1;
-      @(vif.cb);
-      vif.cb.data_val <= 1'b0;
-    end
+    repeat(num_transactions)
+      begin
+
+        gen2drv.get(tr);
+        drv2scb.put(tr);
+
+        $display("[Driver] %s", tr.to_string());
+
+        vif.cb.data     <= tr.data;
+        vif.cb.data_mod <= tr.data_mod;
+
+        vif.cb.data_val <= 1'b1;
+        @(vif.cb);
+
+        vif.cb.data_val <= 1'b0;
+        @(vif.cb);
+
+        @(!vif.cb.busy);
+
+        tr = null;
+      end
   endtask
 endclass

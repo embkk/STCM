@@ -10,7 +10,7 @@ interface serializer_if (
   logic        srst;
 
   default clocking cb @(posedge clk);
-    default input #1ns output #1ns;
+    //default input #1ns output #1ns;
     output data, data_mod, data_val, srst;
     input ser_data, ser_data_val, busy;
   endclocking
@@ -29,20 +29,7 @@ interface serializer_if (
     ##2;
     cb.srst <= 1'b0;
     ##1;
+    $display("[RESET] Done");
   endtask
 
-  task send(input logic [15:0] data, input logic [3:0] len);
-    while (cb.busy === 1'b1) @(cb);
-    cb.data     <= data;
-    cb.data_mod <= len;
-    cb.data_val <= 1'b1;
-    @(cb);
-    cb.data_val <= 1'b0;
-  endtask
-
-  task receive(output logic d_ser, output logic v_ser);
-    @(cb);
-    d_ser = cb.ser_data;
-    v_ser = cb.ser_data_val;
-  endtask
 endinterface
