@@ -4,7 +4,8 @@ class Transaction;
   bit [15:0] data;
   bit [3:0]  data_mod;
   bit [4:0]  len;
-  static int crand = 4;
+
+  static int crand;
 
   function new();
     id = ++id_inc;
@@ -15,7 +16,7 @@ class Transaction;
   function int randomize_free();
     this.data = $urandom();
 
-    this.data_mod  = 0;
+    this.data_mod  = crand;
     crand++;
 
     case (data_mod)

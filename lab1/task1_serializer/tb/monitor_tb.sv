@@ -1,4 +1,4 @@
-class Monitor #(int TIMEOUT = 1000);
+class Monitor #(int TIMEOUT = 2000);
   virtual serializer_if.MONITOR vif;
   mailbox #(Sample) mon2scb;
 
@@ -20,19 +20,21 @@ class Monitor #(int TIMEOUT = 1000);
     while(sample_count<num_transactions)
       begin
         if(smp == null) start_sample();
-        @vif.cb;
+        @vif.mon_cb;
         mon_count++;
 
-        //$display(mon_count);
 
-        if(vif.cb.ser_data_val)
-          smp.add(vif.cb.ser_data);
+        if(vif.mon_cb.ser_data_val)
+          smp.add(vif.mon_cb.ser_data);
 
-        if(mon_count>TIMEOUT || (!vif.cb.ser_data_val && smp.val_count>0))
+        if(mon_count>TIMEOUT || (!vif.mon_cb.ser_data_val && smp.val_count>0))
           begin
             sample_count++;
             mon2scb.put(smp);
-            $display("[MON] %0d sample ready %s", sample_count, smp.to_string());
+
+            if( testbench_pkg::DEBUG_PRINT )
+              $display("[MON] %0d sample ready %s", sample_count, smp.to_string());
+
             smp = null;
           end
       end

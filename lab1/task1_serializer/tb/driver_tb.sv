@@ -17,18 +17,19 @@ class Driver;
         gen2drv.get(tr);
         drv2scb.put(tr);
 
-        $display("[Driver] %s", tr.to_string());
+        if( testbench_pkg::DEBUG_PRINT )
+          $display("[Driver] %s", tr.to_string());
 
-        vif.cb.data     <= tr.data;
-        vif.cb.data_mod <= tr.data_mod;
+        vif.drv_cb.data     <= tr.data;
+        vif.drv_cb.data_mod <= tr.data_mod;
 
-        vif.cb.data_val <= 1'b1;
-        @(vif.cb);
+        vif.drv_cb.data_val <= 1'b1;
+        @(vif.drv_cb);
 
-        vif.cb.data_val <= 1'b0;
-        @(vif.cb);
+        vif.drv_cb.data_val <= 1'b0;
+        @(vif.drv_cb);
 
-        wait(!vif.cb.busy);
+        wait(!vif.drv_cb.busy);
 
         tr = null;
       end

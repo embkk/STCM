@@ -8,6 +8,7 @@ class Sample;
   endfunction
 
   function void add(bit data_i);
+    //$display("Sampled V %0d", data_i);
     this.val_count++;
     this.data_sampled.push_back(data_i);
   endfunction
