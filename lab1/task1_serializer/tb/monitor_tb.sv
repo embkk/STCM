@@ -10,24 +10,31 @@ class Monitor #(int TIMEOUT = 2000);
   Sample smp;
   int mon_count;
   int sample_count;
+  int busy_count;
 
   function automatic void start_sample();
     smp = new();
     mon_count = 0;
+    busy_count = 0;
   endfunction
 
   task run(int num_transactions);
     while(sample_count<num_transactions)
       begin
-        if(smp == null) start_sample();
-        @vif.mon_cb;
-        mon_count++;
+        if(smp == null)
+          start_sample();
 
+        @vif.mon_cb;
+
+        if(vif.mon_cb.busy)
+          busy_count++;
+
+        mon_count++;
 
         if(vif.mon_cb.ser_data_val)
           smp.add(vif.mon_cb.ser_data);
 
-        if(mon_count>TIMEOUT || (!vif.mon_cb.ser_data_val && smp.val_count>0))
+        if(mon_count>TIMEOUT || (busy_count && !vif.mon_cb.busy) )
           begin
             sample_count++;
             mon2scb.put(smp);

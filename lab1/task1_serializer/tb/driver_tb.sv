@@ -2,7 +2,8 @@ class Driver;
 
   virtual serializer_if.DRIVER vif;
   mailbox #(Transaction) gen2drv, drv2scb;
-  function new(virtual serializer_if.DRIVER vif_i, mailbox#(Transaction) gen2drv, drv2scb);
+
+  function new( virtual serializer_if.DRIVER vif_i, mailbox#(Transaction) gen2drv, drv2scb);
     this.vif = vif_i;
     this.gen2drv = gen2drv;
     this.drv2scb = drv2scb;

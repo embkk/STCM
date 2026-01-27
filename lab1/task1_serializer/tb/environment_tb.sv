@@ -2,7 +2,7 @@ class Environment #(
     type IF_T
 );
 
-  const int num_transactions = 30;
+  const int num_transactions = 560;
 
   IF_T                   vif;
 

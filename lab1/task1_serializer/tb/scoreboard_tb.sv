@@ -30,7 +30,8 @@ class Scoreboard;
           end
         else
           begin
-            $display("\n[Scoreboard] Failed - sample len %0d expexted tr data_mod %0d", tr_sample.val_count, tr_expected.data_mod);
+            $display("\n[Scoreboard] Failed - sample #%0d compared tr #%0d", tr_sample.sample_id, tr_expected.id);
+            $display("Sample len %0d, tr data_mod %0d", tr_sample.val_count, tr_expected.data_mod);
             $display("%s\n%s\n", tr_expected.to_string(), tr_sample.to_string());
           end
       end

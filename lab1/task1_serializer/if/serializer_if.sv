@@ -2,7 +2,7 @@ interface serializer_if (
     input logic clk
 );
   logic [15:0] data;
-  logic [ 3:0] data_mod;
+  logic [3:0]  data_mod;
   logic        data_val;
   logic        ser_data;
   logic        ser_data_val;
@@ -12,7 +12,7 @@ interface serializer_if (
   default clocking drv_cb @(posedge clk);
     default input #1step output #0;
     output data, data_mod, data_val, srst;
-    input  busy; // Драйверу нужно знать, занят ли DUT
+    input  busy;
   endclocking
 
   clocking mon_cb @(posedge clk);
