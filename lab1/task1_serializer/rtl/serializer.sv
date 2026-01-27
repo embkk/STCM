@@ -1,9 +1,7 @@
-import testbench_pkg::*;
-
 module serializer (
   input   logic         clk_i,
   input   logic         srst_i,
-  input   logic[0:15]   data_i,
+  input   logic[15:0]   data_i,
   input   logic[3:0]    data_mod_i,
   input   logic         data_val_i,
   output  logic         ser_data_o,
@@ -11,63 +9,48 @@ module serializer (
   output  logic         busy_o
 );
 
-enum logic[2:0] {
-  IDLE_S,
-  WAIT_S,
-  TRANSACTION_S
-} state, next_state;
+logic[3:0]   transaction_itr    = 4'b0000;
 
-logic[3:0] transaction_remain_cnt = 4'b0000;
+logic[15:0]  data_buffered;
+logic[3:0]   data_mod_buffered  = 0;
 
-// #1 - change state block
 always_ff @( posedge clk_i )
   begin
     if( srst_i )
       begin
-        state <=  IDLE_S;
+        transaction_itr   <= 4'b0000;
+        data_buffered     <= 16'd0;
+        data_mod_buffered <= 4'd0;
+
       end
     else
       begin
-        state <= next_state;
+        if(transaction_itr < data_mod_buffered)
+          begin
+            transaction_itr   <= transaction_itr + 4'd1;
 
-        if( state != TRANSACTION_S && next_state == TRANSACTION_S )
-          transaction_remain_cnt <= data_mod_i == 4'd0 ? 4'd15 : data_mod_i;
+          end
+        else if( data_val_i && data_mod_i != 1 && data_mod_i != 2 )
+          begin
+            data_buffered           <=  {<<{data_i}};
+            data_mod_buffered       <=  data_mod_i == 4'd0 ? 4'd15 : data_mod_i;
+            transaction_itr         <=  4'd0;
+
+            if(testbench_pkg::DEBUG_PRINT)
+              $display("[DUT] Started transaction with data_mod_i %0d", data_mod_i);
+
+          end
         else
-          transaction_remain_cnt <= transaction_remain_cnt - 4'd1;
+          begin
+            transaction_itr   <= 4'd0;
+            data_mod_buffered <= 4'd0;
+            data_buffered     <= 16'd0;
+          end
       end
   end
 
-// #2 - next_state block
-always_comb
-  begin
-    unique case( state )
-      IDLE_S, WAIT_S:
-        begin
-          if( data_val_i && data_mod_i != 1 && data_mod_i != 2 )
-            next_state = TRANSACTION_S;
-          else
-            next_state = WAIT_S;
-        end
-      TRANSACTION_S:
-        begin
-          if( transaction_remain_cnt == 0 )
-            next_state = WAIT_S;
-          else
-            next_state = TRANSACTION_S;
-        end
-      default:
-        begin
-          next_state = IDLE_S;
-        end
-    endcase 
-  end
-
-// #3 - output values set
-always_comb
-  begin
-    busy_o         = ( state == TRANSACTION_S );
-    ser_data_val_o = ( state == TRANSACTION_S ) && ( transaction_remain_cnt > 0 || data_mod_i == 0 );
-    ser_data_o     = data_i[ ( data_mod_i == 0 ? 15 : data_mod_i ) - transaction_remain_cnt ];
-  end
+  assign busy_o         = transaction_itr < data_mod_buffered || data_val_i;
+  assign ser_data_val_o = transaction_itr < data_mod_buffered || (transaction_itr == 4'd15 && data_mod_i == 4'd0);
+  assign ser_data_o     = data_buffered[ transaction_itr ];
 
 endmodule

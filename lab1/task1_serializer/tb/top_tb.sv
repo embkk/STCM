@@ -1,36 +1,27 @@
 module top_tb;
 
-parameter CLK_PERIOD = 5;
+  parameter CLK_PERIOD = 5;
 
-// init before simulation without any sim event
-logic clk = 1'b0;
-logic rst = 1'b0;
+  logic clk = 1'b0;
 
-initial
-  begin
+  serializer_if serializer_bus (.clk(clk));
 
-    // reset
-    repeat(2) @(posedge clk);
-    rst <= 1'b1;
+  serializer dut_inst (
+      .clk_i         (serializer_bus.clk),
+      .srst_i        (serializer_bus.srst),
+      .data_i        (serializer_bus.data),
+      .data_mod_i    (serializer_bus.data_mod),
+      .data_val_i    (serializer_bus.data_val),
+      .ser_data_o    (serializer_bus.ser_data),
+      .ser_data_val_o(serializer_bus.ser_data_val),
+      .busy_o        (serializer_bus.busy)
+  );
 
-    // idle
-    repeat(2) @(posedge clk);
-    rst <= 1'b0;
-    
-    // wait for test end
-    wait(testbench_pkg::testbench_all_finished);
 
-    testbench_pkg::testbench_print_stats();
-    
-    $stop;
-  end
+  test test_inst (serializer_bus);
 
-always #CLK_PERIOD clk = ~clk;
+  always #CLK_PERIOD clk = ~clk;
 
-// -- Testbench modules --
-serializer_tb serializer_tb_inst (
-  .clk_i          ( clk ),
-  .rst_i          ( rst )
-);
-  
+  final $display("Testbench finished.");
+
 endmodule
