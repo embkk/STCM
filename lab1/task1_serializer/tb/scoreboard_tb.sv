@@ -25,7 +25,7 @@ class Scoreboard;
         if(tr_expected.len == tr_sample.val_count)
           begin
             passed++;
-            if(testbench_pkg::PASSED_RESULT_PRINT)
+            if(`PASSED_RESULT_PRINT)
               $display("+ [Scoreboard] Passed sample len %0d expexted tr data_mod %0d | data %b", tr_sample.val_count, tr_expected.data_mod, tr_expected.data);
           end
         else

@@ -18,7 +18,7 @@ class Driver;
         gen2drv.get(tr);
         drv2scb.put(tr);
 
-        if( testbench_pkg::DEBUG_PRINT )
+        if( `DEBUG_PRINT )
           $display("[Driver] %s", tr.to_string());
 
         vif.drv_cb.data     <= tr.data;

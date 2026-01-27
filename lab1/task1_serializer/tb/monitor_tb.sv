@@ -39,7 +39,7 @@ class Monitor #(int TIMEOUT = 2000);
             sample_count++;
             mon2scb.put(smp);
 
-            if( testbench_pkg::DEBUG_PRINT )
+            if( `DEBUG_PRINT )
               $display("[MON] %0d sample ready %s", sample_count, smp.to_string());
 
             smp = null;

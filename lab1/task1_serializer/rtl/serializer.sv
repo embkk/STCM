@@ -32,12 +32,12 @@ always_ff @( posedge clk_i )
           end
         else if( data_val_i && data_mod_i != 1 && data_mod_i != 2 )
           begin
-            data_buffered           <=  {<<{data_i}};
+            for (int i = 0; i < 16; i++)
+            begin
+              data_buffered[i] <= data_i[15-i];
+            end
             data_mod_buffered       <=  data_mod_i == 4'd0 ? 4'd15 : data_mod_i;
             transaction_itr         <=  4'd0;
-
-            if(testbench_pkg::DEBUG_PRINT)
-              $display("[DUT] Started transaction with data_mod_i %0d", data_mod_i);
 
           end
         else
