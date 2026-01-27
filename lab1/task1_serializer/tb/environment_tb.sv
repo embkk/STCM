@@ -40,7 +40,7 @@ class Environment #(
     assert (vif != null)
     else $fatal(1, "[ENV] Virtual interface (vif) is NULL!");
 
-    $display("[ENV] Run..");
+    $display("[ENV] Run %0d transactions", num_transactions);
 
     vif.reset();
 

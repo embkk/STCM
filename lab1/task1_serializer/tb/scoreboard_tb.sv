@@ -26,9 +26,9 @@ class Scoreboard;
         passed = tr_expected.len == tr_sample.val_count;
 
         if(!passed)
-          $display("\n[Scoreboard] Failed compare\n%s\n%s\n", tr_expected.to_string(), tr_sample.to_string());
+          $error("\n[Scoreboard] Failed compare\n%s\n%s\n", tr_expected.to_string(), tr_sample.to_string());
         else
-          $display("[Scoreboard] Passed %0d bits as expected %b", tr_sample.val_count, tr_expected.data);
+          $display("+ [Scoreboard] Passed %0d bits as expected %b", tr_sample.val_count, tr_expected.data);
       end
 
     $stop;

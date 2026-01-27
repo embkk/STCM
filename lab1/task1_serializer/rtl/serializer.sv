@@ -51,7 +51,7 @@ always_ff @( posedge clk_i )
 
 always_comb
   begin
-    busy_o         = transaction_itr < data_mod_buffered;
+    busy_o         = transaction_itr < data_mod_buffered || data_val_i;
     ser_data_val_o = transaction_itr < data_mod_buffered;
     ser_data_o     = data_buffered[ transaction_itr ];
 

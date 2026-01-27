@@ -28,7 +28,7 @@ class Driver;
         vif.cb.data_val <= 1'b0;
         @(vif.cb);
 
-        @(!vif.cb.busy);
+        wait(!vif.cb.busy);
 
         tr = null;
       end

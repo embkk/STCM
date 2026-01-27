@@ -23,6 +23,8 @@ class Monitor #(int TIMEOUT = 1000);
         @vif.cb;
         mon_count++;
 
+        //$display(mon_count);
+
         if(vif.cb.ser_data_val)
           smp.add(vif.cb.ser_data);
 
@@ -30,7 +32,7 @@ class Monitor #(int TIMEOUT = 1000);
           begin
             sample_count++;
             mon2scb.put(smp);
-            //$display("[MON] %0d sample ready %s", sample_count, smp.to_string());
+            $display("[MON] %0d sample ready %s", sample_count, smp.to_string());
             smp = null;
           end
       end
