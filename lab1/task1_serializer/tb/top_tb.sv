@@ -22,6 +22,4 @@ module top_tb;
 
   always #CLK_PERIOD clk = ~clk;
 
-  final $display("Testbench finished.");
-
 endmodule
