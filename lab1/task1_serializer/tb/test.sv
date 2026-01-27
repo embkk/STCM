@@ -1,4 +1,6 @@
-module test(serializer_if vif);
+module test (
+    serializer_if vif
+);
   import testbench_pkg::*;
 
   typedef virtual serializer_if v_ser_if;

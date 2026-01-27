@@ -1,6 +1,8 @@
-interface serializer_if(input logic clk);
+interface serializer_if (
+    input logic clk
+);
   logic [15:0] data;
-  logic [3:0]  data_mod;
+  logic [ 3:0] data_mod;
   logic        data_val;
   logic        ser_data;
   logic        ser_data_val;
@@ -10,24 +12,17 @@ interface serializer_if(input logic clk);
   default clocking cb @(posedge clk);
     default input #1ns output #1ns;
     output data, data_mod, data_val, srst;
-    input  ser_data, ser_data_val, busy;
+    input ser_data, ser_data_val, busy;
   endclocking
 
-  modport DUT (
-    input  data, data_mod, data_val, srst, clk,
-    output ser_data, ser_data_val, busy
+  modport DUT(input data, data_mod, data_val, srst, clk, output ser_data, ser_data_val, busy);
+
+  modport DRIVER(clocking cb,
+      import task reset(),
+      import task send(input logic [15:0] d, input logic [3:0] m)
   );
 
-  modport DRIVER (
-    clocking cb,
-    import task reset(),
-    import task send(input logic [15:0] d, input logic [3:0] m)
-  );
-
-  modport MONITOR (
-    clocking cb,
-    import task receive(output logic d_ser, output logic v_ser)
-  );
+  modport MONITOR(clocking cb, import task receive(output logic d_ser, output logic v_ser));
 
   task reset();
     cb.srst <= 1'b1;
@@ -37,7 +32,7 @@ interface serializer_if(input logic clk);
   endtask
 
   task send(input logic [15:0] data, input logic [3:0] len);
-    while(cb.busy === 1'b1) @(cb);
+    while (cb.busy === 1'b1) @(cb);
     cb.data     <= data;
     cb.data_mod <= len;
     cb.data_val <= 1'b1;
