@@ -34,8 +34,11 @@ class Driver;
 
         wait(!vif.drv_cb.busy);
 
-        // transaction sent event
-        -> e_tr_end;
+        -> e_tr_sent;
+
+        repeat(DRIVER_SYNC_DELAY)
+          @(vif.drv_cb);
+
 
         tr = null;
       end

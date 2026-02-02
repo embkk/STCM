@@ -11,7 +11,7 @@ class Scoreboard;
   extern function bit compare_expected(Transaction tr, Sample smp);
 
   function print_result(Transaction tr, Sample smp, string desc);
-    $display("\n[Scoreboard] %s\n%s\n%s\n", desc, tr.to_string(), smp.to_string());
+    $display("\n[Scoreboard] %s\n%s\n%s\n---\n", desc, tr.to_string(), smp.to_string());
   endfunction
 
 endclass

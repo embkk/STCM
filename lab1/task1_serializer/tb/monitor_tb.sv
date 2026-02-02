@@ -1,49 +1,65 @@
-class Monitor #(int TIMEOUT = 2000);
+class Monitor;
   virtual serializer_if.MONITOR vif;
   mailbox #(Sample) mon2scb;
-
-  function new(virtual serializer_if.MONITOR vif_i, mailbox#(Sample) mon2scb);
-    this.vif = vif_i;
-    this.mon2scb = mon2scb;
-  endfunction
 
   Sample smp;
   int mon_count;
   int sample_count;
   int busy_count;
 
-  function automatic void start_sample();
-    smp = new();
-    mon_count = 0;
-    busy_count = 0;
-  endfunction
+  extern function new(virtual serializer_if.MONITOR vif_i, mailbox#(Sample) mon2scb);
 
-  task run(int num_transactions);
-    while(sample_count<num_transactions)
-      begin
-        if(smp == null)
-          start_sample();
+  extern task start_sample();
 
-        @vif.mon_cb;
+  extern task run(int num_transactions);
 
-        if(vif.mon_cb.busy)
-          busy_count++;
+  extern task force_timeout();
 
-        mon_count++;
-
-        if(vif.mon_cb.ser_data_val)
-          smp.add(vif.mon_cb.ser_data);
-
-        if(mon_count>TIMEOUT || (busy_count && !vif.mon_cb.busy) )
-          begin
-            sample_count++;
-            mon2scb.put(smp);
-
-            if( `DEBUG_PRINT )
-              $display("[MON] %0d sample ready %s", sample_count, smp.to_string());
-
-            smp = null;
-          end
-      end
-  endtask
 endclass
+
+function Monitor::new(virtual serializer_if.MONITOR vif_i, mailbox#(Sample) mon2scb);
+  this.vif = vif_i;
+  this.mon2scb = mon2scb;
+endfunction
+
+task Monitor::start_sample();
+
+  if(smp != null)
+    begin
+      sample_count++;
+      mon2scb.put(smp);
+    end
+
+  smp = new();
+  mon_count = 0;
+
+endtask
+
+task Monitor::run(int num_transactions);
+  start_sample();
+
+  while(sample_count<num_transactions)
+    begin
+      @vif.mon_cb;
+
+      mon_count++;
+
+      if(vif.mon_cb.ser_data_val)
+        smp.add(vif.mon_cb.ser_data);
+
+      if( !vif.mon_cb.ser_data_val && smp.val_count > 0 )
+        begin
+          if( `DEBUG_PRINT )
+            $display("[MON] %0d sample ready %s", sample_count, smp.to_string());
+
+          //start_sample();
+        end
+    end
+endtask
+
+task Monitor::force_timeout();
+  if( `DEBUG_PRINT )
+    $display("[MON] %0d sample timeout", sample_count);
+
+  start_sample();
+endtask
