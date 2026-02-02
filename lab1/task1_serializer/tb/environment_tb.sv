@@ -49,6 +49,11 @@ class Environment #(
       drv.run(num_transactions);
       mon.run(num_transactions);
       scb.run(num_transactions);
+
+      forever begin
+        @(drv.e_tr_sent);
+        mon.force_timeout();
+      end
     join_none
 
   endtask

@@ -3,6 +3,8 @@ class Driver;
   virtual serializer_if.DRIVER vif;
   mailbox #(Transaction) gen2drv, drv2scb;
 
+  event e_tr_sent;
+
   function new( virtual serializer_if.DRIVER vif_i, mailbox#(Transaction) gen2drv, drv2scb);
     this.vif = vif_i;
     this.gen2drv = gen2drv;
@@ -31,6 +33,9 @@ class Driver;
         @(vif.drv_cb);
 
         wait(!vif.drv_cb.busy);
+
+        // transaction sent event
+        -> e_tr_end;
 
         tr = null;
       end

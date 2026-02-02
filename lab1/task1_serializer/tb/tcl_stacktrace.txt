@@ -14,3 +14,13 @@ Trace back: bad window path name ""
     (command bound to event)
   <2:/opt/fpga/quartus/18.1/modelsim_ase/linuxaloem/tk8.5/bgerror.tcl:92: ::tkerror {bad window path name ""}
   <1:proc:38: ::tk::dialog::error::bgerror {bad window path name ""}
+Mon Feb 02 12:06:15 +0000 2026
+Trace back: invalid command name ".main_pane.wave.interior.cs.body.pw.wf.grid.row0,wave.data"
+    while executing
+"$widget index @$x,$y"
+    (procedure "WaveABar::mouseMotionUpdate" line 19)
+    invoked from within
+"WaveABar::mouseMotionUpdate .main_pane.wave.interior.cs.body.pw.wf.grid.row0,wave.data .main_pane.wave.interior.cs.body.pw.wf 176 756"
+    ("after" script)
+  <2:/opt/fpga/quartus/18.1/modelsim_ase/linuxaloem/tk8.5/bgerror.tcl:92: ::tkerror {invalid command name ".main_pane.wave.interior.cs.body.pw.wf.grid.row0,wave.data"}
+  <1:eval:1: ::tk::dialog::error::bgerror {invalid command name ".main_pane.wave.interior.cs.body.pw.wf.grid.row0,wave.data"}
