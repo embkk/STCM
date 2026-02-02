@@ -39,6 +39,8 @@ class Driver;
         @(vif.drv_cb);
 
         vif.drv_cb.data_val <= 1'b0;
+        vif.drv_cb.data     <= 'x;
+        vif.drv_cb.data_mod <= 'x;
 
         @(vif.drv_cb);
 

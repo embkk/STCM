@@ -4,6 +4,7 @@ class Scoreboard;
   semaphore drv_sem;
 
   int passed_count;
+  int tr_count;
 
   extern function new(mailbox#(Transaction) drv2scb, mailbox #(Sample) mon2scb, semaphore drv_sem);
 
@@ -36,13 +37,16 @@ task Scoreboard::run();
       join
 
       drv_sem.put(1);
+      tr_count++;
 
       if( compare_expected( drv_tr, mon_sample ) )
         passed_count++;
 
-      if(passed_count==`NUM_TRANSACTIONS)
+      $display("%0d %0d", passed_count, `NUM_TRANSACTIONS);
+
+      if(tr_count == `NUM_TRANSACTIONS)
         begin
-          $display("\nTests finished. passed_count %0d/%0d", passed_count, `NUM_TRANSACTIONS);
+          $display("\nTests finished. passed_count %0d/%0d", passed_count, tr_count);
           $stop;
         end
     end
