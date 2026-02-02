@@ -39,8 +39,8 @@ always_ff @( posedge clk_i )
     data_buffered <= reverse_bits(data_i);
 
 
-assign busy_o         = tr_itr < tr_len || data_val_i;
-assign ser_data_val_o = tr_itr < tr_len || (tr_itr == 5'd15 && tr_len == 5'd16);
+assign busy_o         = tr_itr < tr_len;
+assign ser_data_val_o = tr_itr < tr_len;
 assign ser_data_o     = data_buffered[ tr_itr ];
 
 function logic[15:0] reverse_bits(logic[15:0] data_in);
