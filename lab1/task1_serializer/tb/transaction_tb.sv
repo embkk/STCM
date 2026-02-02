@@ -5,31 +5,32 @@ class Transaction;
   bit [3:0]  data_mod;
   bit [4:0]  len;
 
-  static int crand;
+  static int crand = 3;
 
-  function new();
-    id = ++id_inc;
-  endfunction
-
-
-
-  function int randomize_free();
-    this.data = $urandom();
-
-    this.data_mod  = crand;
-    crand++;
-
-    case (data_mod)
-      0       : this.len = 16;
-      1, 2    : this.len = 0;
-      default : this.len = data_mod;
-    endcase
-
-    return 1;
-
-  endfunction
+  extern function new();
+  extern function bit randomize_free();
 
   function string to_string();
     return $sformatf("TRANSACTION #%0d %b data_mod %0d length %0d", this.id, this.data, this.data_mod, this.len);
   endfunction
+
 endclass
+
+function Transaction::new();
+  id = ++id_inc;
+endfunction
+
+function bit Transaction::randomize_free();
+  this.data = $urandom();
+
+  this.data_mod  = crand;
+  crand++;
+
+  case (data_mod)
+    0       : this.len = 16;
+    1, 2    : this.len = 0;
+    default : this.len = data_mod;
+  endcase
+
+  return 1;
+endfunction
