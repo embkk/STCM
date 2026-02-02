@@ -2,6 +2,8 @@ class Monitor;
   virtual serializer_if.MONITOR vif;
   mailbox #(Sample) mon2scb;
 
+  event e_sample_sent;
+
   Sample smp;
   int mon_count;
   int sample_count;
@@ -11,9 +13,7 @@ class Monitor;
 
   extern task start_sample();
 
-  extern task run(int num_transactions);
-
-  extern task force_timeout();
+  extern task run();
 
 endclass
 
@@ -28,6 +28,7 @@ task Monitor::start_sample();
     begin
       sample_count++;
       mon2scb.put(smp);
+      -> e_sample_sent;
     end
 
   smp = new();
@@ -35,10 +36,10 @@ task Monitor::start_sample();
 
 endtask
 
-task Monitor::run(int num_transactions);
+task Monitor::run();
   start_sample();
 
-  while(sample_count<num_transactions)
+  forever
     begin
       @vif.mon_cb;
 
@@ -47,19 +48,12 @@ task Monitor::run(int num_transactions);
       if(vif.mon_cb.ser_data_val)
         smp.add(vif.mon_cb.ser_data);
 
-      if( !vif.mon_cb.ser_data_val && smp.val_count > 0 )
+      if(mon_count>`SYNC_TIMEOUT_DELAY || (!vif.mon_cb.ser_data_val && smp.val_count > 0) )
         begin
           if( `DEBUG_PRINT )
             $display("[MON] %0d sample ready %s", sample_count, smp.to_string());
 
-          //start_sample();
+          start_sample();
         end
     end
-endtask
-
-task Monitor::force_timeout();
-  if( `DEBUG_PRINT )
-    $display("[MON] %0d sample timeout", sample_count);
-
-  start_sample();
 endtask

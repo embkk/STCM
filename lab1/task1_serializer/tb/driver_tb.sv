@@ -4,18 +4,25 @@ class Driver;
   mailbox #(Transaction) gen2drv, drv2scb;
 
   event e_tr_sent;
+  semaphore drv_sem;
 
-  function new( virtual serializer_if.DRIVER vif_i, mailbox#(Transaction) gen2drv, drv2scb);
+  function new( virtual serializer_if.DRIVER vif_i, mailbox#(Transaction) gen2drv, drv2scb, semaphore drv_sem);
     this.vif = vif_i;
     this.gen2drv = gen2drv;
     this.drv2scb = drv2scb;
+    this.drv_sem = drv_sem;
   endfunction
 
-  task run(input int num_transactions);
+  task run();
     Transaction tr;
 
-    repeat(num_transactions)
+    forever
       begin
+
+        drv_sem.get(1);
+
+        while(vif.drv_cb.busy)
+            @(vif.drv_cb);
 
         gen2drv.get(tr);
         drv2scb.put(tr);
@@ -27,18 +34,15 @@ class Driver;
         vif.drv_cb.data_mod <= tr.data_mod;
 
         vif.drv_cb.data_val <= 1'b1;
+
+        -> e_tr_sent;
         @(vif.drv_cb);
 
         vif.drv_cb.data_val <= 1'b0;
+
         @(vif.drv_cb);
 
-        wait(!vif.drv_cb.busy);
-
-        -> e_tr_sent;
-
-        repeat(DRIVER_SYNC_DELAY)
-          @(vif.drv_cb);
-
+        //ожидание от енв?
 
         tr = null;
       end

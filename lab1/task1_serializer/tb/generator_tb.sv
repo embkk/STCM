@@ -5,14 +5,14 @@ class Generator;
     this.gen2drv = gen2drv;
   endfunction
 
-  task run(input int num_transactions);
+  task run(int num_transactions);
     repeat (num_transactions)
-    begin
-      Transaction tr;
-      tr = new();
-      if (!tr.randomize_free()) $fatal("Randomize failed");
-      gen2drv.put(tr);
-    end
+      begin
+        Transaction tr;
+        tr = new();
+        if (!tr.randomize_free()) $fatal("Randomize failed");
+        gen2drv.put(tr);
+      end
   endtask
 
 endclass
