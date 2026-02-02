@@ -53,24 +53,3 @@ class Environment #(
 
   endtask
 endclass
-
-
-
-/*The Generator, Agent, Driver, Monitor, Checker, and Scoreboard are
-all classes, modeled as transactors (described below). They are instantiated inside
-the Environment class. For simplicity, the test is at the top of the hierarchy, as is the
-program that instantiates the Environment class. The Functional coverage defini-
-tions can be put inside or outside the Environment class. See Section 1.10 for a
-description of the layered verification environment and its components.
-A transactor is made of a simple loop that receives a transaction obje
-
-
-what to randomize
-Device configuration
-Environment configuration
-Primary input data
-Encapsulated input data
-Protocol exceptions
-Delays
-Transaction status
-Errors and violations*/

@@ -10,13 +10,11 @@ interface serializer_if (
   logic        srst;
 
   default clocking drv_cb @(posedge clk);
-    default input #1step output #0;
     output data, data_mod, data_val, srst;
     input  busy;
   endclocking
 
   clocking mon_cb @(posedge clk);
-    default input #1step output #0;
     input ser_data, ser_data_val, data_val, busy;
   endclocking
 
