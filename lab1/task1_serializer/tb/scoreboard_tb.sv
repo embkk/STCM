@@ -10,8 +10,8 @@ class Scoreboard;
 
   extern function bit compare_expected(Transaction tr, Sample smp);
 
-  function print_error(Transaction tr, Sample smp, string error);
-    $display("\n[Scoreboard] %s\n%s\n%s\n", error, tr.to_string(), smp.to_string());
+  function print_result(Transaction tr, Sample smp, string desc);
+    $display("\n[Scoreboard] %s\n%s\n%s\n", desc, tr.to_string(), smp.to_string());
   endfunction
 
 endclass
@@ -48,12 +48,12 @@ function bit Scoreboard::compare_expected(Transaction tr, Sample smp);
   if(tr.len == smp.val_count)
     begin
       if(`PASSED_RESULT_PRINT)
-        $display("+ [Scoreboard] passed_count sample len %0d expexted tr data_mod %0d | data %b", smp.val_count, tr.data_mod, tr.data);
+        print_result(tr, smp, "OK");
     end
   else
     begin
       compare_result = 0;
-      print_error(tr, smp, "Unexpected length");
+      print_result(tr, smp, "Error - Unexpected length");
     end
 
   return compare_result;
