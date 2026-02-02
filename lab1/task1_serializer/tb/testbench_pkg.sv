@@ -1,8 +1,8 @@
 package testbench_pkg;
   `define DEBUG_PRINT 0
-  `define PRINT_PASSED_RESULTS 1
+  `define PRINT_PASSED_RESULTS 0
   `define SYNC_TIMEOUT_DELAY 16
-  `define NUM_TRANSACTIONS 30
+  `define NUM_TRANSACTIONS 330
 
   `include "transaction_tb.sv"
   `include "sample_tb.sv"

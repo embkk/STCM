@@ -42,8 +42,6 @@ task Scoreboard::run();
       if( compare_expected( drv_tr, mon_sample ) )
         passed_count++;
 
-      $display("%0d %0d", passed_count, `NUM_TRANSACTIONS);
-
       if(tr_count == `NUM_TRANSACTIONS)
         begin
           $display("\nTests finished. passed_count %0d/%0d", passed_count, tr_count);
@@ -53,18 +51,26 @@ task Scoreboard::run();
 endtask
 
 function bit Scoreboard::compare_expected(Transaction tr, Sample smp);
-  bit compare_result = 1;
 
   if(tr.len == smp.val_count)
     begin
+      bit unexpected = 0;
+      for(int i=0; i<tr.len; i++)
+        if(tr.data[15-i] != smp.data[i])
+          begin
+            print_result(tr, smp, "OK");
+            return 0;
+          end
+
       if(`PRINT_PASSED_RESULTS)
         print_result(tr, smp, "OK");
     end
   else
     begin
-      compare_result = 0;
       print_result(tr, smp, "Error - Unexpected length");
+      return 0;
     end
 
-  return compare_result;
+  return 1;
+
 endfunction

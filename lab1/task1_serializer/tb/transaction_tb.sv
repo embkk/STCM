@@ -5,7 +5,7 @@ class Transaction;
   bit [3:0]  data_mod;
   bit [4:0]  len;
 
-  static int crand;
+  static int crand = 3;
 
   extern function new();
   extern function bit randomize_free();
