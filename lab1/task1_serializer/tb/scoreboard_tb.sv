@@ -58,7 +58,7 @@ function bit Scoreboard::compare_expected(Transaction tr, Sample smp);
       for(int i=0; i<tr.len; i++)
         if(tr.data[15-i] != smp.data[i])
           begin
-            print_result(tr, smp, "OK");
+            print_result(tr, smp, "Error - unexpected content");
             return 0;
           end
 
