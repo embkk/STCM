@@ -9,8 +9,8 @@ module serializer (
   output  logic         busy_o
 );
 
-logic[4:0]   tr_itr    = '0;
-logic[4:0]   tr_len    = '0;
+logic[4:0]   tr_itr;
+logic[4:0]   tr_len;
 logic[15:0]  data_buffered;
 
 always_ff @( posedge clk_i )
