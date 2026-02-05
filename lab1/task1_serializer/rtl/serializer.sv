@@ -29,23 +29,17 @@ always_ff @(posedge clk_i)
     tr_mask <= tr_mask << 1;
 
 always_ff @( posedge clk_i )
-  if( srst_i )
-    data_buffered <= '1;
-  else if ( data_val_i )  
+  if ( data_val_i )  
     data_buffered <= data_i;
   else
     data_buffered <= data_buffered << 1;
 
-assign
-  tr_act = tr_mask[15];
+assign tr_act = tr_mask[15];
 
-assign 
-  ser_data_o = data_buffered[15];
+assign ser_data_o = data_buffered[15];
 
-assign
-  ser_data_val_o = tr_act;
-
-assign
-  busy_o = tr_act;
+assign ser_data_val_o = tr_act;
+ 
+assign busy_o = tr_act;
 
 endmodule
