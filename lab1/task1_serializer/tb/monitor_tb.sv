@@ -1,4 +1,4 @@
-class Monitor;
+class Monitor #(parameter SYNC_TIMEOUT_DELAY = 16);
   virtual serializer_if.MONITOR vif;
   mailbox #(Sample) mon2scb;
 
@@ -48,7 +48,7 @@ task Monitor::run();
       if(vif.mon_cb.ser_data_val)
         smp.add(vif.mon_cb.ser_data);
 
-      if(mon_count>`SYNC_TIMEOUT_DELAY || (!vif.mon_cb.ser_data_val && smp.val_count > 0) )
+      if(mon_count>SYNC_TIMEOUT_DELAY || (!vif.mon_cb.ser_data_val && smp.val_count > 0) )
         begin
           if( `DEBUG_PRINT )
             $display("[MON] %0d sample ready %s", sample_count, smp.to_string());
