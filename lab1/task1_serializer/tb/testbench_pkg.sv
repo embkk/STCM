@@ -1,7 +1,6 @@
 package testbench_pkg;
   `define DEBUG_PRINT 0
   `define PRINT_PASSED_RESULTS 0
-  `define NUM_TRANSACTIONS 160
 
   `include "transaction_tb.sv"
   `include "sample_tb.sv"

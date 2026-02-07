@@ -27,7 +27,7 @@ class Environment #(
   function void build();
     assert (vif != null)
     else $fatal(1, "[ENV] Virtual interface (vif) is NULL!");
-    
+
     gen = new(.gen2drv(gen2drv));
 
     drv = new(.vif_i(vif),
@@ -43,19 +43,21 @@ class Environment #(
               .drv_sem(drv_sem));
   endfunction
 
-  task run();
-    
-
-    $display("[ENV] Run %0d transactions", `NUM_TRANSACTIONS);
+  task run(int num_transactions);
+    $display("[ENV] Run %0d transactions", num_transactions);
 
     vif.reset();
 
     fork
-      gen.run(`NUM_TRANSACTIONS);
+      gen.run(num_transactions);
       drv.run();
       mon.run();
       scb.run();
-    join_none
+    join_any
+
+    wait(scb.tr_count == num_transactions);
+
+    scb.print_report();
 
   endtask
 endclass

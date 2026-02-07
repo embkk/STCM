@@ -18,7 +18,9 @@ module top_tb;
   );
 
 
-  test test_inst (serializer_bus);
+  test #(.NUM_TRANSACTIONS(500)) test_inst (
+    .vif(serializer_bus)
+  );
 
   always #CLK_PERIOD clk = ~clk;
 

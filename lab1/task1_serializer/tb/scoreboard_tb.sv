@@ -16,6 +16,10 @@ class Scoreboard;
     $display("\n[Scoreboard] %s\n%s\n%s\n---\n", desc, tr.to_string(), smp.to_string());
   endfunction
 
+  function void print_report();
+    $display("\n[Scoreboard] Report. TR passed: %0d, TR total: %0d", passed_count, tr_count);
+  endfunction
+
 endclass
 
 function Scoreboard::new(mailbox#(Transaction) drv2scb, mailbox #(Sample) mon2scb, semaphore drv_sem);
@@ -41,12 +45,9 @@ task Scoreboard::run();
 
       if( compare_expected( drv_tr, mon_sample ) )
         passed_count++;
+      else 
+        $stop;
 
-      if(tr_count == `NUM_TRANSACTIONS)
-        begin
-          $display("\nTests finished. passed_count %0d/%0d", passed_count, tr_count);
-          $stop;
-        end
     end
 endtask
 
