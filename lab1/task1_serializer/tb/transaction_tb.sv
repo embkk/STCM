@@ -3,7 +3,6 @@ class Transaction;
   int        id;
   bit [15:0] data;
   bit [3:0]  data_mod;
-  bit [4:0]  len;
 
   static int crand = 3;
 
@@ -11,7 +10,7 @@ class Transaction;
   extern function bit randomize_free();
 
   function string to_string();
-    return $sformatf("TRANSACTION #%0d %b data_mod %0d length %0d", this.id, this.data, this.data_mod, this.len);
+    return $sformatf("TRANSACTION #%0d %b data_mod %0d", this.id, this.data, this.data_mod);
   endfunction
 
 endclass
@@ -25,12 +24,6 @@ function bit Transaction::randomize_free();
 
   this.data_mod  = crand;
   crand++;
-
-  case (data_mod)
-    0       : this.len = 16;
-    1, 2    : this.len = 0;
-    default : this.len = data_mod;
-  endcase
 
   return 1;
 endfunction

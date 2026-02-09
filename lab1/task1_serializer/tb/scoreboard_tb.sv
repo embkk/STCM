@@ -52,11 +52,19 @@ task Scoreboard::run();
 endtask
 
 function bit Scoreboard::compare_expected(Transaction tr, Sample smp);
+  
+  int tr_len;
 
-  if(tr.len == smp.val_count)
+  case (tr.data_mod)
+    0       : tr_len = 16;
+    1, 2    : tr_len = 0;
+    default : tr_len = tr.data_mod;
+  endcase
+
+  if(tr_len == smp.val_count)
     begin
       bit unexpected = 0;
-      for(int i=0; i<tr.len; i++)
+      for(int i=0; i<tr_len; i++)
         if(tr.data[15-i] != smp.data[i])
           begin
             print_result(tr, smp, "Error - unexpected content");
