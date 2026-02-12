@@ -1,4 +1,4 @@
-module serializer (
+module deserializer (
   input   logic         clk_i,
   input   logic         srst_i,
   input   logic         data_i,

@@ -1,5 +1,5 @@
 class Monitor;
-  virtual serializer_if.MONITOR vif;
+  virtual deserializer_if.MONITOR vif;
   mailbox #(Sample) mon2scb;
 
   event e_sample_sent;
@@ -7,7 +7,7 @@ class Monitor;
   Sample smp;
   int sample_count = 1;
 
-  extern function new(virtual serializer_if.MONITOR vif_i, mailbox#(Sample) mon2scb);
+  extern function new(virtual deserializer_if.MONITOR vif_i, mailbox#(Sample) mon2scb);
 
   extern task start_sample();
 
@@ -15,7 +15,7 @@ class Monitor;
 
 endclass
 
-function Monitor::new(virtual serializer_if.MONITOR vif_i, mailbox#(Sample) mon2scb);
+function Monitor::new(virtual deserializer_if.MONITOR vif_i, mailbox#(Sample) mon2scb);
   this.vif = vif_i;
   this.mon2scb = mon2scb;
 endfunction
@@ -41,7 +41,7 @@ task Monitor::run();
     begin
       @vif.mon_cb;
 
-      if(vif.mon_cb.ser_data_val || vif.mon_cb.busy)
+      /*if(vif.mon_cb.ser_data_val || vif.mon_cb.busy)
         smp.add(vif.mon_cb.ser_data_val, vif.mon_cb.ser_data, vif.mon_cb.busy);
 
       if( !vif.mon_cb.ser_data_val && smp.val_count > 0 )
@@ -50,6 +50,6 @@ task Monitor::run();
             $display("[MON] %0d sample ready %s", sample_count, smp.to_string());
 
           start_sample();
-        end
+        end*/
     end
 endtask

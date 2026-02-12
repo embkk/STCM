@@ -1,9 +1,9 @@
 module test #(parameter int NUM_TRANSACTIONS = 100) (
-    serializer_if vif
+    deserializer_if vif
 );
   import testbench_pkg::*;
 
-  typedef virtual serializer_if v_ser_if;
+  typedef virtual deserializer_if v_ser_if;
 
   Environment #(.IF_T(v_ser_if)) env;
 

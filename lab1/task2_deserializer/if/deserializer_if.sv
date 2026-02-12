@@ -1,4 +1,4 @@
-interface serializer_if (
+interface deserializer_if (
     input logic clk
 );
   logic        srst;
