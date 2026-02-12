@@ -2,6 +2,8 @@ class Scoreboard #(parameter MAX_BUSY_COUNT = 16, MAX_VALID_COUNT = 16);
   mailbox #(Transaction) drv2scb;
   mailbox #(Sample) mon2scb;
 
+  Transaction ref_queue[$];
+
   int tr_passed;
   int tr_total;
   int tr_skipped;
@@ -31,29 +33,44 @@ task Scoreboard::run();
   Transaction drv_tr;
   Sample mon_sample;
 
-  forever
-    begin
+  fork
+    forever
+      begin
+        
+        drv2scb.get(drv_tr);
 
-      drv2scb.get(drv_tr);
+        if(drv_tr.data_mod inside {1,2})
+          begin
+            tr_skipped++;
+            tr_total++;
+            continue;
+          end
+        
+        ref_queue.push_back(drv_tr);
+      end
+    forever
+      begin
+        mon2scb.get(mon_sample);
 
-      if(drv_tr.data_mod inside {1,2})
-        begin
-          tr_skipped++;
-          tr_total++;
-          continue;
-        end
+        if (ref_queue.size() == 0)
+          begin
+            $display("ERROR: Unexpected sample: %p", mon_sample.to_string());
+            $stop;
+          end
 
-      mon2scb.get(mon_sample);
+        drv_tr = ref_queue.pop_front();
 
-      if( compare_expected( drv_tr, mon_sample ) )
-        begin
+        if( compare_expected( drv_tr, mon_sample ) )
           tr_passed++;
-          tr_total++;
-        end
-      else
-        $stop;
+        else
+          $stop;
 
-    end
+        tr_total++;
+
+        drv_tr = null;
+
+      end
+  join
 endtask
 
 function bit Scoreboard::compare_expected(Transaction tr, Sample smp);
