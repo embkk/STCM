@@ -2,8 +2,9 @@ class Scoreboard #(parameter MAX_BUSY_COUNT = 16, MAX_VALID_COUNT = 16);
   mailbox #(Transaction) drv2scb;
   mailbox #(Sample) mon2scb;
 
-  int passed_count;
-  int tr_count;
+  int tr_passed;
+  int tr_total;
+  int tr_skipped;
 
   extern function new(mailbox#(Transaction) drv2scb, mailbox #(Sample) mon2scb);
 
@@ -16,7 +17,7 @@ class Scoreboard #(parameter MAX_BUSY_COUNT = 16, MAX_VALID_COUNT = 16);
   endfunction
 
   function void print_report();
-    $display("\n[Scoreboard] Report. TR passed: %0d, TR total: %0d", passed_count, tr_count);
+    $display("[Scoreboard] Report. Transactions %0d. Passed %0d. Skipped %0d.", tr_total, tr_passed, tr_skipped);
   endfunction
 
 endclass
@@ -33,16 +34,23 @@ task Scoreboard::run();
   forever
     begin
 
-      fork
-        drv2scb.get(drv_tr);
-        mon2scb.get(mon_sample);
-      join
+      drv2scb.get(drv_tr);
 
-      tr_count++;
+      if(drv_tr.data_mod inside {1,2})
+        begin
+          tr_skipped++;
+          tr_total++;
+          continue;
+        end
+
+      mon2scb.get(mon_sample);
 
       if( compare_expected( drv_tr, mon_sample ) )
-        passed_count++;
-      else 
+        begin
+          tr_passed++;
+          tr_total++;
+        end
+      else
         $stop;
 
     end

@@ -53,7 +53,9 @@ class Environment #(
       scb.run();
     join_any
 
-    wait(scb.tr_count == num_transactions);
+    wait(scb.tr_total == num_transactions);
+
+    $display("[ENV] All transactions processed.");
 
     scb.print_report();
 

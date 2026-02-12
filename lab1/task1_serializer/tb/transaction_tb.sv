@@ -6,7 +6,7 @@ class Transaction #(parameter TR_MAX_LENGTH = 16);
 
   int gap;
 
-  static int crand = 3;
+  static int crand = 0;
 
   extern function new();
   extern function bit randomize_free();

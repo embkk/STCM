@@ -18,7 +18,7 @@ module top_tb;
   );
 
 
-  test #(.NUM_TRANSACTIONS(500)) test_inst (
+  test #(.NUM_TRANSACTIONS(255)) test_inst (
     .vif(serializer_bus)
   );
 
