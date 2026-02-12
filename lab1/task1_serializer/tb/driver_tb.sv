@@ -41,6 +41,8 @@ class Driver;
         vif.drv_cb.data     <= 'x;
         vif.drv_cb.data_mod <= 'x;
 
+        @(vif.drv_cb);
+
         repeat(tr.gap) @(vif.drv_cb);
 
         tr = null;
