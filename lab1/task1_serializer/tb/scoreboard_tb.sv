@@ -1,12 +1,11 @@
-class Scoreboard;
+class Scoreboard #(parameter MAX_BUSY_COUNT = 16, MAX_VALID_COUNT = 16);
   mailbox #(Transaction) drv2scb;
   mailbox #(Sample) mon2scb;
-  semaphore drv_sem;
 
   int passed_count;
   int tr_count;
 
-  extern function new(mailbox#(Transaction) drv2scb, mailbox #(Sample) mon2scb, semaphore drv_sem);
+  extern function new(mailbox#(Transaction) drv2scb, mailbox #(Sample) mon2scb);
 
   extern task run();
 
@@ -22,10 +21,9 @@ class Scoreboard;
 
 endclass
 
-function Scoreboard::new(mailbox#(Transaction) drv2scb, mailbox #(Sample) mon2scb, semaphore drv_sem);
+function Scoreboard::new(mailbox#(Transaction) drv2scb, mailbox #(Sample) mon2scb);
   this.drv2scb = drv2scb;
   this.mon2scb = mon2scb;
-  this.drv_sem = drv_sem;
 endfunction
 
 task Scoreboard::run();
@@ -40,7 +38,6 @@ task Scoreboard::run();
         mon2scb.get(mon_sample);
       join
 
-      drv_sem.put(1);
       tr_count++;
 
       if( compare_expected( drv_tr, mon_sample ) )
@@ -61,13 +58,25 @@ function bit Scoreboard::compare_expected(Transaction tr, Sample smp);
     default : tr_len = tr.data_mod;
   endcase
 
+  if( smp.val_count > MAX_VALID_COUNT )
+  begin
+    print_result(tr, smp, "Error - valid count limit");
+    return 0;
+  end
+
+  if( smp.busy_count > MAX_BUSY_COUNT )
+  begin
+    print_result(tr, smp, "Error - busy count limit");
+    return 0;
+  end
+
   if(tr_len == smp.val_count)
     begin
       bit unexpected = 0;
       for(int i=0; i<tr_len; i++)
         if(tr.data[15-i] != smp.data[i])
           begin
-            print_result(tr, smp, "Error - unexpected content");
+            print_result(tr, smp, "Error - unexpected content");  
             return 0;
           end
 

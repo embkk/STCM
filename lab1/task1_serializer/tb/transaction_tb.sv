@@ -1,8 +1,10 @@
-class Transaction;
+class Transaction #(parameter TR_MAX_LENGTH = 16);
   static int id_inc;
   int        id;
   bit [15:0] data;
   bit [3:0]  data_mod;
+
+  int gap;
 
   static int crand = 3;
 
@@ -24,6 +26,8 @@ function bit Transaction::randomize_free();
 
   this.data_mod  = crand;
   crand++;
+
+  gap = this.data_mod inside {1,2} ? TR_MAX_LENGTH : 1;
 
   return 1;
 endfunction

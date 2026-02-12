@@ -32,15 +32,13 @@ class Environment #(
 
     drv = new(.vif_i(vif),
               .gen2drv(gen2drv),
-              .drv2scb(drv2scb),
-              .drv_sem(drv_sem));
+              .drv2scb(drv2scb));
 
     mon = new(.vif_i(vif),
               .mon2scb(mon2scb));
 
     scb = new(.drv2scb(drv2scb),
-              .mon2scb(mon2scb),
-              .drv_sem(drv_sem));
+              .mon2scb(mon2scb));
   endfunction
 
   task run(int num_transactions);

@@ -7,7 +7,6 @@ class Monitor #(parameter SYNC_TIMEOUT_DELAY = 16);
   Sample smp;
   int mon_count;
   int sample_count;
-  int busy_count;
 
   extern function new(virtual serializer_if.MONITOR vif_i, mailbox#(Sample) mon2scb);
 
@@ -45,8 +44,8 @@ task Monitor::run();
 
       mon_count++;
 
-      if(vif.mon_cb.ser_data_val)
-        smp.add(vif.mon_cb.ser_data);
+      if(vif.mon_cb.ser_data_val || vif.mon_cb.busy)
+        smp.add(vif.mon_cb.ser_data_val, vif.mon_cb.ser_data, vif.mon_cb.busy);
 
       if(mon_count>SYNC_TIMEOUT_DELAY || (!vif.mon_cb.ser_data_val && smp.val_count > 0) )
         begin
