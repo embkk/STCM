@@ -2,8 +2,6 @@ class Monitor;
   virtual deserializer_if.MONITOR vif;
   mailbox #(Sample) mon2scb;
 
-  event e_sample_sent;
-
   Sample smp;
   int sample_count = 1;
 
@@ -26,8 +24,8 @@ task Monitor::start_sample();
     begin
       sample_count++;
       mon2scb.put(smp);
-      
-      -> e_sample_sent;
+      if(`DEBUG_PRINT)
+        $display("[MON] Sent transaction %s", smp.to_string());
     end
 
   smp = new();
@@ -41,15 +39,11 @@ task Monitor::run();
     begin
       @vif.mon_cb;
 
-      /*if(vif.mon_cb.ser_data_val || vif.mon_cb.busy)
-        smp.add(vif.mon_cb.ser_data_val, vif.mon_cb.ser_data, vif.mon_cb.busy);
+      if(vif.mon_cb.deser_data_val)
+      begin
+        smp.data = vif.mon_cb.deser_data;
+        start_sample();
+      end
 
-      if( !vif.mon_cb.ser_data_val && smp.val_count > 0 )
-        begin
-          if( `DEBUG_PRINT )
-            $display("[MON] %0d sample ready %s", sample_count, smp.to_string());
-
-          start_sample();
-        end*/
     end
 endtask

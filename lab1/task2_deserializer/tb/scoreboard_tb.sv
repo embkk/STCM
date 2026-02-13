@@ -38,18 +38,12 @@ task Scoreboard::run();
       begin
         
         drv2scb.get(drv_tr);
-
-        if(drv_tr.data_mod inside {1,2})
-          begin
-            tr_skipped++;
-            tr_total++;
-            continue;
-          end
-        
         ref_queue.push_back(drv_tr);
+
       end
     forever
       begin
+        
         mon2scb.get(mon_sample);
 
         if (ref_queue.size() == 0)
@@ -74,7 +68,7 @@ task Scoreboard::run();
 endtask
 
 function bit Scoreboard::compare_expected(Transaction tr, Sample smp);
-  
+  return 0;/*
   int tr_len;
 
   case (tr.data_mod)
@@ -114,6 +108,6 @@ function bit Scoreboard::compare_expected(Transaction tr, Sample smp);
       return 0;
     end
 
-  return 1;
+  return 1;*/
 
 endfunction
