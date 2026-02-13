@@ -22,12 +22,4 @@ always_ff @( posedge clk_i )
 always_ff @( posedge clk_i )
   deser_data_val_o <= tr_counter == 4'd15 && data_val_i;
 
-/*always_ff @( posedge clk_i )
-  begin
-    //if(data_val_i || deser_data_val_o)
-      begin
-      $display("[DUT] %b #%0d ID=%0b IV=%0b OV=%0b", deser_data_o, tr_counter, data_i, data_val_i, deser_data_val_o);
-      end
-  end*/
-
 endmodule
