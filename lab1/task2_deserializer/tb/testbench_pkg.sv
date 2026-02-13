@@ -1,6 +1,6 @@
 package testbench_pkg;
-  `define DEBUG_PRINT 1
-  `define PRINT_PASSED_RESULTS 1
+  `define DEBUG_PRINT 0
+  `define PRINT_PASSED 0
 
   `include "transaction_tb.sv"
   `include "request_tb.sv"

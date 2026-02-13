@@ -26,18 +26,18 @@ function bit Request::randomize_free();
   int i, j;
   bit temp_bit;
 
-  this.data = $urandom();
+  this.data = $urandom() & 32'h0000_FFFF;
 
-  this.data_val = 32'hFFFF0000;
+  this.data_val = 32'h0000FFFF;
 
-  /*for (i = 31; i > 0; i--)
+  for (i = 31; i > 0; i--)
   begin
     j = $urandom_range(0, i);
     
     temp_bit = this.data_val[i];
     this.data_val[i] = this.data_val[j];
     this.data_val[j] = temp_bit;
-  end*/
+  end
 
   return 1;
 endfunction

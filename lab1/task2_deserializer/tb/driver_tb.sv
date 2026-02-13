@@ -10,23 +10,23 @@ class Driver;
   endfunction
 
   task run();
-    Request tr;
+    Request req;
 
     forever
       begin
         int j;
         @(vif.drv_cb);
 
-        gen2drv.get(tr);
-        drv2scb.put(tr);
+        gen2drv.get(req);
+        drv2scb.put(req);
 
         if( `DEBUG_PRINT )
-          $display("[Driver] %s", tr.to_string());
+          $display("[Driver] %s", req.to_string());
 
         for( int i = 0; i<32; i++ )
           begin
-            vif.drv_cb.data     <= tr.data[i];
-            vif.drv_cb.data_val <= tr.data_val[i];
+            vif.drv_cb.data     <= req.data[i];
+            vif.drv_cb.data_val <= req.data_val[i];
             
             @(vif.drv_cb);
           end
@@ -38,9 +38,9 @@ class Driver;
 
         @(vif.drv_cb);
 
-        repeat(tr.gap) @(vif.drv_cb);
+        repeat(req.gap) @(vif.drv_cb);
 
-        tr = null;
+        req = null;
       end
   endtask
 endclass
