@@ -24,10 +24,10 @@ always_ff @( posedge clk_i )
 
 always_ff @( posedge clk_i )
   begin
-  if(data_val_i)
-    $display("[DUT] Input %b #%0d D=%0b V=%0b / ", deser_data_o, tr_counter, data_i, data_val_i);
-  if(deser_data_val_o)
-    $display("[DUT] Output D=%0b V=%0b / ", deser_data_o, deser_data_val_o);
+    if(data_val_i)
+      $display("[DUT] Input %b #%0d D=%0b V=%0b / ", deser_data_o, tr_counter, data_i, data_val_i);
+    if(deser_data_val_o)
+      $display("[DUT] Output D=%0b V=%0b / ", deser_data_o, deser_data_val_o);
   end
 
 endmodule

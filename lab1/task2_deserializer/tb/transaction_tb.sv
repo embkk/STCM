@@ -1,12 +1,10 @@
 class Transaction #(parameter TR_MAX_LENGTH = 16);
   static int id_inc;
   int        id;
-  int        data;
-  int        data_val;
+  int        gap;
 
-  int gap;
-
-  static int crand = 0;
+  bit [31:0] data;
+  bit [31:0] data_val;
 
   extern function new();
   extern function bit randomize_free();
@@ -21,20 +19,25 @@ function Transaction::new();
   id = ++id_inc;
 endfunction
 
+// Transaction contains
+// Total pulses: 32
+// Valid pulses: 16
 function bit Transaction::randomize_free();
-  
+  int i, j;
+  bit temp_bit;
+
   this.data = $urandom();
 
-  // only 16 valid signals in 32 pulses
-  for (int i = 0; i < 16; )
-    begin
-      int idx = $urandom_range(0, 31);
-      if (data_val[idx] == 0)
-      begin
-        data_val[idx] = 1'b1;
-        i++;
-      end
-    end
+  this.data_val = 32'hFFFF0000;
+
+  for (i = 31; i > 0; i--)
+  begin
+    j = $urandom_range(0, i);
+    
+    temp_bit = this.data_val[i];
+    this.data_val[i] = this.data_val[j];
+    this.data_val[j] = temp_bit;
+  end
 
   return 1;
 endfunction

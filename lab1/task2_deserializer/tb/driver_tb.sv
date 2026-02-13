@@ -27,12 +27,14 @@ class Driver;
           begin
             vif.drv_cb.data     <= tr.data[i];
             vif.drv_cb.data_val <= tr.data_val[i];
+            
             @(vif.drv_cb);
           end
 
         @(vif.drv_cb);
 
         vif.drv_cb.data     <= 'x;
+        vif.drv_cb.data_val <= 'x;
 
         @(vif.drv_cb);
 

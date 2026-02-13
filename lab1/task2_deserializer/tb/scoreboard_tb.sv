@@ -1,4 +1,11 @@
 class Scoreboard #(parameter MAX_BUSY_COUNT = 16, MAX_VALID_COUNT = 16);
+
+  static const string PASS         = "PASS";
+  static const string SKIP         = "SKIPPED";
+  static const string ERR_LEN      = "ERROR_LENGTH";
+  static const string ERR_DATA     = "ERROR_DATA_MISMATCH";
+  static const string ERR_EMPTY    = "ERROR_QUEUE_EMPTY";
+
   mailbox #(Transaction) drv2scb;
   mailbox #(Sample) mon2scb;
 
@@ -12,10 +19,12 @@ class Scoreboard #(parameter MAX_BUSY_COUNT = 16, MAX_VALID_COUNT = 16);
 
   extern task run();
 
-  extern function bit compare_expected(Transaction tr, Sample smp);
+  extern function string compare_expected(Transaction tr, Sample smp);
 
   function void print_result(Transaction tr, Sample smp, string desc);
-    $display("\n[Scoreboard] %s\n%s\n%s\n---\n", desc, tr.to_string(), smp.to_string());
+    string tr_str = tr == null ? "Transaction empty" : tr.to_string();
+    string smp_str = smp == null ? "Sample empty" : smp.to_string();
+    $display("\n[Scoreboard] %s\n%s\n%s\n---\n", desc, tr_str, smp_str);
   endfunction
 
   function void print_report();
@@ -32,6 +41,7 @@ endfunction
 task Scoreboard::run();
   Transaction drv_tr;
   Sample mon_sample;
+  string res;
 
   fork
     forever
@@ -43,19 +53,24 @@ task Scoreboard::run();
       end
     forever
       begin
-        
+
         mon2scb.get(mon_sample);
 
         if (ref_queue.size() == 0)
           begin
-            $display("ERROR: Unexpected sample: %p", mon_sample.to_string());
+            print_result(null, mon_sample, ERR_EMPTY);
             $stop;
           end
 
         drv_tr = ref_queue.pop_front();
 
-        if( compare_expected( drv_tr, mon_sample ) )
+        res = compare_expected( drv_tr, mon_sample );
+        print_result(drv_tr, mon_sample, res);
+
+        if( res == PASS )
           tr_passed++;
+        else if ( res == SKIP )
+          tr_skipped++;
         else
           $stop;
 
@@ -67,8 +82,31 @@ task Scoreboard::run();
   join
 endtask
 
-function bit Scoreboard::compare_expected(Transaction tr, Sample smp);
-  return 0;/*
+function string Scoreboard::compare_expected(Transaction tr, Sample smp);
+  logic [15:0] expected;
+  int          valid_count;
+
+  for (int i = 0; i < 32; i++)
+    begin
+      if (tr.data_val[i])
+        begin
+          expected[15-valid_count] = tr.data[i];
+          valid_count++;
+        end
+    end
+
+  if(valid_count!=16)
+    return ERR_LEN;
+    
+  $display("[Scoreboard] %b expected transaction #%0d", expected, tr.id);
+  $display("[Scoreboard] %b sampled transaction #%0d", smp.data, smp.id);
+
+  if( smp.data == expected )
+    return PASS;
+  
+  return ERR_DATA;
+  
+  /*
   int tr_len;
 
   case (tr.data_mod)
