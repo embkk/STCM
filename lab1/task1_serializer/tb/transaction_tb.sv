@@ -27,7 +27,8 @@ function bit Transaction::randomize_free();
   this.data_mod  = crand;
   crand++;
 
-  gap = this.data_mod inside {1,2} ? TR_MAX_LENGTH : 1;
+  gap = 1;
 
   return 1;
+  
 endfunction
