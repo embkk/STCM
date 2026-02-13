@@ -2,6 +2,8 @@
 ## Lab #1
 Task #1 - [Serializer](https://github.com/embkk/STCM/tree/main/lab1/task1_serializer)
 
+Task #2 - [Deserializer](https://github.com/embkk/STCM/tree/main/lab1/task2_deserializer)
+
 ## Lab #0
 Task #1 - [Multiplexer](https://github.com/embkk/STCM/tree/main/lab0/task1_multiplexer)
 
