@@ -24,7 +24,7 @@ class Scoreboard #(parameter MAX_BUSY_COUNT = 16, MAX_VALID_COUNT = 16);
   function void print_result(Transaction tr, Sample smp, string desc);
     string tr_str = tr == null ? "Transaction empty" : tr.to_string();
     string smp_str = smp == null ? "Sample empty" : smp.to_string();
-    $display("\n[Scoreboard] %s\n%s\n%s\n---\n", desc, tr_str, smp_str);
+    $display("\n[Scoreboard] %s\n> %s\n> %s\n---\n", desc, tr_str, smp_str);
   endfunction
 
   function void print_report();
@@ -105,47 +105,5 @@ function string Scoreboard::compare_expected(Transaction tr, Sample smp);
     return PASS;
   
   return ERR_DATA;
-  
-  /*
-  int tr_len;
-
-  case (tr.data_mod)
-    0       : tr_len = 16;
-    1, 2    : tr_len = 0;
-    default : tr_len = tr.data_mod;
-  endcase
-
-  if( smp.val_count > MAX_VALID_COUNT )
-  begin
-    print_result(tr, smp, "Error - valid count limit");
-    return 0;
-  end
-
-  if( smp.busy_count > MAX_BUSY_COUNT )
-  begin
-    print_result(tr, smp, "Error - busy count limit");
-    return 0;
-  end
-
-  if(tr_len == smp.val_count)
-    begin
-      bit unexpected = 0;
-      for(int i=0; i<tr_len; i++)
-        if(tr.data[15-i] != smp.data[i])
-          begin
-            print_result(tr, smp, "Error - unexpected content");  
-            return 0;
-          end
-
-      if(`PRINT_PASSED_RESULTS)
-        print_result(tr, smp, "OK");
-    end
-  else
-    begin
-      print_result(tr, smp, "Error - Unexpected length");
-      return 0;
-    end
-
-  return 1;*/
 
 endfunction

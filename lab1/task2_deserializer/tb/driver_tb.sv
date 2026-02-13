@@ -14,7 +14,7 @@ class Driver;
 
     forever
       begin
-
+        int j;
         @(vif.drv_cb);
 
         gen2drv.get(tr);
@@ -30,7 +30,7 @@ class Driver;
             
             @(vif.drv_cb);
           end
-
+        
         @(vif.drv_cb);
 
         vif.drv_cb.data     <= 'x;
