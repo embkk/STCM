@@ -6,41 +6,41 @@ class Scoreboard #(parameter MAX_BUSY_COUNT = 16, MAX_VALID_COUNT = 16);
   static const string ERR_DATA     = "ERROR_DATA_MISMATCH";
   static const string ERR_EMPTY    = "ERROR_QUEUE_EMPTY";
 
-  mailbox #(Transaction) drv2scb;
-  mailbox #(Sample) mon2scb;
+  mailbox #(Request) drv2scb;
+  mailbox #(Transaction) mon2scb;
 
-  Transaction ref_queue[$];
+  Request ref_queue[$];
 
   int tr_passed;
   int tr_total;
   int tr_skipped;
 
-  extern function new(mailbox#(Transaction) drv2scb, mailbox #(Sample) mon2scb);
+  extern function new(mailbox#(Request) drv2scb, mailbox #(Transaction) mon2scb);
 
   extern task run();
 
-  extern function string compare_expected(Transaction tr, Sample smp);
+  extern function string compare_expected(Request tr, Transaction smp);
 
-  function void print_result(Transaction tr, Sample smp, string desc);
-    string tr_str = tr == null ? "Transaction empty" : tr.to_string();
-    string smp_str = smp == null ? "Sample empty" : smp.to_string();
+  function void print_result(Request tr, Transaction smp, string desc);
+    string tr_str = tr == null ? "Request empty" : tr.to_string();
+    string smp_str = smp == null ? "Transaction empty" : smp.to_string();
     $display("\n[Scoreboard] %s\n> %s\n> %s\n---\n", desc, tr_str, smp_str);
   endfunction
 
   function void print_report();
-    $display("[Scoreboard] Report. Transactions %0d. Passed %0d. Skipped %0d.", tr_total, tr_passed, tr_skipped);
+    $display("[Scoreboard] Report. Requests %0d. Passed %0d. Skipped %0d.", tr_total, tr_passed, tr_skipped);
   endfunction
 
 endclass
 
-function Scoreboard::new(mailbox#(Transaction) drv2scb, mailbox #(Sample) mon2scb);
+function Scoreboard::new(mailbox#(Request) drv2scb, mailbox #(Transaction) mon2scb);
   this.drv2scb = drv2scb;
   this.mon2scb = mon2scb;
 endfunction
 
 task Scoreboard::run();
-  Transaction drv_tr;
-  Sample mon_sample;
+  Request drv_tr;
+  Transaction mon_sample;
   string res;
 
   fork
@@ -82,7 +82,7 @@ task Scoreboard::run();
   join
 endtask
 
-function string Scoreboard::compare_expected(Transaction tr, Sample smp);
+function string Scoreboard::compare_expected(Request tr, Transaction smp);
   logic [15:0] expected;
   int          valid_count;
 

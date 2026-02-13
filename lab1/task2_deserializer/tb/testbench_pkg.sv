@@ -3,7 +3,7 @@ package testbench_pkg;
   `define PRINT_PASSED_RESULTS 1
 
   `include "transaction_tb.sv"
-  `include "sample_tb.sv"
+  `include "request_tb.sv"
   `include "driver_tb.sv"
   `include "monitor_tb.sv"
   `include "scoreboard_tb.sv"
