@@ -2,7 +2,6 @@ class Transaction #(parameter TR_MAX_LENGTH = 16);
   static int id_inc;
   int        id;
   bit [15:0] data;
-  bit [3:0]  data_mod;
 
   int gap;
 

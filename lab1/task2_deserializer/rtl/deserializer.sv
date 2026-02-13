@@ -7,37 +7,18 @@ module deserializer (
   output  logic         deser_data_val_o
 );
 
-logic[15:0]  tr_mask;
-logic[15:0]  data_buffered;
-logic        tr_act;
-
-/*always_ff @(posedge clk_i)
-  if (srst_i)
-    tr_mask <= '0;
-  else if (data_val_i)
-    begin
-      if (data_mod_i == 4'd1 || data_mod_i == 4'd2)
-        tr_mask <= '0;
-      else if (data_mod_i == 4'd0)
-        tr_mask <= '1;
-      else
-        tr_mask <= 16'hFFFF << (16 - data_mod_i);
-    end
-  else if (tr_act)
-    tr_mask <= tr_mask << 1;
+logic [3:0]  tr_counter;
 
 always_ff @( posedge clk_i )
-  if ( data_val_i )  
-    data_buffered <= data_i;
-  else
-    data_buffered <= data_buffered << 1;
+  if ( data_val_i )
+    deser_data_o <= ( deser_data_o << 1 ) & data_i;
 
-assign tr_act = tr_mask[15];
+always_ff @( posedge clk_i )
+  if( data_val_i )
+    tr_counter <= tr_counter + 1;
 
-assign ser_data_o = data_buffered[15];
+always_ff @( posedge clk_i )
+  deser_data_val_o <= tr_counter == 4'd15 && data_val_i;
 
-assign ser_data_val_o = tr_act;
- 
-assign busy_o = tr_act;*/
 
 endmodule
