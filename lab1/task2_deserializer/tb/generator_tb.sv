@@ -8,10 +8,10 @@ class Generator;
   task run(int num_transactions);
     repeat (num_transactions)
       begin
-        Request tr;
-        tr = new();
-        if (!tr.randomize_free()) $fatal("Randomize failed");
-        gen2drv.put(tr);
+        Request req;
+        req = new();
+        if (!req.randomize_free()) $fatal("Randomize failed");
+        gen2drv.put(req);
       end
   endtask
 
