@@ -23,6 +23,8 @@ class Driver;
         if( `DEBUG_PRINT )
           $display("[Driver] %s", req.to_string());
 
+        repeat(req.gap) @(vif.drv_cb);
+
         for( int i = 0; i<32; i++ )
           begin
             vif.drv_cb.data     <= req.data[i];
@@ -34,11 +36,9 @@ class Driver;
         @(vif.drv_cb);
 
         vif.drv_cb.data     <= 'x;
-        vif.drv_cb.data_val <= 'x;
+        vif.drv_cb.data_val <= '0;
 
         @(vif.drv_cb);
-
-        repeat(req.gap) @(vif.drv_cb);
 
         req = null;
       end
