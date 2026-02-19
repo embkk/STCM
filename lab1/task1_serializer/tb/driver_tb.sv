@@ -19,11 +19,11 @@ class Driver;
 
         //drv_sem.get(1);
 
-        while(vif.drv_cb.busy)
-            @(vif.drv_cb);
-
         gen2drv.get(tr);
         drv2scb.put(tr);
+
+        while(vif.drv_cb.busy)
+            @(vif.drv_cb);
 
         if( `DEBUG_PRINT )
           $display("[Driver] %s", tr.to_string());

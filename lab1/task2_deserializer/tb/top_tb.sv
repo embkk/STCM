@@ -1,6 +1,6 @@
 module top_tb;
 
-  parameter CLK_PERIOD = 5;
+  parameter CLK_PERIOD = 10;
 
   logic clk = 1'b0;
 
@@ -20,6 +20,6 @@ module top_tb;
     .vif(deserializer_bus)
   );
 
-  always #CLK_PERIOD clk = ~clk;
+  always #(CLK_PERIOD/2) clk = ~clk;
 
 endmodule
