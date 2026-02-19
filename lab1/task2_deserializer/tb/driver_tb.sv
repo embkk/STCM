@@ -1,38 +1,48 @@
-class Driver;
+class Driver #(parameter RANDOM_VALID_ENABLE = 1);
 
   virtual deserializer_if.DRIVER vif;
-  mailbox #(Request) gen2drv, drv2scb;
+  mailbox #(Transaction) gen2drv, drv2scb;
 
-  function new( virtual deserializer_if.DRIVER vif_i, mailbox#(Request) gen2drv, drv2scb);
+  function new( virtual deserializer_if.DRIVER vif_i, mailbox#(Transaction) gen2drv, drv2scb);
     this.vif = vif_i;
     this.gen2drv = gen2drv;
     this.drv2scb = drv2scb;
   endfunction
 
   task run();
-    Request req;
+    Transaction tr;
+    int send_count;
 
     forever
       begin
-        int j;
+        
+
         @(vif.drv_cb);
 
-        gen2drv.get(req);
-        drv2scb.put(req);
+        gen2drv.get(tr);
+        drv2scb.put(tr);
 
         if( `DEBUG_PRINT )
-          $display("[Driver] %s", req.to_string());
+          $display("[Driver] %s", tr.to_string());
 
-        repeat(req.gap) @(vif.drv_cb);
+        repeat(tr.gap) @(vif.drv_cb);
 
-        for( int i = 0; i<32; i++ )
+        for( send_count = 0; send_count <16; send_count++ )
           begin
-            vif.drv_cb.data     <= req.data[i];
-            vif.drv_cb.data_val <= req.data_val[i];
-            
+            if(RANDOM_VALID_ENABLE)
+              repeat( $urandom_range(0, 3) )
+                begin
+                  vif.drv_cb.data_val <= 0;
+                  @(vif.drv_cb);
+                end
+
+            vif.drv_cb.data <= tr.data[send_count];
+            vif.drv_cb.data_val <= 1;
+
             @(vif.drv_cb);
+            
           end
-        
+
         @(vif.drv_cb);
 
         vif.drv_cb.data     <= 'x;
@@ -40,7 +50,7 @@ class Driver;
 
         @(vif.drv_cb);
 
-        req = null;
+        tr = null;
       end
   endtask
 endclass

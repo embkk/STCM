@@ -6,24 +6,24 @@ class Scoreboard #(parameter MAX_BUSY_COUNT = 16, MAX_VALID_COUNT = 16);
   static const string ERR_DATA     = "ERROR_DATA_MISMATCH";
   static const string ERR_EMPTY    = "ERROR_QUEUE_EMPTY";
 
-  mailbox #(Request) drv2scb;
+  mailbox #(Transaction) drv2scb;
   mailbox #(Transaction) mon2scb;
 
-  Request ref_queue[$];
+  Transaction ref_queue[$];
 
   int tr_passed;
   int tr_total;
   int tr_skipped;
 
-  extern function new(mailbox#(Request) drv2scb, mailbox #(Transaction) mon2scb);
+  extern function new(mailbox#(Transaction) drv2scb, mailbox #(Transaction) mon2scb);
 
   extern task run();
 
-  extern function string compare_expected(Request req, Transaction tr);
+  extern function string compare_expected(Transaction tr_ref, Transaction tr_mon);
 
-  function void print_result(Request req, Transaction tr, string desc);
-    string tr_str = ( req == null ) ? "Request empty" : req.to_string();
-    string smp_str = ( tr == null ) ? "Transaction empty" : tr.to_string();
+  function void print_result(Transaction tr_ref, Transaction tr_mon, string desc);
+    string tr_str = ( tr_ref == null ) ? "Transaction empty" : tr_ref.to_string();
+    string smp_str = ( tr_mon == null ) ? "Transaction empty" : tr_mon.to_string();
     $display("\n[Scoreboard] %s\n> %s\n> %s\n---\n", desc, tr_str, smp_str);
   endfunction
 
@@ -33,13 +33,13 @@ class Scoreboard #(parameter MAX_BUSY_COUNT = 16, MAX_VALID_COUNT = 16);
 
 endclass
 
-function Scoreboard::new(mailbox#(Request) drv2scb, mailbox #(Transaction) mon2scb);
+function Scoreboard::new(mailbox#(Transaction) drv2scb, mailbox #(Transaction) mon2scb);
   this.drv2scb = drv2scb;
   this.mon2scb = mon2scb;
 endfunction
 
 task Scoreboard::run();
-  Request drv_tr;
+  Transaction drv_tr;
   Transaction mon_sample;
   string res;
 
@@ -84,32 +84,17 @@ task Scoreboard::run();
   join
 endtask
 
-function string Scoreboard::compare_expected(Request req, Transaction tr);
-  logic [15:0] expected;
-  int          valid_count;
-
-  for (int i = 0; i < 32; i++)
-    begin
-      if (req.data_val[i])
-        begin
-          // Reversed endian
-          // DRIVER sent Request.data[0] LSB first
-          // MONITOR get it as Transaction MSB
-          expected[15-valid_count] = req.data[i];
-          valid_count++;
-        end
-    end
-
-  if(valid_count!=16)
-    return ERR_LEN;
+function string Scoreboard::compare_expected(Transaction tr_ref, Transaction tr_mon);
     
   if(`DEBUG_PRINT)
   begin
-    $display("[Scoreboard] %b expected reference Request #%0d", expected, req.id);
-    $display("[Scoreboard] %b observed Transaction #%0d", tr.data, tr.id);
+    $display("[Scoreboard] %b expected reference Transaction #%0d", tr_ref.data, tr_ref.id);
+    $display("[Scoreboard] %b observed Transaction #%0d", tr_mon.data, tr_mon.id);
   end
 
-  if( tr.data == expected )
+  // 
+  
+  if( tr_mon.data == {<<{tr_ref.data}} )
     return PASS;
   
   return ERR_DATA;

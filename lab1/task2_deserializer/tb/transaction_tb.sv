@@ -2,7 +2,9 @@ class Transaction;
   static int id_inc;
 
   int          id;
+
   logic [15:0] data;
+  int          gap;
 
   function new();
     id_inc++;
