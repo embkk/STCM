@@ -63,6 +63,8 @@ class Environment #(
       end
     join_any
 
+    disable fork;
+
     scb.print_report();
 
   endtask
