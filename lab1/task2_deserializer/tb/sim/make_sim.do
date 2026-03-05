@@ -30,7 +30,6 @@ add wave -noupdate -divider "=== INTERNAL ==="
 add wave -noupdate -group "INTERNAL" /top_tb/dut_inst/tr_counter
 
 add wave -noupdate -divider "=== OUTPUTS ==="
-# -hex чтобы не видеть бинарную помойку
 add wave -noupdate -group "DUT_OUT" -hex /top_tb/deserializer_bus/deser_data
 add wave -noupdate -group "DUT_OUT"      /top_tb/deserializer_bus/deser_data_val
 

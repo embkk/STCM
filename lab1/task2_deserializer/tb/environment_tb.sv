@@ -44,8 +44,6 @@ class Environment #(
   task run(int num_transactions);
     $display("[ENV] Run %0d transactions", num_transactions);
 
-    vif.reset();
-
     fork
       gen.run(num_transactions);
       drv.run();

@@ -25,12 +25,4 @@ interface deserializer_if (
 
   modport MONITOR(clocking mon_cb);
 
-  task reset();
-    drv_cb.srst <= 1'b1;
-    ##2;
-    drv_cb.srst <= 1'b0;
-    ##1;
-    $display("[RESET] Done");
-  endtask
-
 endinterface
