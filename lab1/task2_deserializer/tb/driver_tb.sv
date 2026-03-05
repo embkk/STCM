@@ -16,6 +16,7 @@ class Driver #(parameter RANDOM_VALID_ENABLE = 1);
     vif.drv_cb.data_val <= 0;
 
     vif.drv_cb.srst <= 1'b1;
+    
     repeat(2)
       @(vif.drv_cb);
 

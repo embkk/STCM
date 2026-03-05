@@ -51,9 +51,17 @@ class Environment #(
       scb.run();
     join_any
 
-    wait(scb.tr_total == num_transactions);
 
-    $display("[ENV] All transactions processed.");
+    fork
+      begin
+        wait(scb.tr_total == num_transactions);
+        $display("[ENV] All transactions processed.");
+      end
+      begin
+        repeat(1000) @(posedge vif.clk);
+        $error("[ENV] Simulation stopped by timeout");
+      end
+    join_any
 
     scb.print_report();
 
