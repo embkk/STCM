@@ -17,9 +17,12 @@ always_ff @( posedge clk_i )
   if( srst_i )
     tr_counter <= '0;
   else if( data_val_i && !deser_data_val_o )
-    tr_counter <= tr_counter + 1;
+    tr_counter <= tr_counter + 4'b1;
 
 always_ff @( posedge clk_i )
-  deser_data_val_o <= tr_counter == 4'd15 && data_val_i;
+  if( srst_i )
+    deser_data_val_o <= '0;
+  else
+    deser_data_val_o <= tr_counter == 4'd15 && data_val_i;
 
 endmodule
