@@ -23,7 +23,7 @@ task Monitor::send_tr();
     tr_count++;
     mon2scb.put(tr);
     if(`DEBUG_PRINT)
-      $display("[MON] Sent transaction %s", tr.to_string());
+      $display("[MON] Obeserved %s", tr.to_string());
     
     tr = new();
   end

@@ -16,7 +16,7 @@ always_ff @( posedge clk_i )
 always_ff @( posedge clk_i )
   if( srst_i )
     tr_counter <= '0;
-  else if( data_val_i && !deser_data_val_o )
+  else if( data_val_i )
     tr_counter <= tr_counter + 4'b1;
 
 always_ff @( posedge clk_i )

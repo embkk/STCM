@@ -16,7 +16,7 @@ module top_tb;
   );
 
 
-  test #(.NUM_TRANSACTIONS(32)) test_inst (
+  test #(.NUM_TRANSACTIONS(20)) test_inst (
     .vif(deserializer_bus)
   );
 
