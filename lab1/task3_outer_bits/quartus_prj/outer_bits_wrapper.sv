@@ -1,4 +1,4 @@
-module deserializer_wrapper (
+module priority_encoder_wrapper (
   input   logic         clk_i,
   input   logic         srst_i,
   input   logic         data_i,
@@ -24,7 +24,7 @@ module deserializer_wrapper (
   end
 
   // DUT instance
-  deserializer dut_inst (
+  priority_encoder dut_inst (
     .clk_i           (clk_i),
     .srst_i          (srst_r),
     .data_i          (data_r),

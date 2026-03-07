@@ -1,10 +1,10 @@
 class Driver;
 
-  virtual deserializer_if.DRIVER vif;
+  virtual priority_encoder_if.DRIVER vif;
   mailbox #(TransactionGen) gen2drv;
   mailbox #(Transaction)    drv2scb;
 
-  function new( virtual deserializer_if.DRIVER vif_i, mailbox#(TransactionGen) gen2drv, mailbox#(Transaction) drv2scb);
+  function new( virtual priority_encoder_if.DRIVER vif_i, mailbox#(TransactionGen) gen2drv, mailbox#(Transaction) drv2scb);
     this.vif = vif_i;
     this.gen2drv = gen2drv;
     this.drv2scb = drv2scb;
@@ -42,21 +42,7 @@ class Driver;
               @(vif.drv_cb);
           end
 
-        for( send_count = 0; send_count <16; send_count++ )
-          begin
-            if(tr.en_rnd_valid)
-              repeat( $urandom_range(0, 3) )
-                begin
-                  vif.drv_cb.data_val <= 0;
-                  @(vif.drv_cb);
-                end
-
-            vif.drv_cb.data <= tr.data[send_count];
-            vif.drv_cb.data_val <= 1;
-
-            @(vif.drv_cb);
-            
-          end
+        // transaction
 
         tr = null;
       end

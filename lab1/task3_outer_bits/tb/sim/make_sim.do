@@ -3,8 +3,8 @@ vlib work
 set ROOT_DIR "../.."
 
 # Compilation
-vlog -sv $ROOT_DIR/if/deserializer_if.sv
-vlog -sv $ROOT_DIR/rtl/deserializer.sv
+vlog -sv $ROOT_DIR/if/priority_encoder_if.sv
+vlog -sv $ROOT_DIR/rtl/priority_encoder.sv
 vlog -sv $ROOT_DIR/tb/testbench_pkg.sv
 vlog -sv $ROOT_DIR/tb/test.sv
 vlog -sv $ROOT_DIR/tb/top_tb.sv

@@ -1,6 +1,6 @@
-class Transaction;
-  int          id;
-  logic [15:0] data;
+class Transaction #( parameter WIDTH = 32 );
+  int             id;
+  logic [WIDTH:0] data;
     
   function string to_string();
     return $sformatf("{Transaction #%0d %b}", id, data);
@@ -10,7 +10,6 @@ endclass
 class TransactionGen extends Transaction;
   static int id_inc;
   int        gap;
-  bit        en_rnd_valid;
 
   function new();
     super.new();

@@ -1,11 +1,11 @@
 class Monitor;
-  virtual deserializer_if.MONITOR vif;
+  virtual priority_encoder_if.MONITOR vif;
   mailbox #(Transaction) mon2scb;
 
   Transaction tr;
   int tr_count = 1;
 
-  extern function new(virtual deserializer_if.MONITOR vif_i, mailbox#(Transaction) mon2scb);
+  extern function new(virtual priority_encoder_if.MONITOR vif_i, mailbox#(Transaction) mon2scb);
 
   extern task send_tr();
 
@@ -13,7 +13,7 @@ class Monitor;
 
 endclass
 
-function Monitor::new(virtual deserializer_if.MONITOR vif_i, mailbox#(Transaction) mon2scb);
+function Monitor::new(virtual priority_encoder_if.MONITOR vif_i, mailbox#(Transaction) mon2scb);
   this.vif = vif_i;
   this.mon2scb = mon2scb;
 endfunction

@@ -1,9 +1,9 @@
 module test #(parameter int NUM_TRANSACTIONS = 100) (
-    deserializer_if vif
+    priority_encoder_if vif
 );
   import testbench_pkg::*;
 
-  typedef virtual deserializer_if v_ser_if;
+  typedef virtual priority_encoder_if v_ser_if;
 
   Environment #(.IF_T(v_ser_if)) env;
 
