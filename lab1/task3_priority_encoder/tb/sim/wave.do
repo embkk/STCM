@@ -2,7 +2,7 @@ onerror {resume}
 quietly WaveActivateNextPane {} 0
 
 add wave -noupdate -divider "=== SYSTEM ==="
-add wave -noupdate -color "Yellow" /top_tb/clk_i
+add wave -noupdate -color "Yellow" /top_tb/clk
 add wave -noupdate /top_tb/priority_encoder_bus/srst_i
 
 add wave -noupdate -divider "=== INPUTS ==="

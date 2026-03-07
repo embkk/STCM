@@ -10,18 +10,18 @@ interface priority_encoder_if #( parameter int WIDTH = 32 )
   logic [WIDTH-1:0] data_right_o;
   logic             data_val_o;
 
-  default clocking drv_cb @(posedge clk);
+  default clocking drv_cb @(posedge clk_i);
     output srst_i, data_i, data_val_i;
     input  data_left_o, data_right_o, data_val_o;
   endclocking
 
-  clocking mon_cb @(posedge clk);
+  clocking mon_cb @(posedge clk_i);
     input  data_left_o, data_right_o, data_val_o;
   endclocking
 
   modport DUT (
-    input   srst_i, data_i, data_val_i;
-    output  data_left_o, data_right_o, data_val_o;
+    input   srst_i, data_i, data_val_i,
+    output  data_left_o, data_right_o, data_val_o
   );
 
   modport DRIVER(clocking drv_cb);

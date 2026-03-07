@@ -36,9 +36,9 @@ task Monitor::run();
     begin
       @vif.mon_cb;
 
-      if(vif.mon_cb.deser_data_val)
+      if(vif.mon_cb.data_val_o)
       begin
-        tr.data = vif.mon_cb.deser_data;
+        //tr.data = vif.mon_cb.deser_data;
         send_tr();
       end
 

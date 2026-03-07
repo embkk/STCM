@@ -15,6 +15,7 @@ module top_tb;
       .clk_i            (priority_encoder_bus.clk_i),
       .srst_i           (priority_encoder_bus.srst_i),
       .data_i           (priority_encoder_bus.data_i),
+      .data_val_i       (priority_encoder_bus.data_val_i),
       .data_left_o      (priority_encoder_bus.data_left_o),
       .data_right_o     (priority_encoder_bus.data_right_o),
       .data_val_o       (priority_encoder_bus.data_val_o)

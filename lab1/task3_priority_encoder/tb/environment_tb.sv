@@ -58,7 +58,7 @@ class Environment #(
         $display("[ENV] All transactions processed.");
       end
       begin
-        repeat(1000) @(posedge vif.clk);
+        repeat(1000) @(posedge vif.clk_i);
         $error("[ENV] Simulation stopped by timeout");
       end
     join_any

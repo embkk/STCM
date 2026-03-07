@@ -14,14 +14,14 @@ class Driver;
     TransactionGen tr;
     int send_count;
 
-    vif.drv_cb.data_val <= 0;
+    vif.drv_cb.data_val_i <= 0;
 
-    vif.drv_cb.srst <= 1'b1;
+    vif.drv_cb.srst_i <= 1'b1;
 
     repeat(2)
       @(vif.drv_cb);
 
-    vif.drv_cb.srst <= 1'b0;
+    vif.drv_cb.srst_i <= 1'b0;
     @(vif.drv_cb);
 
     forever
@@ -35,8 +35,8 @@ class Driver;
 
         if(tr.gap) 
           begin
-            vif.drv_cb.data     <= 'x;
-            vif.drv_cb.data_val <= '0;
+            vif.drv_cb.data_i     <= 'x;
+            vif.drv_cb.data_val_i <= '0;
             
             repeat(tr.gap) 
               @(vif.drv_cb);

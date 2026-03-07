@@ -24,9 +24,6 @@ class Generator;
         // last transaction with gap
         tr.gap = tr.id == (num_transactions - 1);
 
-        // 50% transactions with random valid
-        tr.en_rnd_valid = tr.id > num_transactions / 2;
-
         $fdisplay(fd, "%s", tr.to_string());
         gen2drv.put(tr);
       end
