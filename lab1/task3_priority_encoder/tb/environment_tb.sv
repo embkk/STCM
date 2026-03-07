@@ -9,8 +9,8 @@ class Environment #(
   Monitor                mon;
   Scoreboard             scb;
 
-  mailbox #(TransactionGen) gen2drv;
-  mailbox #(Transaction) drv2scb, mon2scb;
+  mailbox #(TransactionGen) gen2drv, drv2scb;
+  mailbox #(TransactionMon) mon2scb;
 
   semaphore drv_sem;
 

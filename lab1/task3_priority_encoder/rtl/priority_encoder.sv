@@ -12,13 +12,24 @@ module priority_encoder #(
   output logic             data_val_o
 );
 
+always_comb
+  begin
+    for(int idx=0; idx<WIDTH; idx++)
+      begin
+        if( data_i[idx] == 1'b1 )
+          data_left_o = WIDTH'(1) << idx;
+      end
 
-always_ff @( posedge clk_i )
-  if ( data_val_i )
-    $display(data_i);
+    for(int idx=WIDTH-1; idx>=0; idx--)
+      begin
+        if( data_i[idx] == 1'b1 )
+          data_right_o = WIDTH'(1) << idx;
+      end
+  end
 
-always_ff @( posedge clk_i )
-  if( srst_i )
-    data_val_o <= '0;
+always_comb
+begin
+  data_val_o = data_val_i;
+end
 
 endmodule

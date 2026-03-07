@@ -2,9 +2,9 @@ class Driver;
 
   virtual priority_encoder_if.DRIVER vif;
   mailbox #(TransactionGen) gen2drv;
-  mailbox #(Transaction)    drv2scb;
+  mailbox #(TransactionGen) drv2scb;
 
-  function new( virtual priority_encoder_if.DRIVER vif_i, mailbox#(TransactionGen) gen2drv, mailbox#(Transaction) drv2scb);
+  function new( virtual priority_encoder_if.DRIVER vif_i, mailbox#(TransactionGen) gen2drv, drv2scb);
     this.vif = vif_i;
     this.gen2drv = gen2drv;
     this.drv2scb = drv2scb;
@@ -42,8 +42,11 @@ class Driver;
               @(vif.drv_cb);
           end
 
-        // transaction
+        vif.drv_cb.data_i <= tr.data;
+        vif.drv_cb.data_val_i <= '1;
 
+        @(vif.drv_cb);
+        
         tr = null;
       end
   endtask

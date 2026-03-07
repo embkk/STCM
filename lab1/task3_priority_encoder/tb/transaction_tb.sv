@@ -1,15 +1,16 @@
 class Transaction #( parameter WIDTH = 32 );
   int             id;
-  logic [WIDTH:0] data;
     
   function string to_string();
-    return $sformatf("{Transaction #%0d %b}", id, data);
+    return $sformatf("{Transaction #%0d}", id);
   endfunction
 endclass
 
 class TransactionGen extends Transaction;
   static int id_inc;
-  int        gap;
+
+  logic [WIDTH:0] data;
+  int             gap;
 
   function new();
     super.new();
@@ -19,5 +20,19 @@ class TransactionGen extends Transaction;
 
   virtual function string to_string();
     return $sformatf("{Transaction #%0d: %b, Gap: %0d}", id, data, gap);
+  endfunction
+endclass
+
+class TransactionMon extends Transaction;
+  
+  logic [WIDTH:0] data_right;
+  logic [WIDTH:0] data_left;
+
+  function new();
+    super.new();
+  endfunction
+
+  virtual function string to_string();
+    return $sformatf("{Transaction mon left %b, right %b}", data_left, data_right);
   endfunction
 endclass
