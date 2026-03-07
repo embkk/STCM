@@ -1,4 +1,4 @@
-interface priority_encoder_if #( parameter int WIDTH = 32 )
+interface priority_encoder_if #( parameter int WIDTH = 64 )
 (
     input logic clk_i
 );
@@ -20,8 +20,8 @@ interface priority_encoder_if #( parameter int WIDTH = 32 )
   endclocking
 
   modport DUT (
-    input   srst_i, data_i, data_val_i,
-    output  data_left_o, data_right_o, data_val_o
+    input   data_i, data_val_i,
+    output  srst_i, data_left_o, data_right_o, data_val_o
   );
 
   modport DRIVER(clocking drv_cb);

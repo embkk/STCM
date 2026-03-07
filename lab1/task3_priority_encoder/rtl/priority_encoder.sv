@@ -1,5 +1,5 @@
 module priority_encoder #(
-  parameter WIDTH = 32
+  parameter WIDTH = 64
 )
 (
   input  logic             clk_i,
@@ -14,6 +14,8 @@ module priority_encoder #(
 
 always_comb
   begin
+    data_left_o = '0;
+    data_right_o = '0;
     for(int idx=0; idx<WIDTH; idx++)
       begin
         if( data_i[idx] == 1'b1 )
