@@ -4,7 +4,7 @@ Task #1 - [Serializer](https://github.com/embkk/STCM/tree/main/lab1/task1_serial
 
 Task #2 - [Deserializer](https://github.com/embkk/STCM/tree/main/lab1/task2_deserializer)
 
-Task #2 - [Priority Encoder](https://github.com/embkk/STCM/tree/main/lab1/task3_task3_priority_encoder)
+Task #3 - [Priority Encoder](https://github.com/embkk/STCM/tree/main/lab1/task3_task3_priority_encoder)
 
 ## Lab #0
 Task #1 - [Multiplexer](https://github.com/embkk/STCM/tree/main/lab0/task1_multiplexer)
