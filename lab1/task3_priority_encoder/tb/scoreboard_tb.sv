@@ -48,7 +48,14 @@ task Scoreboard::run();
       begin
         
         drv2scb.get(drv_tr);
-        ref_queue.push_back(drv_tr);
+        
+        if(drv_tr.data != '0 )
+          ref_queue.push_back(drv_tr);
+        else
+          begin
+            tr_total++;
+            tr_skipped++;
+          end
 
       end
     forever

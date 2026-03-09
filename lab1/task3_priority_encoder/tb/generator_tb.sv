@@ -19,7 +19,7 @@ class Generator;
         TransactionGen tr;
 
         tr = new();
-        tr.data = $urandom();
+        tr.data = tr.id == 1 ? '0 : $urandom();
 
         // last transaction with gap
         tr.gap = tr.id == (num_transactions - 1);

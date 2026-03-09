@@ -26,7 +26,7 @@ always_ff @(posedge clk_i)
   begin
     if ( srst_i)
       busy <= '0;
-    else if ( data_val_i && !busy )
+    else if ( data_val_i && !busy && data_i != '0 )
       busy <= '1;
     else if ( data_val_o )
       busy <= '0;
@@ -34,10 +34,7 @@ always_ff @(posedge clk_i)
 
 always_ff @(posedge clk_i)
   if ( data_val_i && !busy )
-  begin
-    $display("[DUT] Input buffer %b", data_i);
     data_buffer <= data_i;
-  end
 
 
 always_ff @(posedge clk_i)
@@ -56,9 +53,4 @@ always_ff @(posedge clk_i)
       data_right_o <= (data_right_o << 1);
   end
 
-always_ff @(posedge clk_i)
-begin
-      //$display("[DUT] Busy %b Next Vo %b", busy, (busy && left_val && right_val));
-      if(data_val_o) $display("[DUT] VALID\n%b left %b\n%b right %b\n%b", data_left_o, left_val, data_right_o, right_val, data_i);
-end
 endmodule
