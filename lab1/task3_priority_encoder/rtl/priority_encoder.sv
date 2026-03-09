@@ -12,26 +12,22 @@ module priority_encoder #(
   output logic             data_val_o
 );
 
-always_comb
-  begin
-    data_left_o = '0;
-    data_right_o = '0;
-    for(int idx=0; idx<WIDTH; idx++)
-      begin
-        if( data_i[idx] == 1'b1 )
-          data_left_o = WIDTH'(1) << idx;
-      end
+always_ff @(posedge clk_i)
+  for (int i = 0; i < WIDTH; i++)
+    if (data_i[i])
+      data_left_o = WIDTH'(1) << i;
 
-    for(int idx=WIDTH-1; idx>=0; idx--)
-      begin
-        if( data_i[idx] == 1'b1 )
-          data_right_o = WIDTH'(1) << idx;
-      end
+always_ff @(posedge clk_i)
+  for (int i = WIDTH-1; i >= 0; i--)
+    if (data_i[i])
+      data_right_o = WIDTH'(1) << i;
+
+  always_ff @(posedge clk_i) begin
+    if (srst_i) begin
+      data_val_o <= '0;
+    end else begin
+      data_val_o <= data_val_i && (data_i != '0);
+    end
   end
-
-always_comb
-begin
-  data_val_o = data_val_i;
-end
 
 endmodule
