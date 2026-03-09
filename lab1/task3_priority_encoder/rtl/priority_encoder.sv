@@ -22,7 +22,8 @@ always_ff @(posedge clk_i)
     if (data_i[i])
       data_right_o = WIDTH'(1) << i;
 
-  always_ff @(posedge clk_i) begin
+always_ff @(posedge clk_i)
+  begin
     if (srst_i) begin
       data_val_o <= '0;
     end else begin
