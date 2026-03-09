@@ -2,7 +2,7 @@
 
 
 module priority_encoder #(
-  parameter WIDTH = 64
+  parameter WIDTH = 32
 )
 (
   input  logic             clk_i,

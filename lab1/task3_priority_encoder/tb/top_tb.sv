@@ -1,7 +1,7 @@
 module top_tb;
 
   parameter CLK_PERIOD = 10;
-  parameter DATA_WIDTH = 64;
+  parameter DATA_WIDTH = 32;
 
   logic clk = 1'b0;
 

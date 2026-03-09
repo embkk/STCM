@@ -1,5 +1,5 @@
 module priority_encoder_wrapper #(
-    parameter int WIDTH = 64
+    parameter int WIDTH = 32
 )(
     input  logic              clk_i,
     input  logic              srst_i,

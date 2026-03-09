@@ -104,7 +104,7 @@ function string Scoreboard::compare_expected(TransactionGen tr_ref, TransactionM
 
   if(`DEBUG_PRINT)
   begin
-    //$display("[Scoreboard] %b, l %b, r %b", tr_ref.data, data_expected_left, data_expected_right);
+    $display("[Scoreboard] Expected for %b\n%b expected left\n%b expected right", tr_ref.data, data_expected_left, data_expected_right);
     //$display("[Scoreboard] %b expected from %b reference Transaction #%0d", {<<{tr_ref.data}}, tr_ref.data, tr_ref.id);
     //$display("[Scoreboard] %b observed Transaction #%0d", tr_mon.data, tr_mon.id);
   end

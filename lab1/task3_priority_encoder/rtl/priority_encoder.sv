@@ -1,5 +1,5 @@
 module priority_encoder #(
-  parameter WIDTH = 64
+  parameter WIDTH = 32
 )
 (
   input  logic             clk_i,
@@ -12,23 +12,53 @@ module priority_encoder #(
   output logic             data_val_o
 );
 
-always_ff @(posedge clk_i)
-  for (int i = 0; i < WIDTH; i++)
-    if (data_i[i])
-      data_left_o = WIDTH'(1) << i;
+logic [WIDTH-1:0] data_buffer;
+logic             right_val;
+logic             left_val;
 
-always_ff @(posedge clk_i)
-  for (int i = WIDTH-1; i >= 0; i--)
-    if (data_i[i])
-      data_right_o = WIDTH'(1) << i;
+logic             busy;
+
+assign right_val  = (data_right_o & data_buffer) != '0;
+assign left_val   = (data_left_o & data_buffer) != '0;
+assign data_val_o = right_val && left_val && busy;
 
 always_ff @(posedge clk_i)
   begin
-    if (srst_i) begin
-      data_val_o <= '0;
-    end else begin
-      data_val_o <= data_val_i && (data_i != '0);
-    end
+    if ( srst_i)
+      busy <= '0;
+    else if ( data_val_i && !busy )
+      busy <= '1;
+    else if ( data_val_o )
+      busy <= '0;
   end
 
+always_ff @(posedge clk_i)
+  if ( data_val_i && !busy )
+  begin
+    $display("[DUT] Input buffer %b", data_i);
+    data_buffer <= data_i;
+  end
+
+
+always_ff @(posedge clk_i)
+  begin
+    if (srst_i || (data_val_i && !busy))
+      data_left_o <= 'b1 << (WIDTH - 1);
+    else if( !(left_val) )
+      data_left_o <= (data_left_o >> 1);
+  end
+  
+always_ff @(posedge clk_i)
+  begin
+    if (srst_i || (data_val_i && !busy))
+      data_right_o <= 'b1;
+    else if( !(right_val) )
+      data_right_o <= (data_right_o << 1);
+  end
+
+always_ff @(posedge clk_i)
+begin
+      //$display("[DUT] Busy %b Next Vo %b", busy, (busy && left_val && right_val));
+      if(data_val_o) $display("[DUT] VALID\n%b left %b\n%b right %b\n%b", data_left_o, left_val, data_right_o, right_val, data_i);
+end
 endmodule

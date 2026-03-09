@@ -28,10 +28,7 @@ class Driver;
       begin
         
         gen2drv.get(tr);
-        drv2scb.put(tr);
 
-        if( `DEBUG_PRINT )
-          $display("[Driver] %s", tr.to_string());
 
         if(tr.gap) 
           begin
@@ -44,8 +41,18 @@ class Driver;
 
         vif.drv_cb.data_i <= tr.data;
         vif.drv_cb.data_val_i <= '1;
-
+        
         @(vif.drv_cb);
+
+        drv2scb.put(tr);
+        
+        if( `DEBUG_PRINT )
+          $display("[Driver] %s", tr.to_string());
+        
+        vif.drv_cb.data_val_i <= '0;
+
+        repeat(tr.WIDTH)
+          @(vif.drv_cb);
         
         tr = null;
       end

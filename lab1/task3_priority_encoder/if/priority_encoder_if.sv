@@ -1,4 +1,4 @@
-interface priority_encoder_if #( parameter int WIDTH = 64 )
+interface priority_encoder_if #( parameter int WIDTH = 32 )
 (
     input logic clk_i
 );
