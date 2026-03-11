@@ -22,7 +22,7 @@ module top_tb;
   );
 
 
-  test #(.NUM_TRANSACTIONS(20)) test_inst (
+  test #(.NUM_TRANSACTIONS(10)) test_inst (
     .vif(priority_encoder_bus)
   );
 

@@ -29,7 +29,6 @@ class Driver;
         
         gen2drv.get(tr);
 
-
         if(tr.gap) 
           begin
             vif.drv_cb.data_i     <= 'x;
@@ -51,7 +50,8 @@ class Driver;
         
         vif.drv_cb.data_val_i <= '0;
 
-        repeat(tr.WIDTH)
+        // Module latency: 3 
+        repeat(3)
           @(vif.drv_cb);
         
         tr = null;

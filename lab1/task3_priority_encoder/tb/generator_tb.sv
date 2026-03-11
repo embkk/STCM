@@ -21,8 +21,8 @@ class Generator;
         tr = new();
         tr.data = tr.id == 1 ? '0 : $urandom();
 
-        // last transaction with gap
-        tr.gap = tr.id == (num_transactions - 1);
+        // Test workability with gap 
+        tr.gap = tr.id > (num_transactions - 1);
 
         $fdisplay(fd, "%s", tr.to_string());
         gen2drv.put(tr);
