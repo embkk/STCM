@@ -12,58 +12,66 @@ module priority_encoder #(
   output logic             data_val_o
 );
 
-logic [WIDTH-1:0] data_buf_left;
-logic [WIDTH-1:0] data_buf_right;
-logic [WIDTH-1:0] data_buf_left_2compl;
-logic [WIDTH-1:0] data_buf_right_2compl;
+typedef enum logic {
+    LEFT = 1'b0,
+    RIGHT = 1'b1
+} e_side;
 
-logic       busy;
-logic       tr_start;
-logic [1:0] tr_started_count;
 
-assign tr_start   = data_val_i && !busy;
-assign data_val_o = tr_started_count == 2;
+typedef enum logic {
+    CURR = 1'b0,
+    PREV = 1'b1
+} e_data;
+
+localparam int STAGES = 2;
+logic [STAGES:0] valid;
+
+logic [WIDTH-1:0] stage0 [RIGHT:LEFT];
+logic [WIDTH-1:0] stage1 [RIGHT:LEFT][PREV:CURR];
+
+assign data_val_o = valid[STAGES];
 
 always_ff @(posedge clk_i)
-  if ( srst_i || tr_start )
-    tr_started_count <= '0;
-  else if ( busy )
-    tr_started_count <= tr_started_count + 1;
-
-always_ff @(posedge clk_i)
-  if ( srst_i || data_val_o)
-    busy <= '0;
-  else if ( data_val_i && !busy && data_i != '0 )
-    busy <= '1;
+  if (srst_i)
+    valid <= '0;
+  else
+    valid <= {valid[STAGES-1:0], data_val_i};
 
 
 // Stage #0 - buffer
 
 always_ff @(posedge clk_i)
-  if ( tr_start )
-    data_buf_right <= data_i;
+    stage0[RIGHT] <= data_i;
 
 always_ff @(posedge clk_i)
-  if ( tr_start )
-    data_buf_left <= reverse(data_i);
+    stage0[LEFT] <= reverse(data_i);
 
 
 // Stage #1 - calc two compl 
 
 always_ff @(posedge clk_i)
-  data_buf_right_2compl <= ~data_buf_right + 'b1;
+  stage1[RIGHT][CURR] <= ~stage0[RIGHT] + 'b1;
 
 always_ff @(posedge clk_i)
-  data_buf_left_2compl <= ~data_buf_left + 'b1;
+  stage1[RIGHT][PREV] <= stage0[RIGHT];
+
+always_ff @(posedge clk_i)
+  stage1[LEFT][CURR] <= ~stage0[LEFT] + 'b1;
+
+always_ff @(posedge clk_i)
+  stage1[LEFT][PREV] <= stage0[LEFT];
 
 
 // Stage #2 - calc output
 
 always_ff @(posedge clk_i)
-  data_right_o <= data_buf_right & data_buf_right_2compl;
+  data_right_o <= stage1[RIGHT][CURR] & stage1[RIGHT][PREV];
 
 always_ff @(posedge clk_i)
-  data_left_o <= reverse(data_buf_left & data_buf_left_2compl);
+  data_left_o <= reverse(stage1[LEFT][CURR] & stage1[LEFT][PREV]);
+
+
+// Reverse
 
 function automatic [WIDTH-1:0] reverse (input [WIDTH-1:0] d);
   int i;

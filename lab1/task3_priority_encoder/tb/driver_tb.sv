@@ -48,12 +48,6 @@ class Driver;
         if( `DEBUG_PRINT )
           $display("[Driver] %s", tr.to_string());
         
-        vif.drv_cb.data_val_i <= '0;
-
-        // Module latency: 3 
-        repeat(3)
-          @(vif.drv_cb);
-        
         tr = null;
       end
   endtask
