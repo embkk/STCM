@@ -22,7 +22,7 @@ typedef enum logic {
     CURR = 1'b0,
     PREV = 1'b1
 } e_data;
-
+  
 localparam int STAGES = 2;
 logic [STAGES:0] valid;
 
@@ -35,7 +35,7 @@ always_ff @(posedge clk_i)
   if (srst_i)
     valid <= '0;
   else
-    valid <= {valid[STAGES-1:0], data_val_i};
+    valid <= {valid[STAGES-1:0], ( data_val_i && data_i != '0 )};
 
 
 // Stage #0 - buffer

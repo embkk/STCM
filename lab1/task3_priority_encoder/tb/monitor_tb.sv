@@ -3,7 +3,7 @@ class Monitor;
   mailbox #(TransactionMon) mon2scb;
 
   TransactionMon tr;
-  int tr_count = 1;
+  int            tr_count;
 
   extern function new(virtual priority_encoder_if.MONITOR vif_i, mailbox#(TransactionMon) mon2scb);
 
@@ -23,7 +23,7 @@ task Monitor::send_tr();
     tr_count++;
     mon2scb.put(tr);
     if(`DEBUG_PRINT)
-      $display("[MON] Obeserved %s", tr.to_string());
+      $display("[MON] Obeserved #%0d %s", tr_count, tr.to_string());
     
     tr = new();
   end

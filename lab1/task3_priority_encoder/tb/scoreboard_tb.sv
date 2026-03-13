@@ -9,7 +9,9 @@ class Scoreboard;
   mailbox #(TransactionGen) drv2scb;
   mailbox #(TransactionMon) mon2scb;
 
-  Transaction ref_queue[$];
+  Transaction    ref_queue[$];
+  TransactionGen drv_tr;
+  TransactionMon mon_tr;
 
   int tr_passed;
   int tr_total;
@@ -31,6 +33,8 @@ class Scoreboard;
     $display("[Scoreboard] Report. Requests %0d. Passed %0d. Skipped %0d.", tr_total, tr_passed, tr_skipped);
   endfunction
 
+  extern function void compare_next();
+
 endclass
 
 function Scoreboard::new(mailbox#(TransactionGen) drv2scb, mailbox #(TransactionMon) mon2scb);
@@ -39,9 +43,6 @@ function Scoreboard::new(mailbox#(TransactionGen) drv2scb, mailbox #(Transaction
 endfunction
 
 task Scoreboard::run();
-  TransactionGen drv_tr;
-  TransactionMon mon_tr;
-  string res;
 
   fork
     forever
@@ -49,13 +50,7 @@ task Scoreboard::run();
         
         drv2scb.get(drv_tr);
         
-        if(drv_tr.data != '0 )
-          ref_queue.push_back(drv_tr);
-        else
-          begin
-            tr_total++;
-            tr_skipped++;
-          end
+        ref_queue.push_back(drv_tr);
 
       end
     forever
@@ -63,37 +58,50 @@ task Scoreboard::run();
 
         mon2scb.get(mon_tr);
 
-        if (ref_queue.size() == 0)
-          begin
-            print_result(null, mon_tr, ERR_EMPTY);
-            $stop;
-          end
-
-        drv_tr = ref_queue.pop_front();
-
-        res = compare_expected( drv_tr, mon_tr );
-        
-        if( `PRINT_PASSED || res !=PASS )
-          print_result(drv_tr, mon_tr, res);
-
-        if( res == PASS )
-          tr_passed++;
-        else if ( res == SKIP )
-          tr_skipped++;
-        else
-          $stop;
-
-        tr_total++;
-
-        drv_tr = null;
+        compare_next();
 
       end
   join
 endtask
 
+function void Scoreboard::compare_next();
+  string res;
+
+  if (ref_queue.size() == 0)
+    begin
+      print_result(null, mon_tr, ERR_EMPTY);
+      $stop;
+    end
+
+  drv_tr = ref_queue.pop_front();
+
+  res = compare_expected( drv_tr, mon_tr );
+  
+  if( `PRINT_PASSED || res != PASS )
+    print_result(drv_tr, mon_tr, res);
+
+  if( res == PASS )
+    tr_passed++;
+  else if ( res == SKIP )
+    tr_skipped++;
+  else
+    $stop;
+
+  tr_total++;
+
+  drv_tr = null;
+
+  if( res == SKIP )
+    compare_next();
+
+endfunction
+
 function string Scoreboard::compare_expected(TransactionGen tr_ref, TransactionMon tr_mon);
   logic [tr_ref.WIDTH:0] data_expected_right = 'X;
   logic [tr_ref.WIDTH:0] data_expected_left = 'X;
+
+  if(tr_ref.data == '0 )
+    return SKIP;
 
   if(tr_ref.WIDTH != tr_mon.WIDTH)
     return ERR_LEN;

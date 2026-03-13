@@ -93,4 +93,3 @@ sc_dpiheader.h
 vsim.dbg
 
 *.vscode
-*.log
