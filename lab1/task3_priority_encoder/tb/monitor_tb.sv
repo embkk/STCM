@@ -7,7 +7,7 @@ class Monitor;
 
   extern function new(virtual priority_encoder_if.MONITOR vif_i, mailbox#(TransactionMon) mon2scb);
 
-  extern task send_tr();
+  extern task send_tr(TransactionMon tr);
 
   extern task run();
 
@@ -18,19 +18,16 @@ function Monitor::new(virtual priority_encoder_if.MONITOR vif_i, mailbox#(Transa
   this.mon2scb = mon2scb;
 endfunction
 
-task Monitor::send_tr();
+task Monitor::send_tr(TransactionMon tr);
   begin
     tr_count++;
     mon2scb.put(tr);
     if(`DEBUG_PRINT)
       $display("[MON] Obeserved #%0d %s", tr_count, tr.to_string());
-    
-    tr = new();
   end
 endtask
 
 task Monitor::run();
-  tr = new();
 
   forever
     begin
@@ -38,9 +35,13 @@ task Monitor::run();
 
       if(vif.mon_cb.data_val_o)
       begin
+        TransactionMon tr;
+        
+        tr = new();
         tr.data_left  = vif.mon_cb.data_left_o;
         tr.data_right = vif.mon_cb.data_right_o;
-        send_tr();
+
+        send_tr(tr);
       end
 
     end

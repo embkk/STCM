@@ -7,26 +7,31 @@ class Generator;
 
   task run(int num_transactions);
     int fd;
-    fd = $fopen("../log/gen_transactions.log", "w");
 
-    if (fd == 0) begin
-      $display("ERROR: Could not open transactions.log for writing");
-      return;
-    end
-
-    repeat (num_transactions)
+    fork
       begin
-        TransactionGen tr;
+        fd = $fopen("../log/gen_transactions.log", "w");
 
-        tr = new();
-        tr.data = ( tr.id == 1 ) ? '0 : $urandom();
-
-        // Test workability with gap 
-        tr.gap = tr.id > (num_transactions - 1);
-
-        $fdisplay(fd, "%s", tr.to_string());
-        gen2drv.put(tr);
+        if (fd == 0)
+          $warning("Could not open transactions.log for writing");
       end
-  endtask
+      begin
+        repeat (num_transactions)
+          begin
+            TransactionGen tr;
 
+            tr = new();
+            tr.data = ( tr.id == 1 ) ? '0 : $urandom();
+
+            // Test workability with gap 
+            tr.gap = tr.id > (num_transactions - 1);
+
+            if( fd != 0 )
+              $fdisplay(fd, "%s", tr.to_string());
+
+            gen2drv.put(tr);
+          end
+      end
+    join
+  endtask
 endclass
