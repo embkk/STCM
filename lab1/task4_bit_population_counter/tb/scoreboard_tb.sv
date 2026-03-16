@@ -97,35 +97,17 @@ function void Scoreboard::compare_next();
 endfunction
 
 function string Scoreboard::compare_expected(TransactionGen tr_ref, TransactionMon tr_mon);
-  logic [tr_ref.WIDTH:0] data_expected_right = 'X;
-  logic [tr_ref.WIDTH:0] data_expected_left = 'X;
-
-  if(tr_ref.data == '0 )
-    return SKIP;
-
+  int count_expected;
+  
   if(tr_ref.WIDTH != tr_mon.WIDTH)
     return ERR_LEN;
-
-  for(int i=0; i<tr_ref.WIDTH; i++)
-    begin
-      if( tr_ref.data[i] == 1'b1 )
-      begin
-        data_expected_left = (tr_ref.WIDTH'(1) << i);
-        if(data_expected_right === 'X)
-          data_expected_right = (tr_ref.WIDTH'(1) << i);
-      end
-    end
   
+  count_expected = $countones(tr_ref.data);
 
   if(`DEBUG_PRINT)
-  begin
-    $display("[Scoreboard] Expected for %b\n%b expected left\n%b expected right", tr_ref.data, data_expected_left, data_expected_right);
-    //$display("[Scoreboard] %b expected from %b reference Transaction #%0d", {<<{tr_ref.data}}, tr_ref.data, tr_ref.id);
-    //$display("[Scoreboard] %b observed Transaction #%0d", tr_mon.data, tr_mon.id);
-  end
+    $display("[Scoreboard] For tr %b\n%0d observerd\n%0d expected", tr_ref.data, tr_mon.data, count_expected);
   
-  
-  if( data_expected_left == tr_mon.data_left && data_expected_right == tr_mon.data_right )
+  if( count_expected == tr_mon.data )
     return PASS;
   
   return ERR_DATA;

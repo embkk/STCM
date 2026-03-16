@@ -12,8 +12,7 @@ add wave -noupdate -expand -group "DUT_IN" /top_tb/bit_population_counter_bus/da
 add wave -noupdate -divider "=== INTERNAL ==="
 
 add wave -noupdate -divider "=== OUTPUTS ==="
-add wave -noupdate -expand -group "DUT_OUT" /top_tb/bit_population_counter_bus/data_left_o
-add wave -noupdate -expand -group "DUT_OUT" /top_tb/bit_population_counter_bus/data_right_o
+add wave -noupdate -expand -group "DUT_OUT" /top_tb/bit_population_counter_bus/data_o
 add wave -noupdate -expand -group "DUT_OUT" /top_tb/bit_population_counter_bus/data_val_o
 
 TreeUpdate [SetDefaultTree]

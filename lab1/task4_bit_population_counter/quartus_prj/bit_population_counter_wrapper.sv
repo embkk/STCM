@@ -5,8 +5,7 @@ module bit_population_counter_wrapper(
     input  logic                        srst_i,
     input  logic [TEST_DATA_WIDTH-1:0]  data_i,
     input  logic                        data_val_i,
-    output logic [TEST_DATA_WIDTH-1:0]  data_left_o,
-    output logic [TEST_DATA_WIDTH-1:0]  data_right_o,
+    output logic [TEST_DATA_WIDTH-1:0]  data_o,
     output logic                        data_val_o
 );
 
@@ -14,32 +13,29 @@ module bit_population_counter_wrapper(
     logic [TEST_DATA_WIDTH-1:0]  data_r;
     logic                        data_val_r;
 
-    logic [TEST_DATA_WIDTH-1:0]  data_left_w;
-    logic [TEST_DATA_WIDTH-1:0]  data_right_w;
+    logic [TEST_DATA_WIDTH-1:0]  data_w;
     logic                        data_val_w;
 
     always_ff @(posedge clk_i)
-    begin
+      begin
         srst_r     <= srst_i;
         data_r     <= data_i;
         data_val_r <= data_val_i;
-    end
+      end
 
     bit_population_counter #(.WIDTH(TEST_DATA_WIDTH)) dut_inst (
         .clk_i       (clk_i),
         .srst_i      (srst_r),
         .data_i      (data_r),
         .data_val_i  (data_val_r),
-        .data_left_o (data_left_w),
-        .data_right_o(data_right_w),
+        .data_o      (data_w),
         .data_val_o  (data_val_w)
     );
 
     always_ff @(posedge clk_i)
-    begin
-      data_left_o  <= data_left_w;
-      data_right_o <= data_right_w;
-      data_val_o   <= data_val_w;
-    end
+      begin
+        data_o       <= data_w;
+        data_val_o   <= data_val_w;
+      end
 
 endmodule

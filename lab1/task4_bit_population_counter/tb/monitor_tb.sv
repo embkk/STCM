@@ -38,8 +38,7 @@ task Monitor::run();
         TransactionMon tr;
         
         tr = new();
-        tr.data_left  = vif.mon_cb.data_left_o;
-        tr.data_right = vif.mon_cb.data_right_o;
+        tr.data  = vif.mon_cb.data_o;
 
         send_tr(tr);
       end

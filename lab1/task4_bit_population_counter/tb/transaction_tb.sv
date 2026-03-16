@@ -25,14 +25,13 @@ endclass
 
 class TransactionMon extends Transaction;
   
-  logic [WIDTH:0] data_right;
-  logic [WIDTH:0] data_left;
+  logic [$clog2(WIDTH):0] data;
 
   function new();
     super.new();
   endfunction
 
   virtual function string to_string();
-    return $sformatf("{Transaction mon left %b, right %b}", data_left, data_right);
+    return $sformatf("{Transaction mon %b}", data);
   endfunction
 endclass
