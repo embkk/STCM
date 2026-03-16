@@ -1,20 +1,20 @@
 import config_pkg::TEST_DATA_WIDTH;
 
 module bit_population_counter_wrapper(
-    input  logic                        clk_i,
-    input  logic                        srst_i,
-    input  logic [TEST_DATA_WIDTH-1:0]  data_i,
-    input  logic                        data_val_i,
-    output logic [TEST_DATA_WIDTH-1:0]  data_o,
-    output logic                        data_val_o
+    input  logic                              clk_i,
+    input  logic                              srst_i,
+    input  logic [TEST_DATA_WIDTH-1:0]        data_i,
+    input  logic                              data_val_i,
+    output logic [$clog2(TEST_DATA_WIDTH):0]  data_o,
+    output logic                              data_val_o
 );
 
     logic                        srst_r;
     logic [TEST_DATA_WIDTH-1:0]  data_r;
     logic                        data_val_r;
 
-    logic [TEST_DATA_WIDTH-1:0]  data_w;
-    logic                        data_val_w;
+    logic [$clog2(TEST_DATA_WIDTH):0] data_w;
+    logic                             data_val_w;
 
     always_ff @(posedge clk_i)
       begin
