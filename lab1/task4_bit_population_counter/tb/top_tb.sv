@@ -1,3 +1,5 @@
+import config_pkg::TEST_DATA_WIDTH;
+
 module top_tb;
 
   parameter CLK_PERIOD = 10;
@@ -6,7 +8,7 @@ module top_tb;
   logic clk = 1'b0;
 
   bit_population_counter_if #(
-    .WIDTH(DATA_WIDTH)
+    .WIDTH(TEST_DATA_WIDTH)
   ) bit_population_counter_bus (
     .clk_i(clk)
   );
@@ -16,8 +18,7 @@ module top_tb;
       .srst_i           (bit_population_counter_bus.srst_i),
       .data_i           (bit_population_counter_bus.data_i),
       .data_val_i       (bit_population_counter_bus.data_val_i),
-      .data_left_o      (bit_population_counter_bus.data_left_o),
-      .data_right_o     (bit_population_counter_bus.data_right_o),
+      .data_left_o      (bit_population_counter_bus.data_o),
       .data_val_o       (bit_population_counter_bus.data_val_o)
   );
 
