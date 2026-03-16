@@ -60,11 +60,10 @@ set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_RO
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_instance_assignment -name VIRTUAL_PIN ON -to srst_i
 set_instance_assignment -name VIRTUAL_PIN ON -to data_i[*]
-set_instance_assignment -name VIRTUAL_PIN ON -to data_mod_i[*]
 set_instance_assignment -name VIRTUAL_PIN ON -to data_val_i
-set_instance_assignment -name VIRTUAL_PIN ON -to ser_data_o
-set_instance_assignment -name VIRTUAL_PIN ON -to ser_data_val_o
-set_instance_assignment -name VIRTUAL_PIN ON -to busy_o
+set_instance_assignment -name VIRTUAL_PIN ON -to data_left_o[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to data_right_o[*]
+set_instance_assignment -name VIRTUAL_PIN ON -to data_val_o
 set_global_assignment -name SYSTEMVERILOG_FILE ../rtl/priority_encoder.sv
 set_global_assignment -name SDC_FILE priority_encoder_timing.sdc
 set_global_assignment -name SYSTEMVERILOG_FILE priority_encoder_wrapper.sv
