@@ -26,7 +26,7 @@ assign data_o = stages[STAGES_COUNT-1].sums[0];
 
 genvar step;
 generate
-    for (step = 0; step < $clog2(WIDTH/2); step++ )
+  for (step = 0; step < $clog2(WIDTH/2); step++ )
     begin : stages
 
       localparam int MAX_VAL = (2 << step) * 2'b11;
