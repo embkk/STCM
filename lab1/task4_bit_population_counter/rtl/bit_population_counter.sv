@@ -11,46 +11,40 @@ module bit_population_counter #(
   output logic                   data_val_o
 );
 
-localparam int CNT_WIDTH = $clog2(WIDTH/2 + 1);
+localparam int STAGES_COUNT = $clog2(WIDTH/2);
 
-logic [WIDTH-1:0]     data_buffer;
-logic [WIDTH-1:0]     data_mask;
-logic                 tr_start;
-logic                 busy;
+logic [STAGES_COUNT:0] val_pipe;
 
 always_ff @(posedge clk_i)
   if (srst_i)
-    busy <= 1'b0;
-  else if (tr_start)
-    busy <= 1'b1;
-  else if (data_val_o)
-    busy <= 1'b0;
-
-always_ff @(posedge clk_i)
-  if(srst_i)
-    data_buffer <= '0;
-  else if (data_val_i)
-    data_buffer <= data_i;
+    val_pipe <= '0;
   else
-    data_buffer <= data_buffer >> 2;
+    val_pipe <= {val_pipe[STAGES_COUNT-1:0], data_val_i};
 
-always_ff @(posedge clk_i)
-  if(srst_i)
-    data_mask <= '1;
-  else if (tr_start)
-    data_mask <= '1;
-  else
-    data_mask <= data_mask >> 2;
+assign data_val_o = val_pipe[STAGES_COUNT];
+assign data_o = stages[STAGES_COUNT-1].sums[0];
 
-assign data_val_o = !data_mask[0] && busy;
-assign tr_start   = data_val_i && !busy;
+genvar step;
+generate
+  for (step = 0; step < $clog2(WIDTH/2); step++ )
+    begin : stages
 
-always_ff @(posedge clk_i)
-  if( srst_i || tr_start )
-    data_o <= '0;
-  else if ( busy )
-    data_o <= data_o + data_buffer[0] + data_buffer[1];
+      localparam int MAX_VAL = (2 << step) * 2'b11;
+      localparam int SUM_WIDTH = $clog2(MAX_VAL + 1);
+      localparam int SUM_COUNT = (WIDTH/2) >> step;
 
+      logic [SUM_WIDTH:0] sums [SUM_COUNT/2];
+
+      if( step == 0 )
+        always_ff @(posedge clk_i)
+          for (int j = 0; j < SUM_COUNT/2; j++)
+            sums[j] <= (data_i[4*j+1] + data_i[4*j]) + (data_i[4*j+3] + data_i[4*j+2]);
+      else
+        always_ff @(posedge clk_i)
+          for (int j = 0; j < SUM_COUNT/2; j++)
+            sums[j] <= stages[step-1].sums[2*j] + stages[step-1].sums[2*j+1];
+    end
+endgenerate
 
 endmodule
 
