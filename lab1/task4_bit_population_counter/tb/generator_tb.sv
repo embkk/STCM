@@ -21,7 +21,8 @@ class Generator;
             TransactionGen tr;
 
             tr = new();
-            tr.data = ( tr.id == 1 ) ? '0 : $urandom();
+            //tr.data = ( tr.id == 1 ) ? '0 : $urandom();
+            tr.data = $urandom();
 
             // Test workability with gap 
             tr.gap = tr.id > (num_transactions - 1);

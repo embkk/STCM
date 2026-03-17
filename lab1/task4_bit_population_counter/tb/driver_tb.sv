@@ -31,7 +31,7 @@ class Driver;
 
         if(tr.gap) 
           begin
-            vif.drv_cb.data_i     <= 'x;
+            //vif.drv_cb.data_i     <= 'x;
             vif.drv_cb.data_val_i <= '0;
             
             repeat(tr.gap) 
@@ -48,7 +48,7 @@ class Driver;
         if( `DEBUG_PRINT )
           $display("[Driver] %s", tr.to_string());
 
-        vif.drv_cb.data_i     <= 'X;
+        //vif.drv_cb.data_i     <= 'X;
         vif.drv_cb.data_val_i <= '0;
 
         repeat(config_pkg::TEST_DATA_WIDTH/2+1)

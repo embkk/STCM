@@ -9,7 +9,7 @@ endclass
 class TransactionGen extends Transaction;
   static int id_inc;
 
-  logic [WIDTH:0] data;
+  logic [WIDTH-1:0] data;
   int             gap;
 
   function new();
