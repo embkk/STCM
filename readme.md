@@ -6,6 +6,9 @@ Task #2 - [Deserializer](https://github.com/embkk/STCM/tree/main/lab1/task2_dese
 
 Task #3 - [Priority Encoder](https://github.com/embkk/STCM/tree/main/lab1/task3_priority_encoder)
 
+Task #3 - [Population Count](https://github.com/embkk/STCM/tree/main/lab1/task4_bit_population_counter)
+
+
 ## Lab #0
 Task #1 - [Multiplexer](https://github.com/embkk/STCM/tree/main/lab0/task1_multiplexer)
 
