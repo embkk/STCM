@@ -35,48 +35,16 @@ generate
 
       logic [SUM_WIDTH:0] sums [SUM_COUNT/2];
 
-      initial
-        $display("INIT STAGE: %0d | MAX_VAL: %0d | SUM_WIDTH: %0d", step, MAX_VAL, SUM_WIDTH);
-
-      if( step == 0)
+      if( step == 0 )
         always_ff @(posedge clk_i)
-          begin
-            $write("\n[STEP %0d] ", step);
-            for (int j = 0; j < SUM_COUNT/2; j++)
-              begin
-                sums[j] <= (data_i[4*j+1] + data_i[4*j]) + (data_i[4*j+3] + data_i[4*j+2]);
-                $write("%0d ", (data_i[4*j+1] + data_i[4*j]) + (data_i[4*j+3] + data_i[4*j+2])); 
-              end
-            $write("\t\t\tMAX_VAL=%0d SUM_WIDTH=%0d ", MAX_VAL, SUM_WIDTH);
-            $display(" (data_i %b)", data_i);
-          end
+          for (int j = 0; j < SUM_COUNT/2; j++)
+            sums[j] <= (data_i[4*j+1] + data_i[4*j]) + (data_i[4*j+3] + data_i[4*j+2]);
       else
         always_ff @(posedge clk_i)
-          begin
-            $write("[STEP %0d] ", step);
-            for (int j = 0; j < SUM_COUNT/2; j++)
-            begin
-              // Тянем из предыдущего блока. Для step=1 это stages[0], всё законно
-              sums[j] <= stages[step-1].sums[2*j] + stages[step-1].sums[2*j+1];
-              $write("%0d ", (stages[step-1].sums[2*j] + stages[step-1].sums[2*j+1]));  
-            end
-            $write("\t\t\tMAX_VAL=%0d SUM_WIDTH=%0d ", MAX_VAL, SUM_WIDTH);
-            $display("");
-          end
-
-      always_ff @(posedge clk_i)
-        begin
-        end
+          for (int j = 0; j < SUM_COUNT/2; j++)
+            sums[j] <= stages[step-1].sums[2*j] + stages[step-1].sums[2*j+1];
     end
 endgenerate
-
-/*always_ff @(posedge clk_i)
-  begin
-    for(int i = 0; i < STAGES_COUNT; i++)
-      $display("Block stages[%0d]: VEC_W = %0d", i, 0);
-      $display("\n\n");
-  end*/
-
 
 endmodule
 
