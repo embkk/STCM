@@ -38,7 +38,7 @@ generate
       if( step == 0 )
         always_ff @(posedge clk_i)
           for (int j = 0; j < SUM_COUNT/2; j++)
-            sums[j] <= (data_i[4*j+1] + data_i[4*j]) + (data_i[4*j+3] + data_i[4*j+2]);
+            sums[j] <= data_i[4*j] + data_i[4*j+1] + data_i[4*j+2] + data_i[4*j+3];
       else
         always_ff @(posedge clk_i)
           for (int j = 0; j < SUM_COUNT/2; j++)
