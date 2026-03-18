@@ -1,7 +1,8 @@
 class Generator;
-  mailbox #(TransactionGen) gen2drv;
+  
+  mailbox #(t_tr_gen) gen2drv;
 
-  function new(input mailbox#(TransactionGen) gen2drv);
+  function new(input mailbox #(t_tr_gen) gen2drv);
     this.gen2drv = gen2drv;
   endfunction
 
@@ -18,7 +19,7 @@ class Generator;
       begin
         repeat (num_transactions)
           begin
-            TransactionGen tr;
+            t_tr_gen tr;
 
             tr = new();
             tr.data = ( tr.id == 1 ) ? '0 : $urandom();

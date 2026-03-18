@@ -1,11 +1,11 @@
-module test #(parameter int NUM_TRANSACTIONS = 100) (
-    bit_population_counter_if vif
+import testbench_pkg::*;
+
+module test #(parameter int NUM_TRANSACTIONS ) (
+    interface vif
 );
-  import testbench_pkg::*;
+  
 
-  typedef virtual bit_population_counter_if v_ser_if;
-
-  Environment #(.IF_T(v_ser_if)) env;
+  Environment #(.IF_T(t_vif)) env;
 
   initial
     begin

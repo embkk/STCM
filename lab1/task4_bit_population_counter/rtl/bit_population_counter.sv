@@ -1,5 +1,5 @@
 module bit_population_counter #(
-  parameter WIDTH = 32
+  parameter WIDTH
 )
 (
   input  logic                   clk_i,

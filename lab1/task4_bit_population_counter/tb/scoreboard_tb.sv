@@ -6,24 +6,24 @@ class Scoreboard;
   static const string ERR_DATA     = "ERROR_DATA_MISMATCH";
   static const string ERR_EMPTY    = "ERROR_QUEUE_EMPTY";
 
-  mailbox #(TransactionGen) drv2scb;
-  mailbox #(TransactionMon) mon2scb;
+  mailbox #(t_tr_gen) drv2scb;
+  mailbox #(t_tr_mon) mon2scb;
 
-  Transaction    ref_queue[$];
-  TransactionGen drv_tr;
-  TransactionMon mon_tr;
+  t_tr_gen ref_queue[$];
+  t_tr_gen drv_tr;
+  t_tr_mon mon_tr;
 
   int tr_passed;
   int tr_total;
   int tr_skipped;
 
-  extern function new(mailbox#(TransactionGen) drv2scb, mailbox #(TransactionMon) mon2scb);
+  extern function new(mailbox#(t_tr_gen) drv2scb, mailbox #(t_tr_mon) mon2scb);
 
   extern task run();
 
-  extern function string compare_expected(TransactionGen tr_ref, TransactionMon tr_mon);
+  extern function string compare_expected(t_tr_gen tr_ref, t_tr_mon tr_mon);
 
-  function void print_result(TransactionGen tr_ref, TransactionMon tr_mon, string desc);
+  function void print_result(t_tr_gen tr_ref, t_tr_mon tr_mon, string desc);
     string tr_str = ( tr_ref == null ) ? "Transaction empty" : tr_ref.to_string();
     string smp_str = ( tr_mon == null ) ? "Transaction empty" : tr_mon.to_string();
     $display("\n[Scoreboard] %s\n> %s\n> %s\n---\n", desc, tr_str, smp_str);
@@ -37,7 +37,7 @@ class Scoreboard;
 
 endclass
 
-function Scoreboard::new(mailbox#(TransactionGen) drv2scb, mailbox #(TransactionMon) mon2scb);
+function Scoreboard::new(mailbox#(t_tr_gen) drv2scb, mailbox #(t_tr_mon) mon2scb);
   this.drv2scb = drv2scb;
   this.mon2scb = mon2scb;
 endfunction
@@ -96,7 +96,7 @@ function void Scoreboard::compare_next();
 
 endfunction
 
-function string Scoreboard::compare_expected(TransactionGen tr_ref, TransactionMon tr_mon);
+function string Scoreboard::compare_expected(t_tr_gen tr_ref, t_tr_mon tr_mon);
   int count_expected;
   
   if(tr_ref.WIDTH != tr_mon.WIDTH)

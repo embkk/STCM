@@ -1,4 +1,4 @@
-interface bit_population_counter_if #( parameter int WIDTH = 32 )
+interface bit_population_counter_if #( parameter int WIDTH )
 (
     input logic clk_i
 );
