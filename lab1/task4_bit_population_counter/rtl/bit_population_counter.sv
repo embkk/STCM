@@ -30,7 +30,7 @@ generate
     begin : stages
 
       localparam int MAX_VAL = (2 << step) * 2'b11;
-      localparam int SUM_WIDTH = $clog2(MAX_VAL + 1);
+      localparam int SUM_WIDTH = $clog2(MAX_VAL + 1)-1;
       localparam int SUM_COUNT = (WIDTH/2) >> step;
 
       logic [SUM_WIDTH:0] sums [SUM_COUNT/2];

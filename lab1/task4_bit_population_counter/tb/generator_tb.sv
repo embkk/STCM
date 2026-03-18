@@ -22,7 +22,12 @@ class Generator;
             t_tr_gen tr;
 
             tr = new();
-            tr.data = ( tr.id == 1 ) ? '0 : $urandom();
+
+            case (tr.id)
+              1:       tr.data = '1;          // sum overflow test
+              2:       tr.data = '0;          
+              default: tr.data = $urandom();
+            endcase
 
             // Test workability with gap 
             tr.gap = tr.id > (num_transactions - 1);

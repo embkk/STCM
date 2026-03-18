@@ -1,6 +1,6 @@
-import config_pkg::TEST_DATA_WIDTH;
-
-module bit_population_counter_wrapper(
+module bit_population_counter_wrapper #(
+  parameter TEST_DATA_WIDTH = 2048
+)(
     input  logic                              clk_i,
     input  logic                              srst_i,
     input  logic [TEST_DATA_WIDTH-1:0]        data_i,
