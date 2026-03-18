@@ -21,7 +21,7 @@ always_ff @(posedge clk_i)
   else
     val_pipe <= {val_pipe[STAGES_COUNT-1:0], data_val_i};
 
-assign data_val_o = val_pipe[STAGES_COUNT];
+assign data_val_o = val_pipe[STAGES_COUNT-1];
 assign data_o = stages[STAGES_COUNT-1].sums[0];
 
 genvar step;
