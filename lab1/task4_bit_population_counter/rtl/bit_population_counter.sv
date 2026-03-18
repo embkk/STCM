@@ -1,5 +1,5 @@
 module bit_population_counter #(
-  parameter WIDTH = 32
+  parameter WIDTH
 )
 (
   input  logic                   clk_i,
@@ -21,7 +21,7 @@ always_ff @(posedge clk_i)
   else
     val_pipe <= {val_pipe[STAGES_COUNT-1:0], data_val_i};
 
-assign data_val_o = val_pipe[STAGES_COUNT];
+assign data_val_o = val_pipe[STAGES_COUNT-1];
 assign data_o = stages[STAGES_COUNT-1].sums[0];
 
 genvar step;
@@ -30,7 +30,7 @@ generate
     begin : stages
 
       localparam int MAX_VAL = (2 << step) * 2'b11;
-      localparam int SUM_WIDTH = $clog2(MAX_VAL + 1);
+      localparam int SUM_WIDTH = $clog2(MAX_VAL + 1)-1;
       localparam int SUM_COUNT = (WIDTH/2) >> step;
 
       logic [SUM_WIDTH:0] sums [SUM_COUNT/2];

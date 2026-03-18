@@ -1,17 +1,17 @@
 class Driver;
 
-  virtual bit_population_counter_if.DRIVER vif;
-  mailbox #(TransactionGen) gen2drv;
-  mailbox #(TransactionGen) drv2scb;
+  t_vif_drv vif;
+  mailbox #(t_tr_gen) gen2drv;
+  mailbox #(t_tr_gen) drv2scb;
 
-  function new( virtual bit_population_counter_if.DRIVER vif_i, mailbox#(TransactionGen) gen2drv, drv2scb);
+  function new( t_vif_drv vif_i, mailbox#(t_tr_gen) gen2drv, drv2scb);
     this.vif = vif_i;
     this.gen2drv = gen2drv;
     this.drv2scb = drv2scb;
   endfunction
 
   task run();
-    TransactionGen tr;
+    t_tr_gen tr;
     int send_count;
 
     vif.drv_cb.data_val_i <= 0;
@@ -31,7 +31,7 @@ class Driver;
 
         if(tr.gap) 
           begin
-            //vif.drv_cb.data_i     <= 'x;
+            vif.drv_cb.data_i     <= 'x;
             vif.drv_cb.data_val_i <= '0;
             
             repeat(tr.gap) 
@@ -48,14 +48,8 @@ class Driver;
         if( `DEBUG_PRINT )
           $display("[Driver] %s", tr.to_string());
 
-        //vif.drv_cb.data_i     <= 'X;
         vif.drv_cb.data_val_i <= '0;
 
-        repeat(config_pkg::TEST_DATA_WIDTH/2+1)
-          @(vif.drv_cb);
-        
-        
-        
         tr = null;
       end
   endtask
