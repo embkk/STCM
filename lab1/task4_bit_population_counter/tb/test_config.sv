@@ -15,7 +15,7 @@ class TestConfig #(int WIDTH );
   endfunction
 
   function string to_string();
-    return $sformatf("%s test (%d transcations)", mode, num_transactions);
+    return $sformatf("%s test (%0d transcations)", mode, num_transactions);
   endfunction
 
 endclass
