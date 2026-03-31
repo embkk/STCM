@@ -35,7 +35,7 @@ always_ff @(posedge clk_i)
   if (srst_i)
     valid <= '0;
   else
-    valid <= {valid[STAGES-1:0], ( data_val_i && data_i != '0 )};
+    valid <= { valid[STAGES-1:0], data_val_i };
 
 
 // Stage #0 - buffer
@@ -78,6 +78,9 @@ function automatic [WIDTH-1:0] reverse (input [WIDTH-1:0] d);
   for (i = 0; i < WIDTH; i = i + 1)
     reverse[i] = d[(WIDTH-1)-i];
 endfunction
+
+always_ff @(posedge clk_i)
+  $display("%b %b", data_left_o, data_right_o);
 
 endmodule
 
