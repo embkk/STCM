@@ -1,7 +1,6 @@
 class Scoreboard;
 
   static const string PASS         = "PASS";
-  static const string SKIP         = "SKIPPED";
   static const string ERR_LEN      = "ERROR_LENGTH";
   static const string ERR_DATA     = "ERROR_DATA_MISMATCH";
   static const string ERR_EMPTY    = "ERROR_QUEUE_EMPTY";
@@ -15,7 +14,6 @@ class Scoreboard;
 
   int tr_passed;
   int tr_total;
-  int tr_skipped;
 
   extern function new(mailbox#(TransactionGen) drv2scb, mailbox #(TransactionMon) mon2scb);
 
@@ -30,7 +28,7 @@ class Scoreboard;
   endfunction
 
   function void print_report();
-    $display("[Scoreboard] Report. Requests %0d. Passed %0d. Skipped %0d.", tr_total, tr_passed, tr_skipped);
+    $display("[Scoreboard] Report. Requests %0d. Passed %0d.", tr_total, tr_passed);
   endfunction
 
   extern function void compare_next();
