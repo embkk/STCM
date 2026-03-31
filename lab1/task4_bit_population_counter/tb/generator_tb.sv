@@ -6,8 +6,9 @@ class Generator;
     this.gen2drv = gen2drv;
   endfunction
 
-  task run(int num_transactions);
+  task run(config_t test_config);
     int fd;
+    int num_transactions = test_config.num_transactions;
 
     fork
       begin
@@ -26,8 +27,14 @@ class Generator;
             case (tr.id)
               1:       tr.data = '1;          // sum overflow test
               2:       tr.data = '0;          
-              default: tr.data = $urandom();
+              default: begin
+                tr.data = '0; 
+                for (int i = 0; i < (tr.WIDTH + 31) / 32; i++)
+                  tr.data[i*32 +: 32] = $urandom();
+              end
             endcase
+
+            //$display("%b", tr.data);
 
             // Test workability with gap 
             tr.gap = tr.id > (num_transactions - 1);

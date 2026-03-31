@@ -41,11 +41,13 @@ class Environment #(
               .mon2scb(mon2scb));
   endfunction
 
-  task run(int num_transactions);
-    $display("[ENV] Run %0d transactions", num_transactions);
+  task run(config_t test_config);
+    $display("[ENV] Run %s", test_config.to_string());
+
+    scb.tr_total = 0;
 
     fork
-      gen.run(num_transactions);
+      gen.run(test_config);
       drv.run();
       mon.run();
       scb.run();
@@ -54,17 +56,18 @@ class Environment #(
 
     fork
       begin
-        wait(scb.tr_total == num_transactions);
-        $display("[ENV] All transactions processed.");
+        wait(scb.tr_total == test_config.num_transactions);
+        $display("[ENV] End %s All transactions processed.", test_config.to_string());
       end
       begin
         repeat(1000) @(posedge vif.clk_i);
-        $error("[ENV] Simulation stopped by timeout");
+        $error("[ENV] %s stopped by timeout", test_config.to_string());
       end
     join_any
 
     disable fork;
 
+    
     scb.print_report();
 
   endtask

@@ -1,7 +1,6 @@
 class Scoreboard;
 
   static const string PASS         = "PASS";
-  static const string SKIP         = "SKIPPED";
   static const string ERR_LEN      = "ERROR_LENGTH";
   static const string ERR_DATA     = "ERROR_DATA_MISMATCH";
   static const string ERR_EMPTY    = "ERROR_QUEUE_EMPTY";
@@ -15,7 +14,6 @@ class Scoreboard;
 
   int tr_passed;
   int tr_total;
-  int tr_skipped;
 
   extern function new(mailbox#(t_tr_gen) drv2scb, mailbox #(t_tr_mon) mon2scb);
 
@@ -30,7 +28,7 @@ class Scoreboard;
   endfunction
 
   function void print_report();
-    $display("[Scoreboard] Report. Requests %0d. Passed %0d. Skipped %0d.", tr_total, tr_passed, tr_skipped);
+    $display("[Report] Requests %0d. Passed %0d.\n", tr_total, tr_passed);
   endfunction
 
   extern function void compare_next();
@@ -43,23 +41,16 @@ function Scoreboard::new(mailbox#(t_tr_gen) drv2scb, mailbox #(t_tr_mon) mon2scb
 endfunction
 
 task Scoreboard::run();
-
   fork
     forever
       begin
-        
         drv2scb.get(drv_tr);
-        
         ref_queue.push_back(drv_tr);
-
       end
     forever
       begin
-
         mon2scb.get(mon_tr);
-
         compare_next();
-
       end
   join
 endtask
@@ -82,17 +73,12 @@ function void Scoreboard::compare_next();
 
   if( res == PASS )
     tr_passed++;
-  else if ( res == SKIP )
-    tr_skipped++;
   else
     $stop;
 
   tr_total++;
 
   drv_tr = null;
-
-  if( res == SKIP )
-    compare_next();
 
 endfunction
 
