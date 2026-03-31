@@ -49,7 +49,6 @@ task Scoreboard::run();
       begin
         
         drv2scb.get(drv_tr);
-        
         ref_queue.push_back(drv_tr);
 
       end
@@ -57,7 +56,6 @@ task Scoreboard::run();
       begin
 
         mon2scb.get(mon_tr);
-
         compare_next();
 
       end
@@ -82,8 +80,6 @@ function void Scoreboard::compare_next();
 
   if( res == PASS )
     tr_passed++;
-  else if ( res == SKIP )
-    tr_skipped++;
   else
     $stop;
 
