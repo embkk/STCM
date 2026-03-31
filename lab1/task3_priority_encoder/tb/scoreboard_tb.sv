@@ -94,9 +94,8 @@ function void Scoreboard::compare_next();
 endfunction
 
 function string Scoreboard::compare_expected(TransactionGen tr_ref, TransactionMon tr_mon);
-  logic [tr_ref.WIDTH:0] data_expected_right = 'X;
-  logic [tr_ref.WIDTH:0] data_expected_left = 'X;
-
+  logic [tr_ref.WIDTH:0] data_expected_right = |tr_ref.data ? 'X : '0;
+  logic [tr_ref.WIDTH:0] data_expected_left  = |tr_ref.data ? 'X : '0;
 
   if(tr_ref.WIDTH != tr_mon.WIDTH)
     return ERR_LEN;

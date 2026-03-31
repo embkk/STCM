@@ -79,8 +79,5 @@ function automatic [WIDTH-1:0] reverse (input [WIDTH-1:0] d);
     reverse[i] = d[(WIDTH-1)-i];
 endfunction
 
-always_ff @(posedge clk_i)
-  $display("%b %b", data_left_o, data_right_o);
-
 endmodule
 
