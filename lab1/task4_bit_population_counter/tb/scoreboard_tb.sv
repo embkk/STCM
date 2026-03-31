@@ -28,7 +28,7 @@ class Scoreboard;
   endfunction
 
   function void print_report();
-    $display("[Report] Requests %0d. Passed %0d.\n", tr_total, tr_passed);
+    $display("[Report] Transactions total %0d. Passed %0d.\n", tr_total, tr_passed);
   endfunction
 
   extern function void compare_next();
@@ -41,6 +41,8 @@ function Scoreboard::new(mailbox#(t_tr_gen) drv2scb, mailbox #(t_tr_mon) mon2scb
 endfunction
 
 task Scoreboard::run();
+  tr_passed = 0;
+  tr_total = 0;
   fork
     forever
       begin

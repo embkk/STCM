@@ -7,44 +7,41 @@ class Generator;
   endfunction
 
   task run(config_t test_config);
-    int fd;
-    int num_transactions = test_config.num_transactions;
+    t_tr_gen tr;
 
     fork
-      begin
-        fd = $fopen("../log/gen_transactions.log", "w");
+      for (int i = 0; i < test_config.num_transactions; i++)
+        begin
+          case (test_config.mode)
+            LIST_DATA:    begin
+                            tr = new();
+                            tr.data = test_config.predefined[i];
+                          end
+            RAND_NO_GAP:   tr = generate_random_transaction(0);
+            RAND_WITH_GAP: tr = generate_random_transaction(1);
+            default:       $error("Undefined TestConfig mode");
+          endcase
 
-        if (fd == 0)
-          $warning("Could not open transactions.log for writing");
-      end
-      begin
-        repeat (num_transactions)
-          begin
-            t_tr_gen tr;
-
-            tr = new();
-
-            case (tr.id)
-              1:       tr.data = '1;          // sum overflow test
-              2:       tr.data = '0;          
-              default: begin
-                tr.data = '0; 
-                for (int i = 0; i < (tr.WIDTH + 31) / 32; i++)
-                  tr.data[i*32 +: 32] = $urandom();
-              end
-            endcase
-
-            //$display("%b", tr.data);
-
-            // Test workability with gap 
-            tr.gap = tr.id > (num_transactions - 1);
-
-            if( fd != 0 )
-              $fdisplay(fd, "%s", tr.to_string());
-
-            gen2drv.put(tr);
-          end
-      end
+          gen2drv.put(tr);
+        end
     join
   endtask
+
+  function t_tr_gen generate_random_transaction(bit randomize_gap = 0);
+    t_tr_gen tr;
+    tr = new();
+
+    // Твой алгоритм заполнения
+    tr.data = '0; 
+    for (int i = 0; i < (tr.WIDTH + 31) / 32; i++)
+      tr.data[i*32 +: 32] = $urandom();
+
+    if(randomize_gap)
+      tr.gap = $urandom_range(0,3);
+
+    return tr;
+  endfunction
+
+
 endclass
+

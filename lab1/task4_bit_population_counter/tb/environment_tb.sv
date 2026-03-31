@@ -42,9 +42,6 @@ class Environment #(
   endfunction
 
   task run(config_t test_config);
-    $display("[ENV] Run %s", test_config.to_string());
-
-    scb.tr_total = 0;
 
     fork
       gen.run(test_config);

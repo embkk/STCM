@@ -19,7 +19,7 @@ module top_tb;
   );
 
 
-  test #(.NUM_TRANSACTIONS(100)) test_inst (
+  test #(.NUM_TRANSACTIONS(12)) test_inst (
     .vif(bit_population_counter_bus)
   );
 
